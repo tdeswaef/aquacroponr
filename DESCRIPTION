@@ -1,0 +1,11 @@
+Package: AquaCropR
+Type: Package
+Title: Function collection for using AquaCrop from R
+Version: 0.1.0
+Author: Tom De Swaef
+Maintainer: Tom De Swaef <tom.deswaef@ilvo.vlaanderen.be>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
