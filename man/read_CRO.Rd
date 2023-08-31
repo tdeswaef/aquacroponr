@@ -18,5 +18,5 @@ Read a .CRO file and return it as a list
 \details{
 The crop file required for AquaCrop 7.0 and higher requires 83 lines of content.
 Crop files generated using previous AquaCrop versions, typically contain less lines (76).
-The `read_CRO` function detects whether the file has sufficient length, and complements the file if needed.
+The \code{read_CRO} function detects whether the file has sufficient length, and complements the file if needed.
 }

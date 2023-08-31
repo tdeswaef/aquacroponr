@@ -2,7 +2,7 @@
 % Please edit documentation in R/design_scenario.R
 \name{design_scenario}
 \alias{design_scenario}
-\title{Makes the required tibble that is used as scenario argument in the `solve_AquaCrop()` function.}
+\title{Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.}
 \usage{
 design_scenario(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
 }
@@ -25,5 +25,5 @@ design_scenario(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
 A tibble with the different scenarios to run in AquaCrop
 }
 \description{
-Makes the required tibble that is used as scenario argument in the `solve_AquaCrop()` function.
+Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.
 }

@@ -17,5 +17,6 @@ solve_AquaCrop(croppar, defaultpar, scenario_s)
 a dataframe of daily outputs of AquaCrop, concatenated over the different scenario's.
 }
 \description{
-`solve_AquaCrop` takes parameter values as an input for an AquaCrop simulation and returns a dataframe as an output
+\code{solve_AquaCrop} takes parameter values as an input for an AquaCrop simulation and returns a dataframe as an output
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

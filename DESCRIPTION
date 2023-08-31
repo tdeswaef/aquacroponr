@@ -13,6 +13,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     dplyr,
+    lifecycle,
     lubridate,
     magrittr,
     purrr,
@@ -23,3 +24,4 @@ Imports:
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)

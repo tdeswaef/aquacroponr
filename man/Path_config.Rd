@@ -16,5 +16,5 @@ a character name of the path of the aquacrop.exe file, but also writes the \emph
 }
 \description{
 Returns the correct the AquaCrop.exe path, while checking the required folder structure. Be aware that the
-working directory should be set to the the folder where the aquacrop.exe file is located (`setwd()`).
+working directory should be set to the the folder where the aquacrop.exe file is located (\code{setwd()}).
 }

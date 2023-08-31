@@ -1,6 +1,7 @@
 #' A wrapper function for running AquaCrop
 #'
 #' `solve_AquaCrop` takes parameter values as an input for an AquaCrop simulation and returns a dataframe as an output
+#' `r lifecycle::badge('experimental')`
 #' @import dplyr
 #' @import purrr
 #' @import readr
