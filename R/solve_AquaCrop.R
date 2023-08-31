@@ -8,7 +8,7 @@
 #' @param defaultpar list of default parameter values
 #' @param scenario_s character vector of scenario names as listed in the Scenario_s tibble
 #' @returns a dataframe of daily outputs of AquaCrop, concatenated over the different scenario's.
-#' @example
+#'
 #'
 #' @export
 solve_AquaCrop <- function(croppar, defaultpar, scenario_s){
@@ -41,6 +41,7 @@ solve_AquaCrop <- function(croppar, defaultpar, scenario_s){
 
   return(df_out)
 }
+#'
 #'
 #'
 readoutput <- function(outputfile){

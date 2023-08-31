@@ -12,7 +12,7 @@ read_CRO <- function(default_crop){
   listA <- readr::read_lines(default_crop) %>%
     purrr::map(~splitfun(.x)) %>% purrr::flatten() %>% as.numeric()
 
-  if(length(listA==76)){
+  if(length(listA)==76){
     listA <- append(listA, c(90,0,0,0,0,0,0))
   }
 
