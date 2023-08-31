@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of AquaCropR is to make aquaCrop simulations from within R as
+The goal of AquaCropR is to make AquaCrop simulations from within `R` as
 easy as possible.
 
 ## Installation
