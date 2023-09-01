@@ -12,7 +12,7 @@
 #'
 #'
 #' @export
-solve_AquaCrop <- function(croppar, defaultpar, scenario_s){
+solve_AquaCrop <- function(croppar, defaultpar, scenario_s, AQ){
   #check the required initial steps
   if(!file.exists("aquacrop.exe")) stop("set your working directory to the AquaCrop.path")
   if(!dir.exists("DATA/")) stop("run the Path_config function first")
