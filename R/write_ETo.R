@@ -3,12 +3,12 @@
 
 write_ETo <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".ETo")
-  input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$ETo) %>% get() %>% drop_na()
+  input <- (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$ETo) %>% get() %>% tidyr::drop_na()
 
   ETo_fun <- approxfun(input$DOY, input$ETo)
   ETo <- (ETo_fun(1:365) + 1e-6) %>% format(digits = 1, nsmall = 1)
 
-  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% year()
+  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% lubridate::year()
 
   cat(Scenario_, " daily reference evapotranspiration (ETo): 1 January ", YEAR, " - 31 December ", YEAR, "\n",
       "1  : Daily records (1=daily, 2=10-daily and 3=monthly data)\n",

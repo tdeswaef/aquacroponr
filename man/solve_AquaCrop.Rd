@@ -4,7 +4,7 @@
 \alias{solve_AquaCrop}
 \title{A wrapper function for running AquaCrop}
 \usage{
-solve_AquaCrop(croppar, defaultpar, scenario_s)
+solve_AquaCrop(croppar, defaultpar, scenario_s, AQ)
 }
 \arguments{
 \item{croppar}{list of crop parameters to modify from the default}

@@ -7,7 +7,7 @@
 
 write_Tnx <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".Tnx")
-  input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Tnx) %>% get() %>% drop_na()
+  input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Tnx) %>% get() %>% tidyr::drop_na()
 
   Tmax_fun <- approxfun(input$DOY, input$TMAX)
   Tmin_fun <- approxfun(input$DOY, input$TMIN)
@@ -15,7 +15,7 @@ write_Tnx <- function(Scenario_){
   Tmin <- Tmin_fun(1:365) %>% format(digits = 1, nsmall = 1)
   Temps <- tibble(Tmin=Tmin, Tmax=Tmax)
 
-  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% year()
+  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% lubridate::year()
 
   cat(Scenario_, " daily data: 1 January ", YEAR, " - 31 December ", YEAR, "\n",
       "1  : Daily records (1=daily, 2=10-daily and 3=monthly data)\n",

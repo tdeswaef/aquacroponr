@@ -50,15 +50,15 @@ SoilClass_fun <- function(SAT, FC, PWP, Ksat){
 CR_fun <- function(SAT, FC, PWP, Ksat){
   SoilClass_ <- SoilClass_fun(SAT, FC, PWP, Ksat)
   #" calculation of the CRa and CRb parameters based on the soil type class (A-B) 'capillary rise' #https://www.fao.org/3/br267e/br267e.pdf page 344
-  CR_Tibble <- tibble(SoilClass = 1:4,
+  CR_Tibble <- tibble::tibble(SoilClass = 1:4,
                       a_0 = c(-0.3112, -0.4986, -0.5677, -0.6366),
                       a_1 = c(-1e-5, 9e-5, -4e-5, 8e-4),
                       b_0 = c(-1.4936, -2.1320, -3.7189, -1.9165),
                       b_1 = c(0.2416, 0.4778, 0.5922, 0.7063))
-  CR_parm <- CR_Tibble %>% filter(SoilClass == SoilClass_)
+  CR_parm <- CR_Tibble %>% dplyr::filter(SoilClass == SoilClass_)
   CRa <- CR_parm$a_0 + CR_parm$a_1*Ksat
   CRb <- CR_parm$b_0 + CR_parm$b_1*log(Ksat)
-  return(tibble(CRa = CRa, CRb = CRb))
+  return(tibble::tibble(CRa = CRa, CRb = CRb))
 }
 
 
@@ -67,10 +67,10 @@ CN_fun <- function(Ksat){
   if(Ksat > 864){
     CN <- 46
   } else {
-    if(between(Ksat, 347, 864)){
+    if(dplyr::between(Ksat, 347, 864)){
       CN <- 61
     } else {
-      if(between(Ksat, 36, 347)){
+      if(dplyr::between(Ksat, 36, 347)){
         CN <- 72
       } else {
         CN <- 77
@@ -85,8 +85,8 @@ CN_fun <- function(Ksat){
 
 write_SOL <- function(Scenario_){
   filename <- paste("DATA/", Scenario_,".SOL", sep="")
-  SOL <- SOL_s %>% dplyr::filter(ID == (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Soil)) %>%
-    dplyr::rowwise() %>%
+  SOL <- SOL_s %>% dplyr::filter(ID == (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Soil)) %>%
+    #dplyr::rowwise() %>%
     dplyr::mutate(CRa = CR_fun(SAT, FC, WP, Ksat) %>% .$CRa ,
                   CRb = CR_fun(SAT, FC, WP, Ksat) %>% .$CRb ,
                   description = "placeholder")

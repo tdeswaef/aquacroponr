@@ -78,7 +78,7 @@ Examples of these tibbles are available from the package.
 Scenario_s <- design_scenario(name = "S_01", 
                               Plant_Date = as.Date("2019-04-01"), 
                               IRRI = "IRRI_01", 
-                              Soil = "Soil_1", 
+                              Soil = "Soil_01", 
                               Plu = "Plu_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01")

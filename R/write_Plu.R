@@ -3,12 +3,12 @@
 
 write_Plu <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".PLU")
-  input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Plu) %>% get() %>% drop_na()
+  input <- (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plu) %>% get() %>% tidyr::drop_na()
 
   Precip_fun <- approxfun(input$DOY, input$PLU)
   Precip <- Precip_fun(1:365) %>% format(digits = 1, nsmall=1)
 
-  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% year()
+  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% lubridate::year()
 
   cat(Scenario_, " daily rainfall: 1 January ", YEAR, " - 31 December ", YEAR, "\n",
       "1  : Daily records (1=daily, 2=10-daily and 3=monthly data)\n",
