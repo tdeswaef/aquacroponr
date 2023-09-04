@@ -1,4 +1,4 @@
-Package: AquaCropR
+Package: AquacropOnR
 Type: Package
 Title: Function collection for using AquaCrop from R
 Version: 0.1.0
@@ -6,13 +6,14 @@ Authors@R:
     person("Tom", "De Swaef", , "tom.deswaef@ilvo.vlaanderen.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8338-7786"))
 Maintainer: Tom De Swaef <tom.deswaef@ilvo.vlaanderen.be>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package provides wrappers for using AquaCrop from within R as simple as possible. 
+    This work was inspired on earlier initiatives for the APSIM (ApsimOnR) and STICS (SticsOnR) crop models. In doing so, the package aims to intercface AquaCRop to the CroptimizR package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
     dplyr,
+    gridExtra,
     lifecycle,
     lubridate,
     magrittr,

@@ -1,20 +1,20 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# AquaCropR
+# AquacroponR
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of AquaCropR is to make AquaCrop simulations from within `R` as
-easy as possible. The package has currently been tested with the
+The goal of AquacropOnR is to make AquaCrop simulations from within `R`
+as easy as possible. The package has currently been tested with the
 AquaCrop standalone version 7.0 on Windows. The most recent version can
 be downloaded from the [FAO
 website](https://www.fao.org/aquacrop/software/aquacropplug-inprogramme/en/#c518670).
 
 ## Installation and setup
 
-You can install the development version of `AquaCropR` using the
+You can install the development version of `AquacropOnR` using the
 `devtools` package:
 
 ``` r
