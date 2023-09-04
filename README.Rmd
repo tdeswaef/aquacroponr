@@ -17,7 +17,7 @@ knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
 # getwd()
 ```
 
-# AquacroponR
+# AquacropOnR
 
 <!-- badges: start -->
 
@@ -43,7 +43,7 @@ This is a basic example to run AquaCrop from `R` for the spinach crop.
 Importantly, the working directory should be set to the folder in which the *aquacrop.exe* file is located.
 
 ```r 
-library(AquaCropR)
+library(AquacropOnR)
 library(tidyverse)
 setwd(dir = path_to_aquacrop_folder)
 ```
@@ -54,7 +54,7 @@ With the package comes an example list with default crop parameters for **quinoa
 yourcrop <- read_CRO("path/YourCrop.CRO")` 
 ```
 
-Once you have the list with default crop parameter values, you can design the scenario's for which you want to run AquaCrop. The `AquaCropR` package provides a function to design the scenario's: `design_scenario()`. The arguments in this function have the following meaning:
+Once you have the list with default crop parameter values, you can design the scenario's for which you want to run AquaCrop. The `AquacropOnR` package provides a function to design the scenario's: `design_scenario()`. The arguments in this function have the following meaning:
 
 -   `name` is a character vector of names for the scenario's.
 -   `Plant_Date` is a Date vector that defines the planting date in each scenario  
