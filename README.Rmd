@@ -23,11 +23,11 @@ knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
 
 <!-- badges: end -->
 
-The goal of AquaCropR is to make AquaCrop simulations from within `R` as easy as possible. The package has currently been tested with the AquaCrop standalone version 7.0 on Windows. The most recent version can be downloaded from the [FAO website](https://www.fao.org/aquacrop/software/aquacropplug-inprogramme/en/#c518670).
+The goal of AquacropOnR is to make AquaCrop simulations from within `R` as easy as possible. The package has currently been tested with the AquaCrop standalone version 7.0 on Windows. The most recent version can be downloaded from the [FAO website](https://www.fao.org/aquacrop/software/aquacropplug-inprogramme/en/#c518670).
 
 ## Installation and setup
 
-You can install the development version of `AquaCropR` using the `devtools` package:
+You can install the development version of `AquacropOnR` using the `devtools` package:
 
 ``` r
 library(devtools)
