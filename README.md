@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# AquacroponR
+# AquacropOnR
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -32,7 +32,7 @@ Importantly, the working directory should be set to the folder in which
 the *aquacrop.exe* file is located.
 
 ``` r
-library(AquaCropR)
+library(AquacropOnR)
 library(tidyverse)
 setwd(dir = path_to_aquacrop_folder)
 ```
@@ -48,7 +48,7 @@ yourcrop <- read_CRO("path/YourCrop.CRO")`
 
 Once you have the list with default crop parameter values, you can
 design the scenario’s for which you want to run AquaCrop. The
-`AquaCropR` package provides a function to design the scenario’s:
+`AquacropOnR` package provides a function to design the scenario’s:
 `design_scenario()`. The arguments in this function have the following
 meaning:
 
@@ -97,14 +97,69 @@ Scenario_s <- design_scenario(name = "S_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01")
 Scenario_s
+#> # A tibble: 1 × 7
+#>   Scenario Plant_Date IRRI    Soil    Plu    Tnx    ETo   
+#>   <chr>    <date>     <chr>   <chr>   <chr>  <chr>  <chr> 
+#> 1 S_01     2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_01
 IRRI_s
+#> # A tibble: 2 × 4
+#>   ID      Timing Depth   ECw
+#>   <chr>    <dbl> <dbl> <dbl>
+#> 1 IRRI_01     50     0     0
+#> 2 IRRI_02     50    25     0
 SOL_s
+#> # A tibble: 1 × 9
+#>   ID      Horizon Thickness   SAT    FC    WP  Ksat Penetrability Gravel
+#>   <chr>     <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl>         <dbl>  <dbl>
+#> 1 Soil_01       1         4    41    22    10  1200           100      0
 Plu_01
+#> # A tibble: 365 × 2
+#>      DOY   PLU
+#>    <dbl> <dbl>
+#>  1     1   0.4
+#>  2     2   0.7
+#>  3     3   0.8
+#>  4     4   0.2
+#>  5     5   0  
+#>  6     6   0.3
+#>  7     7   1.9
+#>  8     8   6.5
+#>  9     9   0.6
+#> 10    10   5.2
+#> # ℹ 355 more rows
 Tnx_01
+#> # A tibble: 365 × 3
+#>      DOY  TMAX  TMIN
+#>    <dbl> <dbl> <dbl>
+#>  1     1   9.3   7.2
+#>  2     2   7.4   5  
+#>  3     3   6.8   2.1
+#>  4     4   6.5   2.5
+#>  5     5   6.5   2.9
+#>  6     6   7.4   4.3
+#>  7     7   9.6   4.7
+#>  8     8   8.5   6.6
+#>  9     9   7.2   3.9
+#> 10    10   7.4   1  
+#> # ℹ 355 more rows
 ETo_01
+#> # A tibble: 365 × 2
+#>      DOY   ETo
+#>    <dbl> <dbl>
+#>  1     1 1.03 
+#>  2     2 1.17 
+#>  3     3 0.743
+#>  4     4 0.887
+#>  5     5 0.778
+#>  6     6 0.695
+#>  7     7 0.693
+#>  8     8 1.51 
+#>  9     9 1.37 
+#> 10    10 0.602
+#> # ℹ 355 more rows
 ```
 
-Then it is crucial to create the correct aquaCrop path, while checking
+Then it is crucial to create the correct AquaCrop path, while checking
 the required folders and choosing which daily outputs to produce.
 Therefore the package has the function `path_config()`. Make sure your
 path ends with a “/”.
@@ -113,47 +168,44 @@ path ends with a “/”.
 AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
 ```
 
-Finally, we can run AquaCrop using the `solve_AquaCrop()` function and
-display a plot. The `croppar` argument is used to modify crop parameters
-from the default, which is the list provided as input to the
-`defaultpar` argument. `scenario_s` takes a vector of characters, that
-correspond to the `Scenario` variable in the `Scenario_s` tibble.
+Finally, we can run AquaCrop using the `aquacrop_wrapper()` function and
+display a plot. The `param_values` argument is used to modify crop
+parameters from the default, which is the list provided as input to the
+`defaultpar` argument inside the `model_options` list. `situation` takes
+a vector of characters, that correspond to the `Scenario` variable in
+the `Scenario_s` tibble.
 
 Let us first run the simulation with the default parameters for spinach:
 
 ``` r
-default <- solve_AquaCrop(croppar = list(),
-               defaultpar = Spinach,
-               scenario_s = "S_01",
-               AQ = AQ)
+default <- aquacrop_wrapper(param_values = list(),
+               situation = "S_01",
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
-  geom_line(data = default, color = 'black') +
+  geom_line(data = default, color = 'black', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
   
   theme_bw()
 ```
 
-![Evolution of spinach biomass using default
-parameters](man/figures/example_default.png)
+<img src="man/figures/README-example3-1.png" width="90%" />
 
 And now let’s see what happens when we increase the canopy growth
 coefficient `cgc` from 0.15 to 0.18:
 
 ``` r
-modified <- solve_AquaCrop(croppar = list(cgc = 0.18),
-               defaultpar = Spinach,
-               scenario_s = "S_01",
-               AQ = AQ)
+modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
+               situation = "S_01",
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
-  geom_line(data = default, color = 'black') +
+  geom_line(data = default, color = 'black', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
-  geom_line(data = modified, color = 'blue') +
+  geom_line(data = modified, color = 'blue', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=2.8, label = 'modified'), color = 'blue') +
   theme_bw()
 ```
 
-![Effect of a modified cgc parameter on spinach
-biomass](man/figures/example_modified.png)
+<img src="man/figures/README-example4-1.png" width="90%" />

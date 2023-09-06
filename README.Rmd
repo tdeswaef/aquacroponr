@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%",
+  out.width = "90%",
   root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
 )
 knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
@@ -42,7 +42,12 @@ This is a basic example to run AquaCrop from `R` for the spinach crop.
 
 Importantly, the working directory should be set to the folder in which the *aquacrop.exe* file is located.
 
-```r 
+```{r aquafolder, include=FALSE}
+path_to_aquacrop_folder <- "C:/Users/tdeswaef/AquaCrop_70/"
+
+```
+
+```{r lib, warning=FALSE, message=FALSE, prompt=FALSE} 
 library(AquacropOnR)
 library(tidyverse)
 setwd(dir = path_to_aquacrop_folder)
@@ -74,7 +79,7 @@ Once you have the list with default crop parameter values, you can design the sc
 
 Examples of these tibbles are available from the package.
 
-```r
+```{r example 1}
 Scenario_s <- design_scenario(name = "S_01", 
                               Plant_Date = as.Date("2019-04-01"), 
                               IRRI = "IRRI_01", 
@@ -90,47 +95,46 @@ Tnx_01
 ETo_01
 ```
 
-Then it is crucial to create the correct aquaCrop path, while checking the required folders and choosing which daily outputs to produce. Therefore the package has the function `path_config()`. Make sure your path ends with a "/".
+Then it is crucial to create the correct AquaCrop path, while checking the required folders and choosing which daily outputs to produce. Therefore the package has the function `path_config()`. Make sure your path ends with a "/".
 
-```r 
+```{r example2} 
 AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
 ```
 
-Finally, we can run AquaCrop using the `solve_AquaCrop()` function and display a plot. The `croppar` argument is used to modify crop parameters from the default, which is the list provided as input to the `defaultpar` argument. `scenario_s` takes a vector of characters, that correspond to the `Scenario` variable in the `Scenario_s` tibble.
+Finally, we can run AquaCrop using the `aquacrop_wrapper()` function and display a plot. The `param_values` argument is used to modify crop parameters from the default, which is the list provided as input to the `defaultpar` argument inside the `model_options` list. `situation` takes a vector of characters, that correspond to the `Scenario` variable in the `Scenario_s` tibble.
 
 Let us first run the simulation with the default parameters for spinach:
 
-```r 
-default <- solve_AquaCrop(croppar = list(),
-               defaultpar = Spinach,
-               scenario_s = "S_01",
-               AQ = AQ)
+```{r example3, warning=FALSE, message=FALSE} 
+default <- aquacrop_wrapper(param_values = list(),
+               situation = "S_01",
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
-  geom_line(data = default, color = 'black') +
+  geom_line(data = default, color = 'black', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
   
   theme_bw()
 ```
 
-![Evolution of spinach biomass using default parameters](man/figures/example_default.png)
+
 
 And now let's see what happens when we increase the canopy growth coefficient `cgc` from 0.15 to 0.18:
 
-```r
-modified <- solve_AquaCrop(croppar = list(cgc = 0.18),
-               defaultpar = Spinach,
-               scenario_s = "S_01",
-               AQ = AQ)
+```{r example4,warning=FALSE, message=FALSE}
+modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
+               situation = "S_01",
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
-  geom_line(data = default, color = 'black') +
+  geom_line(data = default, color = 'black', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
-  geom_line(data = modified, color = 'blue') +
+  geom_line(data = modified, color = 'blue', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=2.8, label = 'modified'), color = 'blue') +
   theme_bw()
 
 ```
-![Effect of a modified cgc parameter on spinach biomass](man/figures/example_modified.png)
+
+
 
