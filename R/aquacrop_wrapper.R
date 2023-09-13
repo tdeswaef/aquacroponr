@@ -13,6 +13,10 @@
 #' `output` defines the shape of the output that is returned.
 #' @returns a dataframe or list (if `model_options$output` = 'croptimizr') of daily outputs of AquaCrop, concatenated over the different scenario's.
 #'
+#' @examples
+#'
+#' y <- aquacrop_wrapper(param_values = params,
+#'                      model_options = list(AQ=AQ, defaultpar=Spinach, output = "df"))
 #'
 #' @export
 aquacrop_wrapper <- function(param_values=list(), situation = "S_01", model_options=list(AQ = AQ, defaultpar=Spinach, output = 'croptimizr'), ...){
@@ -28,7 +32,7 @@ aquacrop_wrapper <- function(param_values=list(), situation = "S_01", model_opti
 
 
   # Create crop parameter file
-  cycle_length <- write_CRO(param_values, model_options$defaultpar)
+  cycle_length <- write_CRO(as.list(param_values), model_options$defaultpar)
   # for now, the Ground Water Table is fixed
   GWT <- 2.0
   # create project, meteo, soil, management,... files
@@ -67,8 +71,13 @@ if (model_options$output == 'croptimizr'){
   return(results)
 }
 #'
-#'
-#'
+
+
+
+
+
+
+
 readoutput_dfr <- function(outputfile){
   df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
   names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]

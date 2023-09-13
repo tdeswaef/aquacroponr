@@ -27,7 +27,8 @@ The goal of AquacropOnR is to make AquaCrop simulations from within `R` as easy 
 
 ## Installation and setup
 
-You can install the development version of `AquacropOnR` using the `devtools` package:
+First install [git](https://git-scm.com/downloads).
+Then you can install the development version of `AquacropOnR` using the `devtools` package:
 
 ``` r
 library(devtools)
@@ -136,5 +137,11 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 
 ```
 
+
+## Roadmap
+
+- [x] definition of the AquaCrop wrapper function `aquacrop_wrapper`  
+- [ ] allow option to run AquaCrop on growing degree days instead of days  
+- [ ] include code for running sensitivity analysis using the morris method  
 
 

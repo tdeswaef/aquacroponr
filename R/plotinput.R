@@ -7,6 +7,8 @@
 #' @param Scenario_s is the tibble with designed scenarios (designed with `design_scenario()`)
 #'
 #' @returns ggplots with input data (in RStudio: check the 'Plots' tab) and tables for irrigation and soils (in RStudio: check the 'Viewer' tab)
+#' @examples
+#' plotinput(Scenario_s)
 #'
 #' @export
 plotinput <- function(Scenario_s){
@@ -29,8 +31,7 @@ plotinput <- function(Scenario_s){
   print(data_irri)
   print(data_soil)
 }
-#' @example
-#' plotinput(Scenario_s)
+
 
 
 get_data <- function(Scenario_s, inputvar){

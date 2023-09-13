@@ -16,3 +16,7 @@ ggplots with input data (in RStudio: check the 'Plots' tab) and tables for irrig
 \code{plotinput()} takes the scenario tibble as an input, checks whether the scenario tibble is correctly designed, and the required data are correctly loaded. If successful,
 it produces a ggplot with visualization of the input data
 }
+\examples{
+plotinput(Scenario_s)
+
+}

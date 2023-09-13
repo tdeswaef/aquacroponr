@@ -28,3 +28,9 @@ a dataframe or list (if \code{model_options$output} = 'croptimizr') of daily out
 \code{CroptimizR} package.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
+\examples{
+
+y <- aquacrop_wrapper(param_values = params,
+                     model_options = list(AQ=AQ, defaultpar=Spinach, output = "df"))
+
+}
