@@ -66,6 +66,10 @@ if (model_options$output == 'croptimizr'){
     set_names(situation)
 
 } else {
+  if (model_options$output == 'morris') {
+    results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
+      purrr::map_dfr(~readoutput_morris(.x))
+  } else{
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
     purrr::map_dfr(~readoutput_dfr(.x))
 }
@@ -90,6 +94,16 @@ readoutput_dfr <- function(outputfile){
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile)) %>%
     dplyr::filter(DAP >= 0)
+  names(df) <- gsub("[()/.]", "S", names(df))
+  return(df)
+}
+
+readoutput_morris <- function(outputfile){
+  df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
+  names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
+  df <- df %>%
+    dplyr::select(which(!duplicated(names(.)))) %>%
+    dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile))
   names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 }
