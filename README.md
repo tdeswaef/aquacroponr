@@ -180,12 +180,13 @@ Let us first run the simulation with the default parameters for spinach:
 ``` r
 default <- aquacrop_wrapper(param_values = list(),
                situation = "S_01",
+               cycle_length = c("2019-03-15", 70),
                model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
   geom_line(data = default, color = 'black', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
-  
+  xlim(0, 70) +
   theme_bw()
 ```
 
@@ -205,6 +206,7 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
   geom_text(mapping = aes(x=40, y=3, label = 'default'), color = 'black') +
   geom_line(data = modified, color = 'blue', linewidth = 1) +
   geom_text(mapping = aes(x=40, y=2.8, label = 'modified'), color = 'blue') +
+  xlim(0, 70) +
   theme_bw()
 ```
 
@@ -213,7 +215,7 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 ## Roadmap
 
 - [x] definition of the AquaCrop wrapper function `aquacrop_wrapper`  
-- [ ] allow option to run AquaCrop on growing degree days instead of
+- [x] allow option to run AquaCrop on growing degree days instead of
   days  
 - [ ] include code for running sensitivity analysis using the morris
   method
