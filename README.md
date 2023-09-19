@@ -198,6 +198,7 @@ coefficient `cgc` from 0.15 to 0.18:
 ``` r
 modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
                situation = "S_01",
+               cycle_length = c("2019-03-15", 70),
                model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
@@ -211,6 +212,20 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 ```
 
 <img src="man/figures/README-example4-1.png" width="90%" />
+
+## Example Morris method
+
+For sensitivity analysis using the morris method you first design the
+morris sampling scheme and the simulations. Based on these results, you
+can then define for wich level you want to calculate the elemntal
+effects.
+
+``` r
+
+##p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
+
+# example on 
+```
 
 ## Roadmap
 

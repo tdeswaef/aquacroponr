@@ -45,6 +45,7 @@
 #'
 #' @export
 aquacrop_morris <- function(situation = "S_01",
+                            cycle_length,
                             backgroundpar=Spinach,
                             r = r,
                             binf = c(),
@@ -66,6 +67,7 @@ aquacrop_morris <- function(situation = "S_01",
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper(param_values=mo$X[i,],
                    situation = situation,
+                   cycle_length = cycle_length,
                    model_options = list(AQ = AQ, defaultpar=backgroundpar, output = 'df')) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
