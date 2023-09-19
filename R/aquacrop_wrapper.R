@@ -70,8 +70,9 @@ if (model_options$output == 'croptimizr'){
     results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
       purrr::map_dfr(~readoutput_morris(.x))
   } else{
-  results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-    purrr::map_dfr(~readoutput_dfr(.x))
+    results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
+      purrr::map_dfr(~readoutput_dfr(.x))
+  }
 }
 
   unlink("OUTP/*")
