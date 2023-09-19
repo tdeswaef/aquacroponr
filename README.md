@@ -34,6 +34,7 @@ the *aquacrop.exe* file is located.
 ``` r
 library(AquacropOnR)
 library(tidyverse)
+library(reshape2)
 setwd(dir = path_to_aquacrop_folder)
 ```
 
@@ -180,8 +181,8 @@ Let us first run the simulation with the default parameters for spinach:
 ``` r
 default <- aquacrop_wrapper(param_values = list(),
                situation = "S_01",
-               cycle_length = c("2019-03-15", 70),
-               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
+               cycle_length = 70,
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   ylim(0, 3.5) +
   geom_line(data = default, color = 'black', linewidth = 1) +
@@ -198,7 +199,7 @@ coefficient `cgc` from 0.15 to 0.18:
 ``` r
 modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
                situation = "S_01",
-               cycle_length = c("2019-03-15", 70),
+               cycle_length = 70,
                model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
@@ -215,17 +216,75 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 
 ## Example Morris method
 
-For sensitivity analysis using the morris method you first design the
+For sensitivity analysis using the `morris` method you first design the
 morris sampling scheme and the simulations. Based on these results, you
-can then define for wich level you want to calculate the elemntal
-effects.
+can then define for which level you want to calculate the elemental
+effects. First we run the Morris method using the `aquacrop_morris`
+function:
 
 ``` r
 
-##p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
-
-# example on 
+p <- aquacrop_morris(situation = "S_01", 
+                     backgroundpar=Spinach, 
+                     cycle_length = 70, 
+                     r = 20, 
+                     binf=c(rt_max = 0.12, cgc = 0.1), 
+                     bsup = c(rt_max = 0.55, cgc = 0.21), 
+                     outvars = c("Biomass", "YSdryS"))
 ```
+
+Then we create the interpretable dataframe from the elemental effects
+matrix:
+
+``` r
+EE <- p$ee %>% melt(value.name = "ee", varnames = c("traject", "par", "DAP", "output"))
+```
+
+If you would have multiple scenarios in your analysis, then the DAP
+values can be split up by scenario:
+
+``` r
+
+EE <- EE %>% dplyr::mutate(Scenario = (DAP %/% 70)+1,
+                           DAP = DAP %% 70)
+```
+
+We can then choose the level of integration at which we want to
+summarise the elemental effects:
+
+- By DAP and output variable
+
+``` r
+mu_star1 <- EE %>%
+  group_by(par, DAP, output) %>%
+  summarise(mu = mean(ee),
+            mu_star = mean(abs(ee)),
+            sigma = sd(ee))
+
+ggplot(mu_star1) +
+  facet_wrap(facets = vars(output), nrow=2) +
+  theme_bw() +
+  geom_point(mapping = aes(x=DAP, y=mu_star, color = par))
+```
+
+<img src="man/figures/README-morris4-1.png" width="90%" />
+
+- By output variable
+
+``` r
+mu_star2 <- EE %>% 
+  group_by(par, output) %>%
+  summarise(mu = mean(ee),
+            mu_star = mean(abs(ee)),
+            sigma = sd(ee))
+
+ggplot(mu_star2) +
+  facet_wrap(facets = vars(output), nrow=2) +
+  theme_bw() +
+  geom_point(mapping = aes(x=mu_star, y=sigma, color = par))
+```
+
+<img src="man/figures/README-morris5-1.png" width="90%" />
 
 ## Roadmap
 

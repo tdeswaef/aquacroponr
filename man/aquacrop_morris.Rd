@@ -6,6 +6,7 @@
 \usage{
 aquacrop_morris(
   situation = "S_01",
+  cycle_length,
   backgroundpar = Spinach,
   r = r,
   binf = c(),
