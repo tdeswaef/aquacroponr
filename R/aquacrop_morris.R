@@ -68,20 +68,20 @@ aquacrop_morris <- function(situation = "S_01",
     map(\(i) aquacrop_wrapper(param_values=mo$X[i,],
                    situation = situation,
                    cycle_length = cycle_length,
-                   model_options = list(AQ = AQ, defaultpar=backgroundpar, output = 'df')) %>%
+                   model_options = list(AQ = AQ, defaultpar=backgroundpar, output = 'morris')) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
 
   #3. Choose the level of integration: model time steps, different variables
   filldata <- Y %>%
-    select(all_of(outvars), Scenario, x, DAP) %>%
+    select(all_of(outvars), Scenario, x, DAP_morris) %>%
     pivot_longer(cols = all_of(outvars)) %>%
-    arrange(name, DAP, x) %>% .$value
+    arrange(name, Scenario, DAP_morris, x) %>% .$value
 
   #4. Make an array with the correct dimensions based on the simulations (step 2) and the integration level (step 3).
   a <-array(data = filldata,
-            dim = c(nrow(mo$X), max(Y$DAP), length(outvars)),
-            dimnames = list(1:nrow(mo$X), 1:max(Y$DAP), outvars))
+            dim = c(nrow(mo$X), cycle_length*length(situation), length(outvars)),
+            dimnames = list(1:nrow(mo$X), 1:(cycle_length*length(situation)), outvars))
   # construct the Y variable to 'tell' based on the time steps, variables and scenarios settings
 
   #5. "tell" the array to the morris design from step 1.
