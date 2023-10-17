@@ -19,7 +19,7 @@ the development version of `AquacropOnR` using the `devtools` package:
 
 ``` r
 library(devtools)
-devtools::install_git(url = "https://gitlab.ilvo.be/plant-modelling/aquacropr.git", force = TRUE)
+devtools::install_git(url = "https://github.com/tdeswaef/aquacroponr.git", force = TRUE)
 ```
 
 The installation of the AquaCrop standalone version is required.
@@ -102,12 +102,7 @@ Scenario_s
 #>   Scenario Plant_Date IRRI    Soil    Plu    Tnx    ETo   
 #>   <chr>    <date>     <chr>   <chr>   <chr>  <chr>  <chr> 
 #> 1 S_01     2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_01
-IRRI_s
-#> # A tibble: 2 × 4
-#>   ID      Timing Depth   ECw
-#>   <chr>    <dbl> <dbl> <dbl>
-#> 1 IRRI_01     50     0     0
-#> 2 IRRI_02     50    25     0
+IRRI_s <- tibble(ID = "IRRI_01", Timing = 20, Depth = 25, ECw = 30)
 SOL_s
 #> # A tibble: 1 × 9
 #>   ID      Horizon Thickness   SAT    FC    WP  Ksat Penetrability Gravel
@@ -214,6 +209,9 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 
 <img src="man/figures/README-example4-1.png" width="90%" />
 
+A list of parameters with their explanation can be found in the [crop
+parameter file](Cropparameters.md)
+
 ## Example Morris method
 
 For sensitivity analysis using the `morris` method you first design the
@@ -291,5 +289,5 @@ ggplot(mu_star2) +
 - [x] definition of the AquaCrop wrapper function `aquacrop_wrapper`  
 - [x] allow option to run AquaCrop on growing degree days instead of
   days  
-- [ ] include code for running sensitivity analysis using the morris
+- [x] include code for running sensitivity analysis using the morris
   method

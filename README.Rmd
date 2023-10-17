@@ -32,7 +32,7 @@ Then you can install the development version of `AquacropOnR` using the `devtool
 
 ``` r
 library(devtools)
-devtools::install_git(url = "https://gitlab.ilvo.be/plant-modelling/aquacropr.git", force = TRUE)
+devtools::install_git(url = "https://github.com/tdeswaef/aquacroponr.git", force = TRUE)
 ```
 
 The installation of the AquaCrop standalone version is required.
@@ -90,7 +90,7 @@ Scenario_s <- design_scenario(name = "S_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01")
 Scenario_s
-IRRI_s
+IRRI_s <- tibble(ID = "IRRI_01", Timing = 20, Depth = 25, ECw = 30)
 SOL_s
 Plu_01
 Tnx_01
@@ -140,6 +140,8 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
   theme_bw()
 
 ```
+
+A list of parameters with their explanation can be found in the [crop parameter file](Cropparameters.md)
 
 ## Example Morris method
 
@@ -215,6 +217,6 @@ ggplot(mu_star2) +
 
 - [x] definition of the AquaCrop wrapper function `aquacrop_wrapper`  
 - [x] allow option to run AquaCrop on growing degree days instead of days  
-- [ ] include code for running sensitivity analysis using the morris method  
+- [x] include code for running sensitivity analysis using the morris method  
 
 
