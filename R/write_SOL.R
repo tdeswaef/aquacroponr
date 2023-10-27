@@ -86,7 +86,7 @@ CN_fun <- function(Ksat){
 write_SOL <- function(Scenario_){
   filename <- paste("DATA/", Scenario_,".SOL", sep="")
   SOL <- SOL_s %>% dplyr::filter(ID == (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Soil)) %>%
-    #dplyr::rowwise() %>%
+    dplyr::rowwise() %>%
     dplyr::mutate(CRa = CR_fun(SAT, FC, WP, Ksat) %>% .$CRa ,
                   CRb = CR_fun(SAT, FC, WP, Ksat) %>% .$CRb ,
                   description = "placeholder")
