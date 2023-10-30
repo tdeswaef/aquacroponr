@@ -8,7 +8,7 @@
 ###Climate file
 write_CLI <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".CLI")
-  Plant_Date <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date
+  Input_Date <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date
 
   cat('Climate file starting on 1 January ', year(Input_Date), '\n',
       '7.0  : AquaCrop Version (August 2022)\n',
