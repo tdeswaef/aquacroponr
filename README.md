@@ -32,9 +32,10 @@ Importantly, the working directory should be set to the folder in which
 the *aquacrop.exe* file is located.
 
 ``` r
-library(AquacropOnR)
-library(tidyverse)
-library(reshape2)
+
+ library(AquacropOnR)
+ library(tidyverse)
+ library(reshape2)
 setwd(dir = path_to_aquacrop_folder)
 ```
 
@@ -54,6 +55,8 @@ design the scenario’s for which you want to run AquaCrop. The
 meaning:
 
 - `name` is a character vector of names for the scenario’s.
+- `Input_Date` is a Date vector that indicates the start point of the
+  meteo files (`Plu`, `Tnx`, `ETo`)  
 - `Plant_Date` is a Date vector that defines the planting date in each
   scenario  
 - `IRRI` is a character vector of the names of the irrigation scenario’s
@@ -67,8 +70,8 @@ meaning:
 **IMPORTANT**:
 
 - The Scenario_s tibble **must** be named `Scenario_s` and **must** have
-  the columns (variables) `Scenario`, `Plant_Date`, `IRRI`, `Soil` and
-  `Meteo`.  
+  the columns (variables) `Scenario`, `Input_Date`, `Plant_Date`,
+  `IRRI`, `Soil` and `Meteo`.  
 - The irrigation tibble **must** be named `IRRI_s` and **must** have the
   columns `ID`, `Timing`, `Depth` and `ECw`. Values of the `ID` column
   are given as input to the `IRRI` argument in the `design_scenario()`
@@ -90,7 +93,8 @@ meaning:
 Examples of these tibbles are available from the package.
 
 ``` r
-Scenario_s <- design_scenario(name = "S_01", 
+Scenario_s <- design_scenario(name = "S_01",
+                              Input_Date = as.Date("2019-01-01"),
                               Plant_Date = as.Date("2019-04-01"), 
                               IRRI = "IRRI_01", 
                               Soil = "Soil_01", 
@@ -98,10 +102,10 @@ Scenario_s <- design_scenario(name = "S_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01")
 Scenario_s
-#> # A tibble: 1 × 7
-#>   Scenario Plant_Date IRRI    Soil    Plu    Tnx    ETo   
-#>   <chr>    <date>     <chr>   <chr>   <chr>  <chr>  <chr> 
-#> 1 S_01     2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_01
+#> # A tibble: 1 × 8
+#>   Scenario Input_Date Plant_Date IRRI    Soil    Plu    Tnx    ETo   
+#>   <chr>    <date>     <date>     <chr>   <chr>   <chr>  <chr>  <chr> 
+#> 1 S_01     2019-01-01 2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_01
 IRRI_s <- tibble(ID = "IRRI_01", Timing = 20, Depth = 25, ECw = 30)
 SOL_s
 #> # A tibble: 1 × 9
