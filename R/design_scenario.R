@@ -27,12 +27,14 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
   Tnx <- length_check_fun(Tnx, no_scenarios)
   ETo <- length_check_fun(ETo, no_scenarios)
 
-  Scenario_2 <- tibble(Plant_Date = Plant_Date,
-                     IRRI = IRRI,
-                     Soil = Soil,
-                     Plu = Plu,
-                     Tnx = Tnx,
-                     ETo = ETo) |> unique()
+  Scenario_2 <- tibble(Input_Date = Input_Date,
+                       Plant_Date = Plant_Date,
+                       IRRI = IRRI,
+                       Soil = Soil,
+                       Plu = Plu,
+                       Tnx = Tnx,
+                       ETo = ETo) |> unique()
+
   if(nrow(Scenario_1)==nrow(Scenario_2)){
     Scenario <- Scenario_1 |> bind_cols(Scenario_2)
   } else {
