@@ -10,7 +10,7 @@ write_CLI <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".CLI")
   Plant_Date <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date
 
-  cat('Climate file 1 January ', year(Plant_Date), ' - 31 December ', year(Plant_Date), '\n',
+  cat('Climate file starting on 1 January ', year(Input_Date), '\n',
       '7.0  : AquaCrop Version (August 2022)\n',
       paste0(Scenario_,  ".Tnx\n"),
       paste0(Scenario_,  ".ETo\n"),
@@ -19,5 +19,5 @@ write_CLI <- function(Scenario_){
       , file = filename, sep="", append=F)
 }
 
-#write_CLI("S_01")
+
 

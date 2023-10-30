@@ -1,6 +1,7 @@
 #' Makes the required tibble that is used as scenario argument in the `solve_AquaCrop()` function.
 #'
 #' @param name character vector with names of the scenarios.
+#' @param Input_Date Date format vector with initial input dates for the different scenarios
 #' @param Plant_Date Date format vector with planting dates for the different scenarios
 #' @param IRRI character vector with names of Irrigation tibble(s)
 #' @param Soil character vector with names of Soil tibble(s)
@@ -9,7 +10,7 @@
 #' @param ETo character vector with names of Reference Evapotranspiration tibble(s)
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo){
+design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
@@ -18,6 +19,7 @@ design_scenario <- function(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo){
 
   # argList <- list(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
   # maxargs <- argList %>% purrr::map(length) %>% purrr::list_c()
+  Input_Date <- length_check_fun(Input_Date, no_scenarios)
   Plant_Date <- length_check_fun(Plant_Date, no_scenarios)
   IRRI <- length_check_fun(IRRI, no_scenarios)
   Soil <- length_check_fun(Soil, no_scenarios)

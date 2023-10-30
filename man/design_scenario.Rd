@@ -4,10 +4,12 @@
 \alias{design_scenario}
 \title{Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.}
 \usage{
-design_scenario(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
+design_scenario(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
 }
 \arguments{
 \item{name}{character vector with names of the scenarios.}
+
+\item{Input_Date}{Date format vector with initial input dates for the different scenarios}
 
 \item{Plant_Date}{Date format vector with planting dates for the different scenarios}
 

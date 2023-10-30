@@ -6,14 +6,16 @@ write_Plu <- function(Scenario_){
   input <- (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plu) %>% get() %>% tidyr::drop_na()
 
   Precip_fun <- approxfun(input$DOY, input$PLU)
-  Precip <- Precip_fun(1:365) %>% format(digits = 1, nsmall=1)
+  Precip <- Precip_fun(1:nrow(input)) %>% format(digits = 1, nsmall=1)
 
-  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% lubridate::year()
+  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::year()
+  MONTH <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::month()
+  DAY <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::day()
 
-  cat(Scenario_, " daily rainfall: 1 January ", YEAR, " - 31 December ", YEAR, "\n",
+  cat(Scenario_, " daily rainfall from 1 January ", YEAR, "\n",
       "1  : Daily records (1=daily, 2=10-daily and 3=monthly data)\n",
-      "1  : First day of record (1, 11 or 21 for 10-day or 1 for months)\n",
-      "1  : First month of record\n",
+      DAY, "  : First day of record (1, 11 or 21 for 10-day or 1 for months)\n",
+      MONTH, "  : First month of record\n",
       YEAR, "  : First year of record (1901 if not linked to a specific year)\n",
       "\n",
       "Total rain (mm)","\n",
