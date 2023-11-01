@@ -9,17 +9,17 @@ write_Tnx <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".Tnx")
   input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Tnx) %>% get() %>% tidyr::drop_na()
 
-  Tmax_fun <- approxfun(input$DOY, input$TMAX)
-  Tmin_fun <- approxfun(input$DOY, input$TMIN)
-  Tmax <- Tmax_fun(1:nrow(input)) %>% format(digits = 1, nsmall = 1)
-  Tmin <- Tmin_fun(1:nrow(input)) %>% format(digits = 1, nsmall = 1)
+  Tmax_fun <- approxfun(1:length(input$TMAX), input$TMAX)
+  Tmin_fun <- approxfun(1:length(input$TMIN), input$TMIN)
+  Tmax <- Tmax_fun(1:length(input$TMAX)) %>% format(digits = 1, nsmall = 1)
+  Tmin <- Tmin_fun(1:length(input$TMIN)) %>% format(digits = 1, nsmall = 1)
   Temps <- tibble(Tmin=Tmin, Tmax=Tmax)
 
-  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date %>% lubridate::year()
+  YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::year()
   MONTH <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::month()
   DAY <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::day()
 
-  cat(Scenario_, " daily data: 1 January ", YEAR, " - 31 December ", YEAR, "\n",
+  cat(Scenario_, " daily data from 1 January ", DAY, " ", MONTH, " ", YEAR, "\n",
       "1  : Daily records (1=daily, 2=10-daily and 3=monthly data)\n",
       DAY, "  : First day of record (1, 11 or 21 for 10-day or 1 for months)\n",
       MONTH, "  : First month of record\n",
@@ -31,4 +31,5 @@ write_Tnx <- function(Scenario_){
   write.table(Temps, filename, row.names = F,
               col.names = F, append = TRUE, quote = F) #important: write_delim function doesn't provide output which is correctly read by AquaCrop. (not sure why) Therefore write.table is used
 }
+
 
