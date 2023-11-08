@@ -44,7 +44,7 @@ aquacrop_wrapper <- function(param_values=list(),
   createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
 
   situation %>%
-    purrr::walk(~checkInputdata(cycle_info, cycle_length))
+    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, cycle_length))
 
   ###########################################
   # Run Aquacrop for all the created projects

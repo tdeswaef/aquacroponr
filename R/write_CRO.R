@@ -22,7 +22,7 @@ write_CRO <- function(Params_select, Params_default){
   write.table(digitvalues, file = filename,
               row.names = F, col.names = F,
               append = TRUE, quote = F)
-  return(c(params$crop_cycle, params$cyc_d, params$mat_gdd))
+  return(c(params$crop_cycle, params$cyc_d, params$mat_gdd, params$T_base))
 }
 
 

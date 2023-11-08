@@ -24,7 +24,7 @@ checkInputdata <- function(Scenario_, cycle_info, cycle_length){
 
   TT_check <- Temps %>% mutate(Tmean = (Tmax+Tmin)/2) %>%
     slice(((plant_date - input_date) %>% as.numeric() + 1):nrow(Temps)) %>%
-    mutate(GD = pmax(Tmean-SorghumGDD$T_base, 0)) %>%
+    mutate(GD = pmax(Tmean-cycle_info[4], 0)) %>%
     mutate(GDD = cumsum(GD))
 
   GDD_max <- max(TT_check$GDD)
