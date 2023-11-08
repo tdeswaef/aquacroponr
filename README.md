@@ -82,13 +82,13 @@ meaning:
   input to the `Soil` argument in the `design_scenario()` function.  
 - The precipitation tibble can be named as you want, but its name is the
   input to the `Plu` argument in the `design_scenario()` function. This
-  tibble **must** have the columns `DOY` and `PLU`.  
+  tibble **must** have the columns `DAY` and `PLU`.  
 - The reference evapotranspiration tibble can be named as you want, but
   its name is the input to the `ETo` argument in the `design_scenario()`
-  function. This tibble **must** have the columns `DOY` and `ETo`.  
+  function. This tibble **must** have the columns `DAY` and `ETo`.  
 - The temperature tibble can be named as you want, but its name is the
   input to the `Tnx` argument in the `design_scenario()` function. This
-  tibble **must** have the columns `DOY`, `TMAX` and `TMIN`.
+  tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.
 
 Examples of these tibbles are available from the package.
 

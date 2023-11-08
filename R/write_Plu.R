@@ -5,8 +5,8 @@ write_Plu <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".PLU")
   input <- (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plu) %>% get() %>% tidyr::drop_na()
 
-  Precip_fun <- approxfun(1:length(input$PLU), input$PLU)
-  Precip <- Precip_fun(1:length(input$PLU)) %>% format(digits = 1, nsmall=1)
+  Precip_fun <- approxfun(input$DAY, input$PLU)
+  Precip <- Precip_fun(1:max(input$DAY)) %>% format(digits = 1, nsmall=1)
 
   YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::year()
   MONTH <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::month()

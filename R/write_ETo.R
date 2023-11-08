@@ -5,8 +5,8 @@ write_ETo <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".ETo")
   input <- (Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$ETo) %>% get() %>% tidyr::drop_na()
 
-  ETo_fun <- approxfun(1:length(input$ETo), input$ETo)
-  ETo <- (ETo_fun(1:length(input$ETo)) + 1e-6) %>% format(digits = 1, nsmall = 1)
+  ETo_fun <- approxfun(input$DAY, input$ETo)
+  ETo <- (ETo_fun(1:max(input$DAY)) + 1e-6) %>% format(digits = 1, nsmall = 1)
 
   YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::year()
   MONTH <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::month()

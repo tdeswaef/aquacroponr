@@ -76,9 +76,9 @@ Once you have the list with default crop parameter values, you can design the sc
 - The Scenario_s tibble **must** be named `Scenario_s` and **must** have the columns (variables) `Scenario`, `Input_Date`, `Plant_Date`, `IRRI`, `Soil` and `Meteo`.  
 - The irrigation tibble **must** be named `IRRI_s` and **must** have the columns `ID`, `Timing`, `Depth` and `ECw`. Values of the `ID` column are given as input to the `IRRI` argument in the `design_scenario()` function.  
 - The soil tibble **must** be named `SOL_s` and **must** have the columns `ID`, `Horizon`, `Thickness`, `SAT`, `FC`, `WP`, `Ksat`, `Penetrability` and `Gravel`. Values of the `ID` column are given as input to the `Soil` argument in the `design_scenario()` function.  
-- The precipitation tibble can be named as you want, but its name is the input to the `Plu` argument in the `design_scenario()` function. This tibble **must** have the columns `DOY` and `PLU`.  
-- The reference evapotranspiration tibble can be named as you want, but its name is the input to the `ETo` argument in the `design_scenario()` function. This tibble **must** have the columns `DOY` and `ETo`.  
-- The temperature tibble can be named as you want, but its name is the input to the `Tnx` argument in the `design_scenario()` function. This tibble **must** have the columns `DOY`, `TMAX` and `TMIN`.
+- The precipitation tibble can be named as you want, but its name is the input to the `Plu` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `PLU`.  
+- The reference evapotranspiration tibble can be named as you want, but its name is the input to the `ETo` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `ETo`.  
+- The temperature tibble can be named as you want, but its name is the input to the `Tnx` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.
 
 
 Examples of these tibbles are available from the package.

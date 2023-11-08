@@ -9,10 +9,10 @@ write_Tnx <- function(Scenario_){
   filename <- paste0("DATA/", Scenario_, ".Tnx")
   input <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Tnx) %>% get() %>% tidyr::drop_na()
 
-  Tmax_fun <- approxfun(1:length(input$TMAX), input$TMAX)
-  Tmin_fun <- approxfun(1:length(input$TMIN), input$TMIN)
-  Tmax <- Tmax_fun(1:length(input$TMAX)) %>% format(digits = 1, nsmall = 1)
-  Tmin <- Tmin_fun(1:length(input$TMIN)) %>% format(digits = 1, nsmall = 1)
+  Tmax_fun <- approxfun(input$DAY, input$TMAX)
+  Tmin_fun <- approxfun(input$DAY, input$TMIN)
+  Tmax <- Tmax_fun(1:max(input$DAY)) %>% format(digits = 1, nsmall = 1)
+  Tmin <- Tmin_fun(1:max(input$DAY)) %>% format(digits = 1, nsmall = 1)
   Temps <- tibble(Tmin=Tmin, Tmax=Tmax)
 
   YEAR <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Input_Date %>% lubridate::year()

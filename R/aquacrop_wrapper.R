@@ -32,16 +32,19 @@ aquacrop_wrapper <- function(param_values=list(),
   if(!file.exists("aquacrop.exe")){
     stop("set your working directory to the AquaCrop.path")
   }
-  if(!dir.exists("DATA/")) stop("run the Path_config function first")
+  if(!dir.exists("DATA/")) stop("run the path_config function first")
   #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
 
 
   # Create crop parameter file
-  write_CRO(as.list(param_values), model_options$defaultpar)
+  cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
   # for now, the Ground Water Table is fixed
   GWT <- 2.0
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
+
+  situation %>%
+    purrr::walk(~checkInputdata(cycle_info, cycle_length))
 
   ###########################################
   # Run Aquacrop for all the created projects
