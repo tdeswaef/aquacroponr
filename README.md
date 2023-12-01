@@ -82,13 +82,16 @@ meaning:
   input to the `Soil` argument in the `design_scenario()` function.  
 - The precipitation tibble can be named as you want, but its name is the
   input to the `Plu` argument in the `design_scenario()` function. This
-  tibble **must** have the columns `DAY` and `PLU`.  
+  tibble **must** have the columns `DAY` and `PLU`. The first value of `DAY` should be `1`, and its date should correspond to the value of the `Input_Date` argument in the `Scenario_s` tibble.
+  All following `DAY` data need to be the number of days since the `Input_Date` value. These can span multiple years, so values exceeding 365 (or 366), refer to following years.  
 - The reference evapotranspiration tibble can be named as you want, but
   its name is the input to the `ETo` argument in the `design_scenario()`
-  function. This tibble **must** have the columns `DAY` and `ETo`.  
+  function. This tibble **must** have the columns `DAY` and `ETo`. The first value of `DAY` should be `1`, and its date should correspond to the value of the `Input_Date` argument in the `Scenario_s` tibble.
+  All following `DAY` data need to be the number of days since the `Input_Date` value. These can span multiple years, so values exceeding 365 (or 366), refer to following years.   
 - The temperature tibble can be named as you want, but its name is the
   input to the `Tnx` argument in the `design_scenario()` function. This
-  tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.
+  tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.  The first value of `DAY` should be `1`, and its date should correspond to the value of the `Input_Date` argument in the `Scenario_s` tibble.
+  All following `DAY` data need to be the number of days since the `Input_Date` value. These can span multiple years, so values exceeding 365 (or 366), refer to following years.
 
 Examples of these tibbles are available from the package.
 
@@ -114,7 +117,7 @@ SOL_s
 #> 1 Soil_01       1         4    41    22    10  1200           100      0
 Plu_01
 #> # A tibble: 365 × 2
-#>      DOY   PLU
+#>      DAY   PLU
 #>    <dbl> <dbl>
 #>  1     1   0.4
 #>  2     2   0.7
@@ -129,7 +132,7 @@ Plu_01
 #> # ℹ 355 more rows
 Tnx_01
 #> # A tibble: 365 × 3
-#>      DOY  TMAX  TMIN
+#>      DAY  TMAX  TMIN
 #>    <dbl> <dbl> <dbl>
 #>  1     1   9.3   7.2
 #>  2     2   7.4   5  
@@ -144,7 +147,7 @@ Tnx_01
 #> # ℹ 355 more rows
 ETo_01
 #> # A tibble: 365 × 2
-#>      DOY   ETo
+#>      DAY   ETo
 #>    <dbl> <dbl>
 #>  1     1 1.03 
 #>  2     2 1.17 
