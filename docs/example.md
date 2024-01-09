@@ -191,4 +191,4 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
 <img src="img/example_modified.png" width="90%" />
 
 A list of parameters with their explanation can be found in the [crop
-parameter file](Parameter Explanation/parameters.md)
+parameter file](cropparameters.md)
