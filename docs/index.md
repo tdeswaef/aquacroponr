@@ -1,4 +1,3 @@
-#    {.tabset}
 
 ## About
 
@@ -21,4 +20,5 @@ library(devtools)
 devtools::install_git(url = "https://github.com/tdeswaef/aquacroponr.git", force = TRUE)
 ```
 
-
+## Documentation and examples 
+- [Info on the AquaCrop crop parameter names and their meaning](Parameter Explanation/parameters.md)
