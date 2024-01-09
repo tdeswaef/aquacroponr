@@ -12,12 +12,11 @@ website](https://www.fao.org/aquacrop/software/aquacropplug-inprogramme/en/#c518
 
 ## Installation and setup
 
-First install [git](https://git-scm.com/downloads). Then you can install
-the development version of `AquacropOnR` using the `devtools` package:
+You can install the development version of `AquacropOnR` using the `devtools` package:
 
 ``` r
 library(devtools)
-devtools::install_git(url = "https://github.com/tdeswaef/aquacroponr.git", force = TRUE)
+devtools::install_github(repo = "https://github.com/tdeswaef/aquacroponr.git", force = TRUE)
 ```
 
 ## Documentation and examples 
