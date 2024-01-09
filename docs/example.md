@@ -167,7 +167,7 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
   theme_bw()
 ```
 
-<img src="man/figures/README-example3-1.png" width="90%" />
+<img src="img/example_default.png" width="90%" />
 
 And now let’s see what happens when we increase the canopy growth
 coefficient `cgc` from 0.15 to 0.18:
@@ -188,7 +188,7 @@ ggplot(mapping = aes(x=DAP, y=Biomass)) +
   theme_bw()
 ```
 
-<img src="man/figures/README-example4-1.png" width="90%" />
+<img src="img/example_modified.png" width="90%" />
 
 A list of parameters with their explanation can be found in the [crop
 parameter file](Parameter Explanation/parameters.md)
