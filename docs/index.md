@@ -22,3 +22,4 @@ devtools::install_git(url = "https://github.com/tdeswaef/aquacroponr.git", force
 
 ## Documentation and examples 
 - [Info on the AquaCrop crop parameter names and their meaning](Parameter Explanation/parameters.md)
+- [A simple example of the workflow for a spinach crop](example.md)
