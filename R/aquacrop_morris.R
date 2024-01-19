@@ -81,7 +81,7 @@ aquacrop_morris <- function(situation = "S_01",
   #4. Make an array with the correct dimensions based on the simulations (step 2) and the integration level (step 3).
   a <-array(data = filldata,
             dim = c(nrow(mo$X), cycle_length*length(situation), length(outvars)),
-            dimnames = list(1:nrow(mo$X), 1:(cycle_length*length(situation)), outvars))
+            dimnames = list(1:nrow(mo$X), 1:(cycle_length*length(situation)), sort(outvars)))
   # construct the Y variable to 'tell' based on the time steps, variables and scenarios settings
 
   #5. "tell" the array to the morris design from step 1.
