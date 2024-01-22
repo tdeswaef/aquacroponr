@@ -30,3 +30,7 @@ Depends:
 RoxygenNote: 7.3.0
 Roxygen: list(markdown = TRUE)
 URL: https://tdeswaef.github.io/aquacroponr/
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
