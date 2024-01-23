@@ -1,0 +1,154 @@
+---
+title: "Simulation Example for Spinach"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example-simulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
+)
+
+knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
+```
+
+## Example
+
+This is a basic example to run AquaCrop from `R` for the spinach crop. 
+
+Importantly, the working directory should be set to the folder in which the *aquacrop.exe* file is located. This path should also contain **no spaces**. For example: `path_to_aquacrop_folder <- "C:/users/username/AquaCrop71/"`. 
+
+```{r aquafolder, include=FALSE}
+path_to_aquacrop_folder <- "C:/Users/tdeswaef/AquaCrop_70/"
+
+```
+
+```{r lib, warning=FALSE, message=FALSE, prompt=FALSE} 
+library(AquacropOnR)
+library(tidyverse)
+setwd(dir = path_to_aquacrop_folder)
+```
+
+With the package comes an example list with default crop parameters for **quinoa** and **spinach**. To make this list for your own crop, you need an AquaCrop cropfile (*YourCrop.CRO*) whose path should be input in the `read_CRO()` function:
+
+``` r
+yourcrop <- read_CRO("path/YourCrop.CRO")` 
+```
+
+Once you have the list with default crop parameter values, you can design the scenario's for which you want to run AquaCrop. The `AquacropOnR` package provides a function to design the scenario's: `design_scenario()`. The arguments in this function have the following meaning:
+
+-   `name` is a character vector of names for the scenario's.
+-   `Input_Date` is a Date vector that indicates the start point of the meteo files (`Plu`, `Tnx`, `ETo`)  
+-   `Plant_Date` is a Date vector that defines the planting date in each scenario  
+-   `IRRI` is a character vector of the names of the irrigation scenario's present in the `ID` column of the `IRRI_s` tibble.  
+-   `Soil` is a character vector of the names of the soils present in the `ID` column of the `SOL_s` tibble. 
+- `Plu`, `Tnx`, and `ETo` are character (vectors) that refer to the names of `R` objects, that hold the daily data for precipitation, temperature and reference evapotranspiration, respectively. 
+
+**IMPORTANT**: 
+
+- The Scenario_s tibble **must** be named `Scenario_s` and **must** have the columns (variables) `Scenario`, `Input_Date`, `Plant_Date`, `IRRI`, `Soil` and `Meteo`.  
+- The irrigation tibble **must** be named `IRRI_s` and **must** have the columns `ID`, `Timing`, `Depth` and `ECw`. Values of the `ID` column are given as input to the `IRRI` argument in the `design_scenario()` function.  
+- The soil tibble **must** be named `SOL_s` and **must** have the columns `ID`, `Horizon`, `Thickness`, `SAT`, `FC`, `WP`, `Ksat`, `Penetrability` and `Gravel`. Values of the `ID` column are given as input to the `Soil` argument in the `design_scenario()` function.  
+- The precipitation tibble can be named as you want, but its name is the input to the `Plu` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `PLU`.  
+- The reference evapotranspiration tibble can be named as you want, but its name is the input to the `ETo` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `ETo`.  
+- The temperature tibble can be named as you want, but its name is the input to the `Tnx` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.
+
+
+Examples of these tibbles are available from the package.
+
+```{r example 1}
+Scenario_s <- design_scenario(name = c("S_01", "S_02"),
+                              Input_Date = as.Date("2019-01-01"),
+                              Plant_Date = as.Date("2019-04-01"), 
+                              IRRI = c("IRRI_01", "IRRI_02"),
+                              Soil = "Soil_01", 
+                              Plu = "Plu_01",
+                              Tnx = "Tnx_01",
+                              ETo = "ETo_01")
+```
+
+The `Scenario_s` tibble should look like this:
+
+```{r, echo=FALSE}
+Scenario_s
+```
+
+We can make an irrigation input `tibble` as follows:
+
+```{r irri}
+IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 50), Depth = c(25,25), ECw = c( 0, 0))
+IRRI_s
+```
+
+For this example we will use the data for soil, precipitation, temperature and reference evapotranspiration that comes with the package. These tibbles should be formatted as presented below.
+
+```{r input, echo=FALSE}
+head(SOL_s)
+head(Plu_01)
+head(Tnx_01)
+head(ETo_01)
+
+```
+
+Then it is crucial to create the correct AquaCrop path, while checking the required folders and choosing which daily outputs to produce. Therefore the package has the function `path_config()`. Make sure your path ends with a "/". For example: `path_to_aquacrop_folder <- "C:/users/username/AquaCrop71/"`.  
+The `Daily_output` argument lets you choose which output type to return from the simulation (see Codes in [AquaCrop manual](https://www.fao.org/3/br245e/br245e.pdf) p21-25). Currently the function has only been tested with `Daily_output = c(1,2)`. 
+
+```{r example2} 
+AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
+```
+
+Finally, we can run AquaCrop using the `aquacrop_wrapper()` function and display a plot. The `param_values` argument is used to modify crop parameters from the default, which is the list provided as input to the `defaultpar` argument inside the `model_options` list. `situation` takes a vector of characters, that correspond to the `Scenario` variable in the `Scenario_s` tibble.
+
+Let us first run the simulation with the default parameters for spinach:
+
+```{r example3, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, dpi=120}
+
+default <- aquacrop_wrapper(param_values = list(),
+               situation = c("S_01","S_02"),
+               cycle_length = 70,
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
+
+ggplot(mapping = aes(x=DAP, y=Biomass)) +
+  ylim(0, 3.5) +
+  geom_line(data = default, aes(group = Scenario, color = Scenario),linewidth = 1) +
+  geom_text(aes(x=40, y=3, label = 'default'), color = "black") +
+  xlim(0, 70) +
+  scale_color_manual(values = c("black", "red")) +
+  theme_bw()
+
+```
+
+
+
+And now let's see what happens when we increase the canopy growth coefficient `cgc` from 0.15 to 0.18:
+
+```{r example4,warning=FALSE, message=FALSE, fig.width=6, fig.height=3, dpi=120}
+modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
+               situation = c("S_01", "S_02"),
+               cycle_length = 70,
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
+
+ggplot() +
+  ylim(0, 3.5) +
+  geom_line(data = default, aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),linewidth = 1) +
+  geom_line(data = modified, aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),linewidth = 1, linetype = 2) +
+  geom_text(aes(x=40, y=3, label = 'default'), color = "black", hjust = 0) +
+  geom_text(aes(x=40, y=2.8, label = 'modified'), color = "black", hjust = 0) +
+  geom_segment(mapping = aes(x = 34, xend = 39, y = 3, yend = 3), color = 'black', linewidth = 1, linetype = 1) +
+  geom_segment(mapping = aes(x = 34, xend = 39, y = 2.8, yend = 2.8), color = 'black', linewidth = 1, linetype = 2) +
+  xlim(0, 70) +
+  scale_color_manual(values = c("black", "red")) +
+  theme_bw()
+  
+
+
+```
+
+A list of parameters with their explanation can be found in the [crop parameter file](Cropparameters.md)
+
