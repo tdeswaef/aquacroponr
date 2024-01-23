@@ -1,5 +1,5 @@
 ---
-title: "example-morris"
+title: "Sensitivity analysis example with Morris method"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{example-morris}
@@ -7,84 +7,152 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
 )
+
+knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
+
 ```
 
-```{r setup}
+
+```{r simulation, include=FALSE}
+path_to_aquacrop_folder <- "C:/Users/tdeswaef/AquaCrop_70/"
 library(AquacropOnR)
+library(tidyverse)
+setwd(dir = path_to_aquacrop_folder)
+Scenario_s <- design_scenario(name = c("S_01", "S_02"),
+                              Input_Date = as.Date("2019-01-01"),
+                              Plant_Date = as.Date("2019-04-01"), 
+                              IRRI = c("IRRI_01", "IRRI_02"),
+                              Soil = "Soil_01", 
+                              Plu = "Plu_01",
+                              Tnx = "Tnx_01",
+                              ETo = "ETo_01")
+IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 50), Depth = c(25,25), ECw = c( 0, 0))
+AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
+
 ```
 
 ## Example Morris method
 
-For sensitivity analysis using the `morris` method you first design the morris sampling scheme and the simulations.
-Based on these results, you can then define for which level you want to calculate the elemental effects.
-First we run the Morris method using the `aquacrop_morris` function: 
+First run the code present in the [simulation example](vignette("example-simulation")), to ensure that the paths are correct and that the scenarios have been defined.
 
+For sensitivity analysis using the Morris method, we made the function `aquacrop_morris()`, which is built upon the `sensitivity::morris()` function. This function designs the Morris sampling scheme for `r` trajectories. In this case we used $r=20$, to limit the computation time, but this should be set higher when using for specific objectives. In this example we chose to study the effect of two parameters `cgc` and `rt_max` ($p =2$) on two output variables ($y = 2$) for spinach. Using the 'one-at-a-time' design, this will generate $(p+1) \times r$ simulations, from which the elemental effects are calculated (the `ee` variable of the `aquacrop_morris()` output). As this is typically a multidimensional matrix, we will *melt* this into an interpretable dataframe using the `ee_to_dataframe()` function, which is built upon the `reshape2::melt()` function.
+
+For more information, please check out the `sensitivity::morris()` function, which is used as a basis for our `aquacrop_morris()` function.
+
+First we run the Morris method using the `aquacrop_morris()` function: 
 
 ```{r morris1, warning=FALSE, message=FALSE}
-
-p <- aquacrop_morris(situation = "S_01", 
+p <- aquacrop_morris(situation = c("S_01", "S_02"),
                      backgroundpar=Spinach, 
                      cycle_length = 70, 
                      r = 20, 
                      binf=c(rt_max = 0.12, cgc = 0.1), 
                      bsup = c(rt_max = 0.55, cgc = 0.21), 
-                     outvars = c("Biomass", "YSdryS"))
+                     outvars = c("Biomass", "CC"))
 
-``` 
-
-Then we create the interpretable dataframe from the elemental effects matrix: 
-
-```{r morris2, warning=FALSE,message=FALSE}
-EE <- p$ee %>% melt(value.name = "ee", varnames = c("traject", "par", "DAP", "output"))
+EE <- ee_to_dataframe(p = p, situation = c("S_01", "S_02"), cycle_length = 70)
 
 ```
 
-If you would have multiple scenarios in your analysis, then the DAP values can be split up by scenario:
+Now we have a tibble with following columns:
 
-```{r morris3, warning=FALSE, message=FALSE}
+```{r EE, echo =F}
 
-EE <- EE %>% dplyr::mutate(Scenario = (DAP %/% 70)+1,
-                           DAP = DAP %% 70)
+names(EE)
+
+```
+So we have the elemental effects for each combination of trajectory (traject - $r = 20$), parameter (par - $p = 2$), simulation time (DAP - $t = 70$), output variable (outvar - $y = 2$) and scenario (Scenario - $s = 2$): $n = r \times p \times t \times y \times s = 11200$.
+The actual length of this data frame can be smaller if some of the trajectories have been rejected, because they were identical.
+
+As a default, the elemental effects (`ee`) are scaled for the parameter value. To make proper comparisons of sensitivity across output variables, these should also be scaled by dividing by a representative value for the respective output variable. As an example we calculate here a `scaler` based on the 95% highest value of all simulations done by the `aquacrop_morris()` function for each variable.  
+You could also choose e.g. the median value (50%) instead of the 95% value. 
+As the scaling of the parameter value is already done in the `aquacrop_morris()` function (based on the parameter ranges that you provide), we don’t need a representative value there.
+
+```{r scaler, fig.width=6, fig.height=6, dpi=120, message=FALSE, warning=FALSE}
+library(reshape2)
+scaler <- melt(data = p$y, value.name = "value", varnames = c("simno", "DAP", "outvar")) %>% 
+  group_by(outvar) %>%
+  summarize(yscale= quantile(value, 0.95))
+
+EE <- EE %>%
+  left_join(scaler, by = "outvar") %>%
+  mutate(ee_scaled = ee/yscale)
+
+ggplot(EE %>% filter(traject == 3)) +
+  facet_wrap(facets = vars(outvar), nrow = 2) +
+  geom_line(aes(x=DAP, y=ee_scaled, color = par, linetype = Scenario), linewidth = 1) +
+  theme_bw()
 
 ```
 
-We can then choose the level of integration at which we want to summarise the elemental effects:
+This is the output for the elemental effects generated by the third trajectory. We immediately see that the pattern (i.e. sensitivity function) is different between output variables and that the importance of the maximum rooting depth (`rt_max`) is higher in scenario `S_02`, which had a later irrigation event (see [simulation example](vignette("example-simulation"))).
 
-- By DAP and output variable
 
-```{r morris4, warning=FALSE, message=FALSE}
+Then we aggregate these results on the level we want. The level we aggregate over is indicated in the `group_by()` statement. If we want to rank the parameters on their integrated impact on all two output variables we only group by `par`:
+
+```{r full, message=FALSE, warning=FALSE, fig.width=6, fig.height=4, dpi=120}
 mu_star1 <- EE %>%
-  group_by(par, DAP, output) %>%
-  summarise(mu = mean(ee),
-            mu_star = mean(abs(ee)),
-            sigma = sd(ee))
+  group_by(par) %>%
+  summarise(mu = mean(ee_scaled),
+            mu_star = mean(abs(ee_scaled)),
+            sigma = sd(ee_scaled))
 
 ggplot(mu_star1) +
-  facet_wrap(facets = vars(output), nrow=2) +
   theme_bw() +
-  geom_point(mapping = aes(x=DAP, y=mu_star, color = par))
+  geom_point(aes(x=par, y=mu_star))
 
 ```
 
-- By output variable
+If we want to see the effect for each output variable separately, we add `outvar` to the `group_by()` statement:
 
-```{r morris5, warning=FALSE, message=FALSE}
-mu_star2 <- EE %>% 
-  group_by(par, output) %>%
-  summarise(mu = mean(ee),
-            mu_star = mean(abs(ee)),
-            sigma = sd(ee))
+```{r by_output, message=FALSE, warning=FALSE, fig.width=6, fig.height=6, dpi=120}
+mu_star2 <- EE %>%
+  group_by(par, outvar) %>%
+  summarise(mu = mean(ee_scaled),
+            mu_star = mean(abs(ee_scaled)),
+            sigma = sd(ee_scaled))
 
 ggplot(mu_star2) +
-  facet_wrap(facets = vars(output), nrow=2) +
+  facet_wrap(facets = vars(outvar), nrow=2) +
   theme_bw() +
-  geom_point(mapping = aes(x=mu_star, y=sigma, color = par))
+  geom_point(mapping = aes(x=par, y=mu_star))
 
 ```
 
+Then we can also check if the sensitivity depends on the scenario:
+
+```{r scenario, message=FALSE, warning=FALSE, fig.width=6, fig.height=6, dpi=120}
+mu_star3 <- EE %>% 
+  group_by(par, outvar, Scenario) %>%
+  summarise(mu = mean(ee_scaled),
+            mu_star = mean(abs(ee_scaled)),
+            sigma = sd(ee_scaled))
+
+ggplot(mu_star3) +
+  facet_wrap(facets = vars(outvar), nrow=2) +
+  theme_bw() +
+  geom_point(mapping = aes(x=par, y=mu_star, color = Scenario))
+```
+We see that especially the maximum rooting depth effect changes with the scenario.  
+Finally, we can look at the time series of the sensitivity. Therefore, we will also group by `DAP`:
+
+```{r timeseries, message=FALSE, warning=FALSE, fig.width=6, fig.height=6, dpi=120}
+mu_star4 <- EE %>% 
+  group_by(par, outvar, Scenario, DAP) %>%
+  summarise(mu = mean(ee_scaled),
+            mu_star = mean(abs(ee_scaled)),
+            sigma = sd(ee_scaled))
+
+ggplot(mu_star4) +
+  facet_wrap(facets = vars(outvar, Scenario), nrow = 3) +
+  geom_point(mapping = aes(x=DAP, y=mu_star, group=par, color=par))+
+  theme_bw()
+```
 
