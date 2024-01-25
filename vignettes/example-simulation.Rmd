@@ -2,7 +2,7 @@
 title: "Simulation Example for Spinach"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example-simulation}
+  %\VignetteIndexEntry{Simulation Example for Spinach}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
+  fig.path = "example-",
   root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
 )
 
@@ -150,5 +150,5 @@ ggplot() +
 
 ```
 
-A list of parameters with their explanation can be found in the [crop parameter file](Cropparameters.md)
+A list of parameters with their explanation can be found in the `vignette("crop-parameters")`.
 

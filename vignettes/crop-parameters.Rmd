@@ -1,4 +1,18 @@
-# Model parameter explanation
+---
+title: "Crop parameter table"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Crop parameter table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 This table lists the crop parameters that can be adjusted in the `aquacrop_wrapper()` function.
 Please refer to the AquaCrop manual for a better understanding of conservative parameters.
