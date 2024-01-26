@@ -8,6 +8,13 @@
 \description{
 This package provides wrappers for using AquaCrop from within R as simple as possible. This work was inspired on earlier initiatives for the APSIM (ApsimOnR) and STICS (SticsOnR) crop models. In doing so, the package aims to intercface AquaCRop to the CroptimizR package.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://tdeswaef.github.io/aquacroponr/}
+}
+
+}
 \author{
 \strong{Maintainer}: Tom De Swaef \email{tom.deswaef@ilvo.vlaanderen.be} (\href{https://orcid.org/0000-0002-8338-7786}{ORCID})
 
