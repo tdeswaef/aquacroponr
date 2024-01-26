@@ -2,21 +2,25 @@
 
 on:
   push:
-    branches: [main, master]
+    branches:
+      - main
 
 name: updatepages
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           clean: false
-          publish_branch: gh-pages
-          publish_dir: ./docs
+          branch: gh-pages
+          folder: docs
