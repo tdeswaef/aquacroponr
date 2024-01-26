@@ -1,0 +1,12 @@
+pandoc: 3.1.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  crop-parameters: crop-parameters.html
+  example-morris: example-morris.html
+  example-simulation: example-simulation.html
+last_built: 2024-01-26T09:52Z
+urls:
+  reference: https://tdeswaef.github.io/aquacroponr/reference
+  article: https://tdeswaef.github.io/aquacroponr/articles
+
