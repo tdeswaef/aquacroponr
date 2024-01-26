@@ -4,19 +4,31 @@
     <loc>https://tdeswaef.github.io/aquacroponr/404.html</loc>
   </url>
   <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/articles/crop-parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/articles/example-morris.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/articles/example-simulation.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/authors.html</loc>
+  </url>
+  <url>
     <loc>https://tdeswaef.github.io/aquacroponr/Cropparameters.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/index.html</loc>
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/LICENSE-text.html</loc>
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://tdeswaef.github.io/aquacroponr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://tdeswaef.github.io/aquacroponr/index.html</loc>
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/reference/AquacropOnR-package.html</loc>
@@ -35,6 +47,9 @@
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/reference/path_config.html</loc>
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/reference/plotinput.html</loc>
