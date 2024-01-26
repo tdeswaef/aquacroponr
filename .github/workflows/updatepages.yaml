@@ -12,11 +12,11 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: peaceiris/actions-gh-pages@v4
         with:
           clean: false
-          branch: gh-pages
-          folder: docs
+          publish_branch: gh-pages
+          publish_dir: ./docs
