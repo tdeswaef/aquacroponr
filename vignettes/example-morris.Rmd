@@ -38,7 +38,6 @@ AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2)
 
 ```
 
-## Example Morris method
 
 First run the code present in the `vignette("example-simulation")`, to ensure that the paths are correct and that the scenarios have been defined.
 
