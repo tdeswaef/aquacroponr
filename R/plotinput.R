@@ -41,22 +41,22 @@ get_data <- function(Scenario_s, inputvar){
 plot_plu <- function(plu_data, ids){
   ggplot(data = plu_data) +
     theme_bw() +
-    geom_col(mapping = aes(DOY, PLU)) +
+    geom_col(mapping = aes(DAY, PLU)) +
     labs(title = ids)
 }
 
 plot_tmp <- function(tmp_data, ids){
   ggplot(data = tmp_data) +
     theme_bw() +
-    geom_line(mapping = aes(DOY, TMAX), color= 'red') +
-    geom_line(mapping = aes(DOY, TMIN), color= 'blue') +
+    geom_line(mapping = aes(DAY, TMAX), color= 'red') +
+    geom_line(mapping = aes(DAY, TMIN), color= 'blue') +
     labs(title = ids)
 }
 
 plot_eto <- function(eto_data, ids){
   ggplot(data = eto_data) +
     theme_bw() +
-    geom_line(mapping = aes(DOY, ETo)) +
+    geom_line(mapping = aes(DAY, ETo)) +
     labs(title = ids)
 }
 
