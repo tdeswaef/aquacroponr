@@ -27,8 +27,7 @@ The goal of AquacropOnR is to make AquaCrop simulations from within `R` as easy 
 
 ## Installation and setup
 
-First install [git](https://git-scm.com/downloads).
-Then you can install the development version of `AquacropOnR` using the `devtools` package:
+You can install the development version of `AquacropOnR` using the `devtools` package:
 
 ``` r
 library(devtools)

@@ -50,10 +50,10 @@ write_PRO <- function(Scenario_, cycle_length){
       "-- 4. Irrigation management (IRR) file\n",
       "    ", Scenario_,".IRR\n",
       "    ", path.data, "\n",
-      "-- 5. Field management (MAN) file
-        (None)
-        (None)
--- 6. Soil profile (SOL) file\n",
+      "-- 5. Field management (MAN) file\n",
+      "    ", Scenario_,".MAN\n",
+      "    ", path.data, "\n",
+      "-- 6. Soil profile (SOL) file\n",
       "    ", Scenario_, ".SOL\n",
       "    ", path.data,"\n",
       "-- 7. Groundwater table (GWT) file\n",

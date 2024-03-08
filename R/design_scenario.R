@@ -10,7 +10,7 @@
 #' @param ETo character vector with names of Reference Evapotranspiration tibble(s)
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo){
+design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default"){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
@@ -26,6 +26,7 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
   Plu <- length_check_fun(Plu, no_scenarios)
   Tnx <- length_check_fun(Tnx, no_scenarios)
   ETo <- length_check_fun(ETo, no_scenarios)
+  FMAN <- length_check_fun(FMAN, no_scenarios)
 
   Scenario_2 <- tibble(Input_Date = Input_Date,
                        Plant_Date = Plant_Date,
@@ -33,7 +34,8 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
                        Soil = Soil,
                        Plu = Plu,
                        Tnx = Tnx,
-                       ETo = ETo) |> unique()
+                       ETo = ETo,
+                       FMAN = FMAN) |> unique()
 
   if(nrow(Scenario_1)==nrow(Scenario_2)){
     Scenario <- Scenario_1 |> bind_cols(Scenario_2)

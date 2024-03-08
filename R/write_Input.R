@@ -10,5 +10,6 @@ createfiles <- function (Exp_list, cycle_length, GWT) {
     purrr::walk(~write_IRR_ev(Scenario_ = .x)) %>%
     purrr::walk(~write_SOL(Scenario_ = .x)) %>%
     purrr::walk(~write_GWT(Scenario_ = .x, GWT = GWT)) %>%
-    purrr::walk(~write_SW0(Scenario_ = .x))
+    purrr::walk(~write_SW0(Scenario_ = .x)) %>%
+    purrr::walk(~write_MAN(Scenario_ = .x))
 }
