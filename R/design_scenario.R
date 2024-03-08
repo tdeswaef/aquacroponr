@@ -3,11 +3,12 @@
 #' @param name character vector with names of the scenarios.
 #' @param Input_Date Date format vector with initial input dates for the different scenarios
 #' @param Plant_Date Date format vector with planting dates for the different scenarios
-#' @param IRRI character vector with names of Irrigation tibble(s)
+#' @param IRRI character vector with names for the ID in the IRRI_s tibble
 #' @param Soil character vector with names of Soil tibble(s)
 #' @param Plu character vector with names of Precipitation tibble(s)
 #' @param Tnx character vector with names of Temperature tibble(s)
 #' @param ETo character vector with names of Reference Evapotranspiration tibble(s)
+#' @param FMAN character vector with names for the ID in the FMAN_s tibble
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
 design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default"){

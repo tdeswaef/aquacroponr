@@ -4,7 +4,17 @@
 \alias{design_scenario}
 \title{Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.}
 \usage{
-design_scenario(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
+design_scenario(
+  name,
+  Input_Date,
+  Plant_Date,
+  IRRI,
+  Soil,
+  Plu,
+  Tnx,
+  ETo,
+  FMAN = "default"
+)
 }
 \arguments{
 \item{name}{character vector with names of the scenarios.}
@@ -13,7 +23,7 @@ design_scenario(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
 
 \item{Plant_Date}{Date format vector with planting dates for the different scenarios}
 
-\item{IRRI}{character vector with names of Irrigation tibble(s)}
+\item{IRRI}{character vector with names for the ID in the IRRI_s tibble}
 
 \item{Soil}{character vector with names of Soil tibble(s)}
 
@@ -22,6 +32,8 @@ design_scenario(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
 \item{Tnx}{character vector with names of Temperature tibble(s)}
 
 \item{ETo}{character vector with names of Reference Evapotranspiration tibble(s)}
+
+\item{FMAN}{character vector with names for the ID in the FMAN_s tibble}
 }
 \value{
 A tibble with the different scenarios to run in AquaCrop
