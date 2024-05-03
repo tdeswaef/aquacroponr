@@ -12,10 +12,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "example-",
-  root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
+  root.dir = "C:\\Users\\tdeswaef\\AquaCrop-7.1\\"
 )
 
-knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
+knitr::opts_knit$set(root.dir = "C:\\Users\\tdeswaef\\AquaCrop-7.1\\")
 ```
 
 
@@ -24,7 +24,7 @@ This is a basic example to run AquaCrop from `R` for the spinach crop.
 Importantly, the working directory should be set to the folder in which the *aquacrop.exe* file is located. This path should also contain **no spaces**. For example: `path_to_aquacrop_folder <- "C:/users/username/AquaCrop71/"`. 
 
 ```{r aquafolder, include=FALSE}
-path_to_aquacrop_folder <- "C:/Users/tdeswaef/AquaCrop_70/"
+path_to_aquacrop_folder <- "C:\\Users\\tdeswaef\\AquaCrop-7.1\\"
 
 ```
 
@@ -57,6 +57,7 @@ Once you have the list with default crop parameter values, you can design the sc
 - The precipitation tibble can be named as you want, but its name is the input to the `Plu` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `PLU`.  
 - The reference evapotranspiration tibble can be named as you want, but its name is the input to the `ETo` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY` and `ETo`.  
 - The temperature tibble can be named as you want, but its name is the input to the `Tnx` argument in the `design_scenario()` function. This tibble **must** have the columns `DAY`, `TMAX` and `TMIN`.
+- The Management tibble **must** be named `FMAN_s`.
 
 
 Examples of these tibbles are available from the package.
@@ -69,7 +70,8 @@ Scenario_s <- design_scenario(name = c("S_01", "S_02"),
                               Soil = "Soil_01", 
                               Plu = "Plu_01",
                               Tnx = "Tnx_01",
-                              ETo = "ETo_01")
+                              ETo = "ETo_01",
+                              FMAN = "default")
 ```
 
 The `Scenario_s` tibble should look like this:
@@ -77,6 +79,13 @@ The `Scenario_s` tibble should look like this:
 ```{r, echo=FALSE}
 Scenario_s
 ```
+
+The `FMAN_s` tibble should look like this:
+
+```{r, echo=FALSE}
+FMAN_s
+```
+
 
 We can make an irrigation input `tibble` as follows:
 

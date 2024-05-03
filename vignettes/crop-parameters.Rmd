@@ -37,10 +37,10 @@ Please refer to the AquaCrop manual for a better understanding of conservative p
 |    `ppol_up` | Soil water depletion factor for pollination (p - pol) - Upper threshold | |
 |    `vwc_anaer` |  Vol% for Anaerobiotic point (* (SAT - [vol%]) at which deficient aeration occurs *) | |
 |    `calib_fert` | Considered soil fertility stress for calibration of stress response (%) | |
-|    `resp_exp` | Response of canopy expansion is not considered | |
-|    `resp_max` | Response of maximum canopy cover is not considered | |
-|    `resp_wp` | Response of crop Water Productivity is not considered | |
-|    `resp_sen` | Response of decline of canopy cover is not considered |  |
+|    `resp_exp` | Shape factor of canopy expansion to fertility stress (25.00 = not considered; 2.16 = default) | |
+|    `resp_max` | Shape factor of maximum canopy cover to fertility stress (25.00 = not considered; 0.79 = default) | |
+|    `resp_wp` | Shape factor of crop Water Productivity to fertility stress (25.00 = not considered; 1.67 = default) | |
+|    `resp_sen` | Shape factor of decline of canopy cover to fertility stress (25.00 = not considered; 1.67 = default) |  |
 |    `dummy_1` | dummy - Parameter no Longer required | |
 |    `Tpol_lo` | Cold (air temperature) stress affecting pollination - not considered | |
 |    `Tpol_up` | Heat (air temperature) stress affecting pollination - not considered | |

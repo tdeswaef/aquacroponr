@@ -12,16 +12,16 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "morris-",
-  root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
+  root.dir = "C:\\Users\\tdeswaef\\AquaCrop-7.1\\"
 )
 
-knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
+knitr::opts_knit$set(root.dir = "C:\\Users\\tdeswaef\\AquaCrop-7.1\\")
 
 ```
 
 
 ```{r simulation, include=FALSE}
-path_to_aquacrop_folder <- "C:/Users/tdeswaef/AquaCrop_70/"
+path_to_aquacrop_folder <- "C:\\Users\\tdeswaef\\AquaCrop-7.1\\"
 library(AquacropOnR)
 library(tidyverse)
 setwd(dir = path_to_aquacrop_folder)

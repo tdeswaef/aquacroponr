@@ -50,7 +50,17 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">design_scenario</span><span class="op">(</span><span class="va">name</span>, <span class="va">Input_Date</span>, <span class="va">Plant_Date</span>, <span class="va">IRRI</span>, <span class="va">Soil</span>, <span class="va">Plu</span>, <span class="va">Tnx</span>, <span class="va">ETo</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">design_scenario</span><span class="op">(</span></span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">Input_Date</span>,</span>
+<span>  <span class="va">Plant_Date</span>,</span>
+<span>  <span class="va">IRRI</span>,</span>
+<span>  <span class="va">Soil</span>,</span>
+<span>  <span class="va">Plu</span>,</span>
+<span>  <span class="va">Tnx</span>,</span>
+<span>  <span class="va">ETo</span>,</span>
+<span>  FMAN <span class="op">=</span> <span class="st">"default"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,7 +78,7 @@
 
 
 <dt>IRRI</dt>
-<dd><p>character vector with names of Irrigation tibble(s)</p></dd>
+<dd><p>character vector with names for the ID in the IRRI_s tibble</p></dd>
 
 
 <dt>Soil</dt>
@@ -85,6 +95,10 @@
 
 <dt>ETo</dt>
 <dd><p>character vector with names of Reference Evapotranspiration tibble(s)</p></dd>
+
+
+<dt>FMAN</dt>
+<dd><p>character vector with names for the ID in the FMAN_s tibble</p></dd>
 
 </dl></div>
     <div class="section level2">
