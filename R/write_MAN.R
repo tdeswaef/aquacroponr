@@ -41,6 +41,6 @@ write_MAN <- function(Scenario_){
 }
 
 
-FMAN_s <- tibble(ID = "default", mulch_perc = 0, mulch_eff = 50, fert_stress = 0,
-                 soil_bunds = 0,
-                 runoff_aff = 0, CN_eff=0, weed_clo=0, weed_mid = 0, weed_cc = -0.01)
+# FMAN_s <- tibble(ID = "default", mulch_perc = 0, mulch_eff = 50, fert_stress = 0,
+#                  soil_bunds = 0,
+#                  runoff_aff = 0, CN_eff=0, weed_clo=0, weed_mid = 0, weed_cc = -0.01)
