@@ -108,7 +108,12 @@ readoutput_morris <- function(outputfile, cycle_length){
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
-                  DAP_morris = 1:cycle_length)
+                  DAP_morris = 1:cycle_length,
+                  date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  DOY = yday(date),
+                  GDD = cumsum(GD)) %>%
+    group_by(Stage) %>%
+    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)
   names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 }
@@ -118,7 +123,15 @@ readoutput_croptimizr <- function(outputfile){
   names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
-    dplyr::filter(DAP >= 0)
+    dplyr::filter(DAP >= 0) %>%
+    dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
+                  DAP_morris = 1:cycle_length,
+                  date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  DOY = yday(date),
+                  GDD = cumsum(GD)) %>%
+    group_by(Stage) %>%
+    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)
+  names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 
 }
