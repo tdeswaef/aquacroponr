@@ -103,7 +103,8 @@ readoutput_dfr <- function(outputfile){
                   DOY = yday(date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
-    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)
+    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
+    ungroup()
   names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 }
@@ -119,7 +120,8 @@ readoutput_morris <- function(outputfile, cycle_length){
                   DOY = yday(date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
-    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)
+    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
+    ungroup()
   names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 }
@@ -136,7 +138,8 @@ readoutput_croptimizr <- function(outputfile){
                   DOY = yday(date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
-    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)
+    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
+    ungroup()
   names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 
