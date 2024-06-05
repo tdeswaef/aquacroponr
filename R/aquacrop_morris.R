@@ -64,13 +64,20 @@ aquacrop_morris <- function(situation = "S_01",
                bsup = bsup,
                design = design)
   #2. Run the AquaCrop model with all parameter combinations from the morris design.
+  # for now, the Ground Water Table is fixed
+  GWT <- 2.0
+  # create project, meteo, soil, management,... files
+  createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
+
   Y <- 1:nrow(mo$X) %>%
-    map(\(i) aquacrop_wrapper(param_values=mo$X[i,],
+    map(\(i) aquacrop_wrapper_m(param_values=mo$X[i,],
                    situation = situation,
                    cycle_length = cycle_length,
-                   model_options = list(AQ = AQ, defaultpar=backgroundpar, output = 'morris')) %>%
+                   model_options = list(AQ = AQ, defaultpar=backgroundpar)) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
+
+  unlink("LIST/*")
 
   #3. Choose the level of integration: model time steps, different variables
   filldata <- Y %>%
@@ -90,3 +97,39 @@ aquacrop_morris <- function(situation = "S_01",
   return(mo)
 }
 
+aquacrop_wrapper_m <- function(param_values=list(),
+                             situation = "S_01",
+                             cycle_length,
+                             model_options=list(AQ = AQ, defaultpar=Spinach),
+                             ...){
+
+
+
+  #check the required initial steps
+  if(!file.exists("aquacrop.exe")){
+    stop("set your working directory to the AquaCrop.path")
+  }
+  if(!dir.exists("DATA/")) stop("run the path_config function first")
+  #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
+
+  # Create crop parameter file
+  cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
+
+  situation %>%
+    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, cycle_length))
+
+  ###########################################
+  # Run Aquacrop for all the created projects
+
+  system(model_options$AQ)
+
+  #############
+  # Read output
+  results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
+        purrr::map_dfr(~readoutput_morris(.x, cycle_length = cycle_length))
+
+
+  unlink("OUTP/*")
+
+  return(results)
+}
