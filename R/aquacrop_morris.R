@@ -70,7 +70,7 @@ aquacrop_morris <- function(situation = "S_01",
   createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
 
   Y <- 1:nrow(mo$X) %>%
-    map(\(i) aquacrop_wrapper_m(param_values=mo$X[i,],
+    map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
                    situation = situation,
                    cycle_length = cycle_length,
                    model_options = list(AQ = AQ, defaultpar=backgroundpar)) %>%
@@ -133,3 +133,5 @@ aquacrop_wrapper_m <- function(param_values=list(),
 
   return(results)
 }
+
+aquacrop_wrapper_safe <- possibly(aquacrop_wrapper_m, otherwise = NULL)
