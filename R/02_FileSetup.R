@@ -30,9 +30,9 @@ path_config <- function(AquaCrop.path, Daily_output = c(1,2)){
   if(!dir.exists(path.output)) dir.create(path.output)
 
 #define which daily outputs you want from AquaCrop
-  if(!file.exists(paste(path.simul, "DailyResults.SIM", sep=""))) {
+  # if(!file.exists(paste(path.simul, "DailyResults.SIM", sep=""))) {
     write_lines(Daily_output, file = paste(path.simul, "DailyResults.SIM", sep=""))
-  }
+  # }
 
   ## Emptying folders before starting
   unlink("OUTP/*")
