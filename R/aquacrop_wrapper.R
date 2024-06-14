@@ -91,8 +91,8 @@ if (model_options$output == 'croptimizr'){
 
 
 readoutput_dfr <- function(outputfile, cycle_length){
-  df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
-  names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
+  df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
+  names(df) <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 2 )[1,] %>% as_vector()
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::filter(DAP >= 0) %>%
@@ -109,8 +109,8 @@ readoutput_dfr <- function(outputfile, cycle_length){
 }
 
 readoutput_morris <- function(outputfile, cycle_length){
-  df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
-  names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
+  df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
+  names(df) <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 2 )[1,] %>% as_vector()
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
@@ -126,8 +126,8 @@ readoutput_morris <- function(outputfile, cycle_length){
 }
 
 readoutput_croptimizr <- function(outputfile, cycle_length){
-  df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
-  names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
+  df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
+  names(df) <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 2 )[1,] %>% as_vector()
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::filter(DAP >= 0) %>%
