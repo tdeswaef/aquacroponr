@@ -174,13 +174,14 @@ input to the <code>Tnx</code> argument in the
 <span>                              Plu <span class="op">=</span> <span class="st">"Plu_01"</span>,</span>
 <span>                              Tnx <span class="op">=</span> <span class="st">"Tnx_01"</span>,</span>
 <span>                              ETo <span class="op">=</span> <span class="st">"ETo_01"</span>,</span>
-<span>                              FMAN <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
+<span>                              FMAN <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>                              GWT <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>Scenario_s</code> tibble should look like this:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 9</span></span></span>
-<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI    Soil    Plu    Tnx    ETo    FMAN   </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_01 default</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI_02 Soil_01 Plu_01 Tnx_01 ETo_01 default</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
+<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI    Soil    Plu    Tnx    ETo   FMAN    GWT</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_… defa…     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI_02 Soil_01 Plu_01 Tnx_01 ETo_… defa…     2</span></span></code></pre>
 <p>The <code>FMAN_s</code> tibble should look like this:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   ID      mulch_perc mulch_eff fert_stress soil_bunds runoff_aff CN_eff weed_clo</span></span>
@@ -273,7 +274,7 @@ coefficient <code>cgc</code> from 0.15 to 0.18:</p>
 <code class="sourceCode R"><span><span class="va">modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aquacrop_wrapper.html">aquacrop_wrapper</a></span><span class="op">(</span>param_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cgc <span class="op">=</span> <span class="fl">0.18</span><span class="op">)</span>,</span>
 <span>               situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S_01"</span>, <span class="st">"S_02"</span><span class="op">)</span>,</span>
 <span>               cycle_length <span class="op">=</span> <span class="fl">70</span>,</span>
-<span>               model_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>AQ <span class="op">=</span> <span class="va">AQ</span>, defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"def"</span><span class="op">)</span><span class="op">)</span></span>
+<span>               model_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>AQ <span class="op">=</span> <span class="va">AQ</span>, defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"morris"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span> <span class="op">+</span></span>
