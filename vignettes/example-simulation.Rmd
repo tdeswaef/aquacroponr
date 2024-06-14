@@ -65,7 +65,7 @@ Examples of these tibbles are available from the package.
 ```{r example 1}
 Scenario_s <- design_scenario(name = c("S_01", "S_02"),
                               Input_Date = as.Date("2019-01-01"),
-                              Plant_Date = as.Date("2019-04-01"), 
+                              Plant_Date = as.Date(c("2019-04-01", "2019-04-01")), 
                               IRRI = c("IRRI_01", "IRRI_02"),
                               Soil = "Soil_01", 
                               Plu = "Plu_01",
@@ -91,7 +91,7 @@ FMAN_s
 We can make an irrigation input `tibble` as follows:
 
 ```{r irri}
-IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 50), Depth = c(25,25), ECw = c( 0, 0))
+IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 20), Depth = c(0,25), ECw = c( 0, 0))
 IRRI_s
 ```
 
@@ -124,7 +124,7 @@ default <- aquacrop_wrapper(param_values = list(),
                model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
-  ylim(0, 3.5) +
+  # ylim(0, 3.5) +
   geom_line(data = default, aes(group = Scenario, color = Scenario),linewidth = 1) +
   geom_text(aes(x=40, y=3, label = 'default'), color = "black") +
   xlim(0, 70) +
@@ -155,8 +155,6 @@ ggplot() +
   scale_color_manual(values = c("black", "red")) +
   theme_bw()
   
-
-
 ```
 
 A list of parameters with their explanation can be found in the `vignette("crop-parameters")`.
