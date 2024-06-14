@@ -1,5 +1,5 @@
 ###Create model input files
-createfiles <- function (Exp_list, cycle_length, GWT) {
+createfiles <- function (Exp_list, cycle_length) {
   Exp_list %>%
     purrr::walk(~write_PRO(Scenario_ = .x, cycle_length)) %>%
     purrr::walk(~write_CAL(Scenario_ = .x)) %>%
@@ -9,7 +9,7 @@ createfiles <- function (Exp_list, cycle_length, GWT) {
     purrr::walk(~write_Plu(Scenario_ = .x)) %>%
     purrr::walk(~write_IRR_ev(Scenario_ = .x)) %>%
     purrr::walk(~write_SOL(Scenario_ = .x)) %>%
-    purrr::walk(~write_GWT(Scenario_ = .x, GWT = GWT)) %>%
+    purrr::walk(~write_GWT(Scenario_ = .x)) %>%
     purrr::walk(~write_SW0(Scenario_ = .x)) %>%
     purrr::walk(~write_MAN(Scenario_ = .x))
 }

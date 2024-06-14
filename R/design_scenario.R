@@ -9,9 +9,10 @@
 #' @param Tnx character vector with names of Temperature tibble(s)
 #' @param ETo character vector with names of Reference Evapotranspiration tibble(s)
 #' @param FMAN character vector with names for the ID in the FMAN_s tibble
+#' @param GWT numeric vector with depth of ground water table in m
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default"){
+design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
@@ -28,6 +29,7 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
   Tnx <- length_check_fun(Tnx, no_scenarios)
   ETo <- length_check_fun(ETo, no_scenarios)
   FMAN <- length_check_fun(FMAN, no_scenarios)
+  GWT <- length_check_fun(GWT, no_scenarios)
 
   Scenario_2 <- tibble(Input_Date = Input_Date,
                        Plant_Date = Plant_Date,
@@ -36,7 +38,8 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
                        Plu = Plu,
                        Tnx = Tnx,
                        ETo = ETo,
-                       FMAN = FMAN) |> unique()
+                       FMAN = FMAN,
+                       GWT = GWT) |> unique()
 
   if(nrow(Scenario_1)==nrow(Scenario_2)){
     Scenario <- Scenario_1 |> bind_cols(Scenario_2)

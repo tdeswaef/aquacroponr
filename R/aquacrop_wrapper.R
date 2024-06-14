@@ -39,9 +39,8 @@ aquacrop_wrapper <- function(param_values=list(),
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
   # for now, the Ground Water Table is fixed
-  GWT <- 2.0
   # create project, meteo, soil, management,... files
-  createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
+  createfiles(Exp_list = situation, cycle_length = cycle_length)
 
   situation %>%
     purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, cycle_length))
@@ -65,7 +64,7 @@ if (model_options$output == 'croptimizr'){
     )
   attr(results$sim_list, "class") <- "cropr_simulation"
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-    purrr::map(~readoutput_croptimizr(.x)) %>%
+    purrr::map(~readoutput_croptimizr(.x, cycle_length = cycle_length)) %>%
     set_names(situation)
 
 } else {
@@ -74,7 +73,7 @@ if (model_options$output == 'croptimizr'){
       purrr::map_dfr(~readoutput_morris(.x, cycle_length = cycle_length))
   } else{
     results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-      purrr::map_dfr(~readoutput_dfr(.x))
+      purrr::map_dfr(~readoutput_dfr(.x, cycle_length = cycle_length))
   }
 }
 
@@ -91,7 +90,7 @@ if (model_options$output == 'croptimizr'){
 
 
 
-readoutput_dfr <- function(outputfile){
+readoutput_dfr <- function(outputfile, cycle_length){
   df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
   names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
   df <- df %>%
@@ -126,7 +125,7 @@ readoutput_morris <- function(outputfile, cycle_length){
   return(df)
 }
 
-readoutput_croptimizr <- function(outputfile){
+readoutput_croptimizr <- function(outputfile, cycle_length){
   df <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 4, col_names = F)
   names(df) <- readr::read_table(file = paste0("OUTP/", outputfile),  skip = 2, col_names = F)[1,]
   df <- df %>%
