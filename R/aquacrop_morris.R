@@ -67,7 +67,7 @@ aquacrop_morris <- function(situation = "S_01",
   # for now, the Ground Water Table is fixed
   GWT <- 2.0
   # create project, meteo, soil, management,... files
-  createfiles(Exp_list = situation, cycle_length = cycle_length, GWT = GWT)
+  createfiles(Exp_list = situation, cycle_length = cycle_length)
 
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
