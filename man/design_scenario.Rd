@@ -13,7 +13,8 @@ design_scenario(
   Plu,
   Tnx,
   ETo,
-  FMAN = "default"
+  FMAN = "default",
+  GWT = 2
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ design_scenario(
 \item{ETo}{character vector with names of Reference Evapotranspiration tibble(s)}
 
 \item{FMAN}{character vector with names for the ID in the FMAN_s tibble}
+
+\item{GWT}{numeric vector with depth of ground water table in m}
 }
 \value{
 A tibble with the different scenarios to run in AquaCrop

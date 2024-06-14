@@ -71,7 +71,8 @@ Scenario_s <- design_scenario(name = c("S_01", "S_02"),
                               Plu = "Plu_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01",
-                              FMAN = "default")
+                              FMAN = "default",
+                              GWT = 2.0)
 ```
 
 The `Scenario_s` tibble should look like this:
@@ -140,7 +141,7 @@ And now let's see what happens when we increase the canopy growth coefficient `c
 modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
                situation = c("S_01", "S_02"),
                cycle_length = 70,
-               model_options = list(AQ = AQ, defaultpar = Spinach, output = "def"))
+               model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
 
 ggplot() +
   ylim(0, 3.5) +
