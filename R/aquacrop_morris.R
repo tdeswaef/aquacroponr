@@ -72,8 +72,7 @@ aquacrop_morris <- function(situation = "S_01",
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
                    situation = situation,
-                   cycle_length = cycle_length,
-                   model_options = list(AQ = AQ, defaultpar=backgroundpar)) %>%
+                   model_options = list(AQ = AQ, cycle_length = cycle_length, defaultpar=backgroundpar)) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
 
@@ -99,8 +98,7 @@ aquacrop_morris <- function(situation = "S_01",
 
 aquacrop_wrapper_m <- function(param_values=list(),
                              situation = "S_01",
-                             cycle_length,
-                             model_options=list(AQ = AQ, defaultpar=Spinach),
+                             model_options=list(AQ = AQ, cycle_length = cycle_length, defaultpar=Spinach),
                              ...){
 
 
@@ -116,7 +114,7 @@ aquacrop_wrapper_m <- function(param_values=list(),
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
 
   situation %>%
-    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, cycle_length))
+    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, model_options$cycle_length))
 
   ###########################################
   # Run Aquacrop for all the created projects
@@ -126,7 +124,7 @@ aquacrop_wrapper_m <- function(param_values=list(),
   #############
   # Read output
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-        purrr::map_dfr(~readoutput_morris(.x, cycle_length = cycle_length))
+        purrr::map_dfr(~readoutput_morris(.x, cycle_length = model_options$cycle_length))
 
 
   unlink("OUTP/*")

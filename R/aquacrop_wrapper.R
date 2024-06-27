@@ -22,8 +22,8 @@
 #' @export
 aquacrop_wrapper <- function(param_values,
                              situation,
-                             cycle_length,
-                             model_options=list(AQ = AQ, defaultpar=Spinach, output = 'croptimizr'),
+                             model_options=list(AQ = AQ, cycle_length = 180,
+                                                defaultpar=Spinach, output = 'croptimizr'),
                              ...){
 
 
@@ -40,10 +40,10 @@ aquacrop_wrapper <- function(param_values,
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
   # for now, the Ground Water Table is fixed
   # create project, meteo, soil, management,... files
-  createfiles(Exp_list = situation, cycle_length = cycle_length)
+  createfiles(Exp_list = situation, cycle_length = model_options$cycle_length)
 
   situation %>%
-    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, cycle_length))
+    purrr::walk(~checkInputdata(Scenario_ = .x, cycle_info, model_options$cycle_length))
 
   ###########################################
   # Run Aquacrop for all the created projects
@@ -64,7 +64,7 @@ if (model_options$output == 'croptimizr'){
   #   )
 
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-    purrr::map(~readoutput_croptimizr(.x, cycle_length = cycle_length)) %>%
+    purrr::map(~readoutput_croptimizr(.x, cycle_length = model_options$cycle_length)) %>%
     set_names(situation)
   results <- list(sim_list = results, error = FALSE)
   attr(results$sim_list, "class") <- "cropr_simulation"
@@ -72,10 +72,10 @@ if (model_options$output == 'croptimizr'){
 } else {
   if (model_options$output == 'morris') {
     results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-      purrr::map_dfr(~readoutput_morris(.x, cycle_length = cycle_length))
+      purrr::map_dfr(~readoutput_morris(.x, cycle_length = model_options$cycle_length))
   } else{
     results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-      purrr::map_dfr(~readoutput_dfr(.x, cycle_length = cycle_length))
+      purrr::map_dfr(~readoutput_dfr(.x, cycle_length = model_options$cycle_length))
   }
 }
 
