@@ -53,19 +53,21 @@ aquacrop_wrapper <- function(param_values=list(),
   #############
   # Read output
 if (model_options$output == 'croptimizr'){
-  results <-
-    list(
-      sim_list =
-        setNames(
-          vector("list", length(situation)),
-          nm = situation
-        ),
-      error = FALSE
-    )
-  attr(results$sim_list, "class") <- "cropr_simulation"
+  # results <-
+  #   list(
+  #     sim_list =
+  #       setNames(
+  #         vector("list", length(situation)),
+  #         nm = situation
+  #       ),
+  #     error = FALSE
+  #   )
+
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
     purrr::map(~readoutput_croptimizr(.x, cycle_length = cycle_length)) %>%
     set_names(situation)
+  results <- list(sim_list = results, error = FALSE)
+  attr(results$sim_list, "class") <- "cropr_simulation"
 
 } else {
   if (model_options$output == 'morris') {
