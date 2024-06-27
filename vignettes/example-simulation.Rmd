@@ -119,9 +119,9 @@ Let us first run the simulation with the default parameters for spinach:
 ```{r example3, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, dpi=120}
 
 default <- aquacrop_wrapper(param_values = list(),
-               situation = c("S_01","S_02"),
-               cycle_length = 70,
-               model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
+               situation = c("S_01","S_02"),               
+               model_options = list(AQ = AQ, cycle_length = 70,
+                                    defaultpar = Spinach, output = "morris"))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   # ylim(0, 3.5) +
@@ -140,8 +140,8 @@ And now let's see what happens when we increase the canopy growth coefficient `c
 ```{r example4,warning=FALSE, message=FALSE, fig.width=6, fig.height=3, dpi=120}
 modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
                situation = c("S_01", "S_02"),
-               cycle_length = 70,
-               model_options = list(AQ = AQ, defaultpar = Spinach, output = "morris"))
+               model_options = list(AQ = AQ, cycle_length = 70,
+                                    defaultpar = Spinach, output = "morris"))
 
 ggplot() +
   ylim(0, 3.5) +

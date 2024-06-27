@@ -4,19 +4,6 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "90%",
-  root.dir = "C:/Users/tdeswaef/AquaCrop_70/"
-)
-knitr::opts_knit$set(root.dir = "C:/Users/tdeswaef/AquaCrop_70/")
-#setwd("C:/Users/tdeswaef/AquaCrop_70/")
-# getwd()
-```
-
 # AquacropOnR
 
 <!-- badges: start -->
@@ -41,5 +28,6 @@ The installation of the AquaCrop standalone version is required.
 
 - [x] definition of the AquaCrop wrapper function `aquacrop_wrapper`  
 - [x] allow option to run AquaCrop on growing degree days instead of days  
-- [x] include code for running sensitivity analysis using the morris method  
+- [x] include code for running sensitivity analysis using the morris method   
+- [x] include option to use the `aquacrop_wrapper` for the [CroptimizR package](https://sticsrpacks.github.io/CroptimizR/articles/Designing_a_model_wrapper.html)  
 

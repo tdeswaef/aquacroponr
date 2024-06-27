@@ -14,8 +14,8 @@ website](https://www.fao.org/aquacrop/software/aquacropplug-inprogramme/en/#c518
 
 ## Installation and setup
 
-First install [git](https://git-scm.com/downloads). Then you can install
-the development version of `AquacropOnR` using the `devtools` package:
+You can install the development version of `AquacropOnR` using the
+`devtools` package:
 
 ``` r
 library(devtools)
@@ -30,4 +30,6 @@ The installation of the AquaCrop standalone version is required.
 - [x] allow option to run AquaCrop on growing degree days instead of
   days  
 - [x] include code for running sensitivity analysis using the morris
-  method
+  method  
+- [x] include option to use the `aquacrop_wrapper` for the [CroptimizR
+  package](https://sticsrpacks.github.io/CroptimizR/articles/Designing_a_model_wrapper.html)

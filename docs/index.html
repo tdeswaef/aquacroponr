@@ -69,7 +69,7 @@
 <div class="section level2">
 <h2 id="installation-and-setup">Installation and setup<a class="anchor" aria-label="anchor" href="#installation-and-setup"></a>
 </h2>
-<p>First install <a href="https://git-scm.com/downloads" class="external-link">git</a>. Then you can install the development version of <code>AquacropOnR</code> using the <code>devtools</code> package:</p>
+<p>You can install the development version of <code>AquacropOnR</code> using the <code>devtools</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://github.com/tdeswaef/aquacroponr.git"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -81,7 +81,8 @@
 <ul class="task-list">
 <li><label><input type="checkbox" checked>definition of the AquaCrop wrapper function <code>aquacrop_wrapper</code><br></label></li>
 <li><label><input type="checkbox" checked>allow option to run AquaCrop on growing degree days instead of days<br></label></li>
-<li><label><input type="checkbox" checked>include code for running sensitivity analysis using the morris method</label></li>
+<li><label><input type="checkbox" checked>include code for running sensitivity analysis using the morris method<br></label></li>
+<li><label><input type="checkbox" checked>include option to use the <code>aquacrop_wrapper</code> for the <a href="https://sticsrpacks.github.io/CroptimizR/articles/Designing_a_model_wrapper.html" class="external-link">CroptimizR package</a></label></li>
 </ul>
 </div>
 </div>
