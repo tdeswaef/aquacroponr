@@ -96,7 +96,7 @@ readoutput_dfr <- function(outputfile, cycle_length){
     str_split_1(pattern = "\ +") %>% .[-1]
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
-    dplyr::filter(DAP >= 0) %>%
+    # dplyr::filter(DAP >= 0) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
                   DAP_morris = 1:cycle_length,
                   date = paste(Year, Month, Day ,"-") %>% as_date(),
@@ -133,7 +133,7 @@ readoutput_croptimizr <- function(outputfile, cycle_length){
     str_split_1(pattern = "\ +") %>% .[-1]
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
-    dplyr::filter(DAP >= 0) %>%
+    # dplyr::filter(DAP >= 0) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
                   DAP_morris = 1:cycle_length,
                   date = paste(Year, Month, Day ,"-") %>% as_date(),
@@ -143,6 +143,8 @@ readoutput_croptimizr <- function(outputfile, cycle_length){
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
     ungroup()
   names(df) <- gsub("[()/.]", "S", names(df))
+  df <- df %>%
+    mutate(Biomass_Stem = (Biomass - YSdryS)*0.86)
   return(df)
 
 }
