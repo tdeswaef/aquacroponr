@@ -20,8 +20,8 @@
 #'                      model_options = list(AQ=AQ, defaultpar=Spinach, output = "df"))
 #'
 #' @export
-aquacrop_wrapper <- function(param_values=list(),
-                             situation = "S_01",
+aquacrop_wrapper <- function(param_values,
+                             situation,
                              cycle_length,
                              model_options=list(AQ = AQ, defaultpar=Spinach, output = 'croptimizr'),
                              ...){
