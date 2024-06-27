@@ -65,7 +65,7 @@ aquacrop_morris <- function(situation = "S_01",
                design = design)
   #2. Run the AquaCrop model with all parameter combinations from the morris design.
   # for now, the Ground Water Table is fixed
-  GWT <- 2.0
+  # GWT <- 2.0
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = cycle_length)
 
