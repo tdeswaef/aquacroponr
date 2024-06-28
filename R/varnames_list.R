@@ -16,9 +16,8 @@ varnames_fun <- function(Daily_output, soil_prof){
   names_7 = c("Rain", "ETo", "Tmin", "Tavg", "Tmax", "CO2") # 6
   names_0 = c("Day", "Month", "Year", "DAP", "Stage")
   names_list <- list(names_1, names_2, names_3, names_4,
-                     names_5[1:min(soil_prof, 12)], names_6[1:min(soil_prof,12)], names_7, names_0
-  )
-  return(c(names_list$names_0, names_list[Daily_output] %>% unlist() %>% unname()))
+                     names_5[1:min(soil_prof, 12)], names_6[1:min(soil_prof,12)], names_7, names_0)
+  return(c(names_0, names_list[Daily_output] %>% unlist() %>% unname()))
 }
 
 
