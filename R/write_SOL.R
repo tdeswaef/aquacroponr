@@ -92,7 +92,7 @@ write_SOL <- function(Scenario_){
                   description = "placeholder")
 
   cat(Scenario_, "\n",
-      '7.0        : AquaCrop Version (August 2022)\n',
+      '7.1        : AquaCrop Version (August 2023)\n',
       CN_fun(SOL$Ksat[1]),'         : CN (Curve Number)\n',
       REW_fun(FC = SOL$FC[1], PWP = SOL$WP[1]) %>% round(),'         : Readily evaporable water from top layer (mm)\n',
       max(SOL$Horizon),'           : number of soil horizons

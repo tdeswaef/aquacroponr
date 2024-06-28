@@ -34,6 +34,8 @@ aquacrop_wrapper <- function(param_values,
   if(!dir.exists("DATA/")) stop("run the path_config function first")
   #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
 
+  unlink("OUTP/*")
+  unlink("LIST/*")
 
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
@@ -78,8 +80,6 @@ if (model_options$output == 'croptimizr'){
   }
 }
 
-  unlink("OUTP/*")
-  unlink("LIST/*")
 
   return(results)
 }
@@ -91,22 +91,31 @@ if (model_options$output == 'croptimizr'){
 
 
 
-readoutput_dfr <- function(outputfile, cycle_length){
+readoutput_dfr <- function(outputfile, cycle_length, Daily_output){
+
+  sit_name <- gsub("PROday.OUT", "", outputfile)
+  soil_prof <- (SOL_s %>%
+                  dplyr::filter(ID == (Scenario_s %>% dplyr::filter(Scenario == sit_name) %>% .$Soil)) %>%
+                  .$Thickness %>% sum() * 10) %>%
+    ceiling
   df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
-  names(df) <- readr::read_lines(file = paste0("OUTP/", outputfile),  skip = 2, n_max = 1) %>%
-    str_split_1(pattern = "\ +") %>% .[-1]
+  names(df) <- varnames_fun(Daily_output, soil_prof)
+  allnames <- varnames_fun(Daily_output, 12)
+  new_columns <- setdiff(allnames, names(df))
+  for (col in new_columns){
+    df[[col]] <- NA
+  }
   df <- df %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
     # dplyr::filter(DAP >= 0) %>%
-    dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
+    dplyr::mutate(Scenario = sit_name,
                   DAP_morris = 1:cycle_length,
-                  date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
                   DOY = yday(date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
     ungroup()
-  names(df) <- gsub("[()/.]", "S", names(df))
   return(df)
 }
 
@@ -118,7 +127,7 @@ readoutput_morris <- function(outputfile, cycle_length){
     dplyr::select(which(!duplicated(names(.)))) %>%
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
                   DAP_morris = 1:cycle_length,
-                  date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
                   DOY = yday(date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
