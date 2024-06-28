@@ -165,38 +165,35 @@ input to the <code>Tnx</code> argument in the
 <code>FMAN_s</code>.</li>
 </ul>
 <p>Examples of these tibbles are available from the package.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Scenario_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design_scenario.html">design_scenario</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S_01"</span>, <span class="st">"S_02"</span><span class="op">)</span>,</span>
-<span>                              Input_Date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-01-01"</span><span class="op">)</span>,</span>
-<span>                              Plant_Date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2019-04-01"</span>, <span class="st">"2019-04-01"</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>                              IRRI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IRRI_01"</span>, <span class="st">"IRRI_02"</span><span class="op">)</span>,</span>
-<span>                              Soil <span class="op">=</span> <span class="st">"Soil_01"</span>, </span>
-<span>                              Plu <span class="op">=</span> <span class="st">"Plu_01"</span>,</span>
-<span>                              Tnx <span class="op">=</span> <span class="st">"Tnx_01"</span>,</span>
-<span>                              ETo <span class="op">=</span> <span class="st">"ETo_01"</span>,</span>
-<span>                              FMAN <span class="op">=</span> <span class="st">"default"</span>,</span>
-<span>                              GWT <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>Scenario_s</code> tibble should look like this:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
-<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI    Soil    Plu    Tnx    ETo   FMAN    GWT</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 IRRI_01 Soil_01 Plu_01 Tnx_01 ETo_… defa…     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI_02 Soil_01 Plu_01 Tnx_01 ETo_… defa…     2</span></span></code></pre>
-<p>The <code>FMAN_s</code> tibble should look like this:</p>
+<p>The default <code>FMAN_s</code> tibble associated to the package
+looks like this:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   ID      mulch_perc mulch_eff fert_stress soil_bunds runoff_aff CN_eff weed_clo</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> default          0        50           0          0          0      0        0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: weed_mid &lt;dbl&gt;, weed_cc &lt;dbl&gt;</span></span></span></code></pre>
-<p>We can make an irrigation input <code>tibble</code> as follows:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">IRRI_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IRRI_01"</span>, <span class="st">"IRRI_02"</span><span class="op">)</span>, Timing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">20</span><span class="op">)</span>, Depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">25</span><span class="op">)</span>, ECw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">IRRI_s</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
-<span><span class="co">#&gt;   ID      Timing Depth   ECw</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> IRRI_01     20     0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> IRRI_02     20    25     0</span></span></code></pre></div>
+<p>but you can create your own, as long as it has the same column names,
+and is named <code>FMAN_s</code>.<br>
+The default <code>IRRI_s</code> tibble associated to the package looks
+like this:</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;   ID       Timing Depth   ECw</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> no_irrig     20     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> simple       20    25     0</span></span></code></pre>
+<p>We can make a new irrigation input <code>tibble</code> as
+follows:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">IRRI_s</span> <span class="op">&lt;-</span> <span class="va">IRRI_s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IRRI_01"</span>, <span class="st">"IRRI_01"</span><span class="op">)</span>, Timing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">35</span><span class="op">)</span>, Depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>,<span class="fl">25</span><span class="op">)</span>, ECw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>which looks like:</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt;   ID       Timing Depth   ECw</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> no_irrig     20     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> simple       20    25     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> IRRI_01      20    25     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> IRRI_01      35    25     0</span></span></code></pre>
 <p>For this example we will use the data for soil, precipitation,
 temperature and reference evapotranspiration that comes with the
 package. These tibbles should be formatted as presented below.</p>
@@ -231,18 +228,31 @@ package. These tibbles should be formatted as presented below.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4 0.887</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5 0.778</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6 0.695</span></span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Scenario_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/design_scenario.html">design_scenario</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S_01"</span>, <span class="st">"S_02"</span><span class="op">)</span>,</span>
+<span>                              Input_Date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-01-01"</span><span class="op">)</span>,</span>
+<span>                              Plant_Date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2019-04-01"</span>, <span class="st">"2019-04-01"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                              IRRI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no_irrig"</span>, <span class="st">"IRRI_01"</span><span class="op">)</span>,</span>
+<span>                              Soil <span class="op">=</span> <span class="st">"Soil_01"</span>, </span>
+<span>                              Plu <span class="op">=</span> <span class="st">"Plu_01"</span>,</span>
+<span>                              Tnx <span class="op">=</span> <span class="st">"Tnx_01"</span>,</span>
+<span>                              ETo <span class="op">=</span> <span class="st">"ETo_01"</span>,</span>
+<span>                              FMAN <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>                              GWT <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>Scenario_s</code> tibble should look like this:</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
+<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI     Soil    Plu    Tnx   ETo   FMAN    GWT</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 no_irrig Soil_01 Plu_01 Tnx_… ETo_… defa…     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI_01  Soil_01 Plu_01 Tnx_… ETo_… defa…     2</span></span></code></pre>
 <p>Then it is crucial to create the correct AquaCrop path, while
 checking the required folders and choosing which daily outputs to
 produce. Therefore the package has the function
 <code><a href="../reference/path_config.html">path_config()</a></code>. Make sure your path ends with a “/”. For
 example:
-<code>path_to_aquacrop_folder &lt;- "C:/users/username/AquaCrop71/"</code>.<br>
-The <code>Daily_output</code> argument lets you choose which output type
-to return from the simulation (see Codes in <a href="https://www.fao.org/3/br245e/br245e.pdf" class="external-link">AquaCrop manual</a>
-p21-25). Currently the function has only been tested with
-<code>Daily_output = c(1,2)</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">AQ</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_config.html">path_config</a></span><span class="op">(</span>AquaCrop.path <span class="op">=</span> <span class="va">path_to_aquacrop_folder</span>, Daily_output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code>path_to_aquacrop_folder &lt;- "C:/users/username/AquaCrop71/"</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">AQ</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_config.html">path_config</a></span><span class="op">(</span>AquaCrop.path <span class="op">=</span> <span class="va">path_to_aquacrop_folder</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, we can run AquaCrop using the
 <code><a href="../reference/aquacrop_wrapper.html">aquacrop_wrapper()</a></code> function and display a plot. The
 <code>param_values</code> argument is used to modify crop parameters
@@ -250,15 +260,23 @@ from the default, which is the list provided as input to the
 <code>defaultpar</code> argument inside the <code>model_options</code>
 list. <code>situation</code> takes a vector of characters, that
 correspond to the <code>Scenario</code> variable in the
-<code>Scenario_s</code> tibble.</p>
+<code>Scenario_s</code> tibble. The <code>daily_output</code> argument
+lets you choose which output type to return from the simulation (see
+Codes in <a href="https://www.fao.org/3/br245e/br245e.pdf" class="external-link">AquaCrop
+manual</a> p21-25). The <code>output</code> argument in the
+<code>model_options</code> defines the output format of the simulation.
+If <code>"croptimizr"</code>, the result is a list, ready to use in the
+<a href="https://sticsrpacks.github.io/CroptimizR/" class="external-link">CroptimizR</a>
+package. If anything else, the result is a tibble.</p>
 <p>Let us first run the simulation with the default parameters for
 spinach:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">default</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aquacrop_wrapper.html">aquacrop_wrapper</a></span><span class="op">(</span>param_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>               situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S_01"</span>,<span class="st">"S_02"</span><span class="op">)</span>,               </span>
 <span>               model_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>AQ <span class="op">=</span> <span class="va">AQ</span>, cycle_length <span class="op">=</span> <span class="fl">70</span>,</span>
-<span>                                    defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"morris"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                    defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"df"</span>, </span>
+<span>                                    daily_output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">DAP</span>, y<span class="op">=</span><span class="va">Biomass</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># ylim(0, 3.5) +</span></span>
@@ -270,11 +288,12 @@ spinach:</p>
 <p><img src="example-example3-1.png" width="720"></p>
 <p>And now let’s see what happens when we increase the canopy growth
 coefficient <code>cgc</code> from 0.15 to 0.18:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aquacrop_wrapper.html">aquacrop_wrapper</a></span><span class="op">(</span>param_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cgc <span class="op">=</span> <span class="fl">0.18</span><span class="op">)</span>,</span>
 <span>               situation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S_01"</span>, <span class="st">"S_02"</span><span class="op">)</span>,</span>
 <span>               model_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>AQ <span class="op">=</span> <span class="va">AQ</span>, cycle_length <span class="op">=</span> <span class="fl">70</span>,</span>
-<span>                                    defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"morris"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                    defaultpar <span class="op">=</span> <span class="va">Spinach</span>, output <span class="op">=</span> <span class="st">"df"</span>, </span>
+<span>                                    daily_output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span> <span class="op">+</span></span>
