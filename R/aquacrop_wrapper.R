@@ -40,7 +40,7 @@ aquacrop_wrapper <- function(param_values,
 
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
-  write_lines(Daily_output, file = "SIMUL/DailyResults.SIM")
+  write_lines(model_options$Daily_output, file = "SIMUL/DailyResults.SIM")
   # for now, the Ground Water Table is fixed
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = model_options$cycle_length)
