@@ -33,8 +33,8 @@ Scenario_s <- design_scenario(name = c("S_01", "S_02"),
                               Plu = "Plu_01",
                               Tnx = "Tnx_01",
                               ETo = "ETo_01")
-IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 50), Depth = c(25,25), ECw = c( 0, 0))
-AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
+IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 20), Depth = c(25,0), ECw = c( 0, 0))
+AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder)
 
 ```
 
@@ -54,6 +54,7 @@ p <- aquacrop_morris(situation = c("S_01", "S_02"),
                      r = 20, 
                      binf=c(rt_max = 0.12, cgc = 0.1), 
                      bsup = c(rt_max = 0.55, cgc = 0.21), 
+                     daily_output = c(1,2),
                      outvars = c("Biomass", "CC"))
 
 EE <- ee_to_dataframe(p = p, situation = c("S_01", "S_02"), cycle_length = 70)

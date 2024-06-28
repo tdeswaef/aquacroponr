@@ -62,11 +62,50 @@ Once you have the list with default crop parameter values, you can design the sc
 
 Examples of these tibbles are available from the package.
 
+
+The default `FMAN_s` tibble associated to the package looks like this:
+
+```{r, echo=FALSE}
+FMAN_s
+```
+
+but you can create your own, as long as it has the same column names, and is named `FMAN_s`.  
+The default `IRRI_s` tibble associated to the package looks like this:
+
+
+```{r, echo=FALSE}
+IRRI_s
+```
+
+We can make a new irrigation input `tibble` as follows:
+
+```{r irri}
+IRRI_s <- IRRI_s %>% 
+  bind_rows(tibble(ID = c("IRRI_01", "IRRI_01"), Timing = c(20, 35), Depth = c(25,25), ECw = c( 0, 0)))
+```
+which looks like: 
+
+
+```{r, echo=FALSE}
+IRRI_s
+```
+
+
+For this example we will use the data for soil, precipitation, temperature and reference evapotranspiration that comes with the package. These tibbles should be formatted as presented below.
+
+```{r input, echo=FALSE}
+head(SOL_s)
+head(Plu_01)
+head(Tnx_01)
+head(ETo_01)
+
+```
+
 ```{r example 1}
 Scenario_s <- design_scenario(name = c("S_01", "S_02"),
                               Input_Date = as.Date("2019-01-01"),
                               Plant_Date = as.Date(c("2019-04-01", "2019-04-01")), 
-                              IRRI = c("IRRI_01", "IRRI_02"),
+                              IRRI = c("no_irrig", "IRRI_01"),
                               Soil = "Soil_01", 
                               Plu = "Plu_01",
                               Tnx = "Tnx_01",
@@ -81,38 +120,15 @@ The `Scenario_s` tibble should look like this:
 Scenario_s
 ```
 
-The `FMAN_s` tibble should look like this:
-
-```{r, echo=FALSE}
-FMAN_s
-```
-
-
-We can make an irrigation input `tibble` as follows:
-
-```{r irri}
-IRRI_s <- tibble(ID = c("IRRI_01", "IRRI_02"), Timing = c(20, 20), Depth = c(0,25), ECw = c( 0, 0))
-IRRI_s
-```
-
-For this example we will use the data for soil, precipitation, temperature and reference evapotranspiration that comes with the package. These tibbles should be formatted as presented below.
-
-```{r input, echo=FALSE}
-head(SOL_s)
-head(Plu_01)
-head(Tnx_01)
-head(ETo_01)
-
-```
 
 Then it is crucial to create the correct AquaCrop path, while checking the required folders and choosing which daily outputs to produce. Therefore the package has the function `path_config()`. Make sure your path ends with a "/". For example: `path_to_aquacrop_folder <- "C:/users/username/AquaCrop71/"`.  
-The `Daily_output` argument lets you choose which output type to return from the simulation (see Codes in [AquaCrop manual](https://www.fao.org/3/br245e/br245e.pdf) p21-25). Currently the function has only been tested with `Daily_output = c(1,2)`. 
+
 
 ```{r example2} 
-AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder, Daily_output = c(1,2))
+AQ <- path_config(AquaCrop.path = path_to_aquacrop_folder)
 ```
 
-Finally, we can run AquaCrop using the `aquacrop_wrapper()` function and display a plot. The `param_values` argument is used to modify crop parameters from the default, which is the list provided as input to the `defaultpar` argument inside the `model_options` list. `situation` takes a vector of characters, that correspond to the `Scenario` variable in the `Scenario_s` tibble.
+Finally, we can run AquaCrop using the `aquacrop_wrapper()` function and display a plot. The `param_values` argument is used to modify crop parameters from the default, which is the list provided as input to the `defaultpar` argument inside the `model_options` list. `situation` takes a vector of characters, that correspond to the `Scenario` variable in the `Scenario_s` tibble. The `daily_output` argument lets you choose which output type to return from the simulation (see Codes in [AquaCrop manual](https://www.fao.org/3/br245e/br245e.pdf) p21-25). The `output` argument in the `model_options` defines the output format of the simulation. If `"croptimizr"`, the result is a list, ready to use in the [CroptimizR](https://sticsrpacks.github.io/CroptimizR/) package. If anything else, the result is a tibble.
 
 Let us first run the simulation with the default parameters for spinach:
 
@@ -121,7 +137,8 @@ Let us first run the simulation with the default parameters for spinach:
 default <- aquacrop_wrapper(param_values = list(),
                situation = c("S_01","S_02"),               
                model_options = list(AQ = AQ, cycle_length = 70,
-                                    defaultpar = Spinach, output = "morris"))
+                                    defaultpar = Spinach, output = "df", 
+                                    daily_output = c(1,2)))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
   # ylim(0, 3.5) +
@@ -141,7 +158,8 @@ And now let's see what happens when we increase the canopy growth coefficient `c
 modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
                situation = c("S_01", "S_02"),
                model_options = list(AQ = AQ, cycle_length = 70,
-                                    defaultpar = Spinach, output = "morris"))
+                                    defaultpar = Spinach, output = "df", 
+                                    daily_output = c(1,2)))
 
 ggplot() +
   ylim(0, 3.5) +
