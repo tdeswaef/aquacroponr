@@ -100,12 +100,14 @@ readoutput_dfr <- function(outputfile, cycle_length, Daily_output){
     ceiling
   df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
   names(df) <- varnames_fun(Daily_output, soil_prof)
+
   allnames <- varnames_fun(Daily_output, 12)
   new_columns <- setdiff(allnames, names(df))
-  print("new columns = ", new_columns)
+
   for (col in new_columns){
     df[[col]] <- NA
   }
+
   df <- df %>%
     dplyr::select(allnames) %>%
     dplyr::select(which(!duplicated(names(.)))) %>%
