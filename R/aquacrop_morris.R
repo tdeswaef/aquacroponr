@@ -51,6 +51,7 @@ aquacrop_morris <- function(situation = "S_01",
                             binf = c(),
                             bsup = c(),
                             design = list(type = "oat", levels = 8, grid.jump = 1),
+                            Daily_output = c(1,2),
                             outvars = c("Biomass")
                             ){
 
@@ -68,6 +69,7 @@ aquacrop_morris <- function(situation = "S_01",
   # GWT <- 2.0
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = cycle_length)
+  write_lines(Daily_output, file = "SIMUL/DailyResults.SIM")
 
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],

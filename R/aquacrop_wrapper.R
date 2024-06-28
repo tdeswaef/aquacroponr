@@ -22,7 +22,8 @@
 aquacrop_wrapper <- function(param_values,
                              situation,
                              model_options=list(AQ = AQ, cycle_length = 70,
-                                                defaultpar=Spinach, output = 'croptimizr'),
+                                                defaultpar=Spinach, output = 'croptimizr',
+                                                Daily_output = c(1,2)),
                              ...){
 
 
@@ -39,6 +40,7 @@ aquacrop_wrapper <- function(param_values,
 
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
+  write_lines(Daily_output, file = "SIMUL/DailyResults.SIM")
   # for now, the Ground Water Table is fixed
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = model_options$cycle_length)
@@ -76,7 +78,8 @@ if (model_options$output == 'croptimizr'){
       purrr::map_dfr(~readoutput_morris(.x, cycle_length = model_options$cycle_length))
   } else{
     results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-      purrr::map_dfr(~readoutput_dfr(.x, cycle_length = model_options$cycle_length))
+      purrr::map_dfr(~readoutput_dfr(.x, cycle_length = model_options$cycle_length,
+                                     Daily_output = model_options$Daily_output))
   }
 }
 

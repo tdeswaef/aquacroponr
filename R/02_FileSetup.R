@@ -8,7 +8,7 @@
 #' @param Daily_output vector of integers for defining the daily outputs AquaCrop should produce. An empty vector results in no daily outputs. Defaults to c(1,2).
 #' @returns a character name of the path of the aquacrop.exe file, but also writes the \emph{DailyResults.SIM} file in the appropriate folder. file
 #' @export
-path_config <- function(AquaCrop.path, Daily_output = c(1,2)){
+path_config <- function(AquaCrop.path){
   if(!file.exists("aquacrop.exe")) stop("set your working directory to the AquaCrop.path")
 
   AquaCrop.data <- "DATA/" #contains files about weather, soil, crop etc
@@ -31,7 +31,7 @@ path_config <- function(AquaCrop.path, Daily_output = c(1,2)){
 
 #define which daily outputs you want from AquaCrop
   # if(!file.exists(paste(path.simul, "DailyResults.SIM", sep=""))) {
-    write_lines(Daily_output, file = paste(path.simul, "DailyResults.SIM", sep=""))
+  # now part of aquacrop_wrapper and aquacrop_morris
   # }
 
   ## Emptying folders before starting
