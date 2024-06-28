@@ -16,7 +16,9 @@
 #' @examples
 #'
 #' y <- aquacrop_wrapper(param_values = params,
-#'                      model_options = list(AQ=AQ, defaultpar=Spinach, output = "df"))
+#'                       situation = Scenario_s$Scenario,
+#'                       model_options = list(AQ=AQ, defaultpar=Spinach,
+#'                                            output = "croptimizr", daily_output = c(1,2)))
 #'
 #' @export
 aquacrop_wrapper <- function(param_values,
@@ -97,10 +99,6 @@ aquacrop_wrapper <- function(param_values,
 
 
 
-
-
-
-
 readoutput_dfr <- function(outputfile, cycle_length, daily_output){
 
   sit_name <- gsub("PROday.OUT", "", outputfile)
@@ -137,47 +135,6 @@ readoutput_dfr <- function(outputfile, cycle_length, daily_output){
 
   return(df)
 }
-
-readoutput_morris <- function(outputfile, cycle_length){
-  df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
-  names(df) <- readr::read_lines(file = paste0("OUTP/", outputfile),  skip = 2, n_max = 1) %>%
-    str_split_1(pattern = "\ +") %>% .[-1]
-  df <- df %>%
-    dplyr::select(which(!duplicated(names(.)))) %>%
-    dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
-                  DAP_morris = 1:cycle_length,
-                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
-                  DOY = yday(Date),
-                  GDD = cumsum(GD)) %>%
-    group_by(Stage) %>%
-    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
-    ungroup()
-  names(df) <- gsub("[()/.]", "S", names(df))
-  return(df)
-}
-
-readoutput_croptimizr <- function(outputfile, cycle_length){
-  df <- readr::read_fwf(file = paste0("OUTP/", outputfile),  skip = 4 )
-  names(df) <- readr::read_lines(file = paste0("OUTP/", outputfile),  skip = 2, n_max = 1) %>%
-    str_split_1(pattern = "\ +") %>% .[-1]
-  df <- df %>%
-    dplyr::select(which(!duplicated(names(.)))) %>%
-    # dplyr::filter(DAP >= 0) %>%
-    dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
-                  DAP_morris = 1:cycle_length,
-                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
-                  DOY = yday(Date),
-                  GDD = cumsum(GD)) %>%
-    group_by(Stage) %>%
-    mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
-    ungroup()
-  names(df) <- gsub("[()/.]", "S", names(df))
-  df <- df %>%
-    mutate(Biomass_Stem = (Biomass - YSdryS)*0.86)
-  return(df)
-
-}
-
 
 
 

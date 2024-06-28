@@ -5,7 +5,6 @@
 #' working directory should be set to the the folder where the aquacrop.exe file is located (`setwd()`).
 #' @importFrom readr write_lines
 #' @param AquaCrop.path character name of the folder where the aquacrop.exe file is located
-#' @param Daily_output vector of integers for defining the daily outputs AquaCrop should produce. An empty vector results in no daily outputs. Defaults to c(1,2).
 #' @returns a character name of the path of the aquacrop.exe file, but also writes the \emph{DailyResults.SIM} file in the appropriate folder. file
 #' @export
 path_config <- function(AquaCrop.path){
