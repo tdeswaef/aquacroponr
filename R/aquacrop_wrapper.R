@@ -130,7 +130,7 @@ readoutput_dfr <- function(outputfile, cycle_length, daily_output){
     group_by(Stage) %>%
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
     ungroup()
-  if(has_name(df, Biomass)){
+  if(has_name(df, "Biomass")){
     df <- df %>%
       mutate(Biomass_Stem = (Biomass - Ydry)*0.86)
   }
