@@ -111,7 +111,7 @@ readoutput_dfr <- function(outputfile, cycle_length, Daily_output){
     dplyr::mutate(Scenario = sit_name,
                   DAP_morris = 1:cycle_length,
                   Date = paste(Year, Month, Day ,"-") %>% as_date(),
-                  DOY = yday(date),
+                  DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
@@ -128,7 +128,7 @@ readoutput_morris <- function(outputfile, cycle_length){
     dplyr::mutate(Scenario = gsub("PROday.OUT", "", outputfile),
                   DAP_morris = 1:cycle_length,
                   Date = paste(Year, Month, Day ,"-") %>% as_date(),
-                  DOY = yday(date),
+                  DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
     group_by(Stage) %>%
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
