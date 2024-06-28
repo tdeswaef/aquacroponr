@@ -11,11 +11,13 @@
 #'
 #' @import sensitivity
 #' @param situation character string or vector of scenarios to run
+#' @param cycle_length an integer representing the length of the **simulation** period in days
 #' @param backgroundpar the reference parameter set (as made by `read_CRO`)
 #' @param r number of trajectories in the morris algorithm
 #' @param binf named vector with lower boundaries of the parameter ranges
 #' @param bsup named vector with upper boundaries of the parameter ranges
 #' @param design list for designing the morris algorithm
+#' @param daily_output vector for defining the output variables to extract from AquaCrop
 #' @param outvars character vector with output variable names for the sensitivity analysis
 #'
 #' @returns a list of class `morris`, containing all the input arguments, plus the following components:
@@ -51,8 +53,9 @@ aquacrop_morris <- function(situation = "S_01",
                             binf = c(),
                             bsup = c(),
                             design = list(type = "oat", levels = 8, grid.jump = 1),
-                            Daily_output = c(1,2),
-                            outvars = c("Biomass")
+                            daily_output = c(1,2),
+                            outvars = c("Biomass"),
+                            flax = FALSE
                             ){
 
   #0. check validity of inputs
@@ -69,12 +72,14 @@ aquacrop_morris <- function(situation = "S_01",
   # GWT <- 2.0
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = cycle_length)
-  write_lines(Daily_output, file = "SIMUL/DailyResults.SIM")
+  write_lines(daily_output, file = "SIMUL/DailyResults.SIM")
 
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
                    situation = situation,
-                   model_options = list(AQ = AQ, cycle_length = cycle_length, defaultpar=backgroundpar)) %>%
+                   model_options = list(AQ = AQ, cycle_length = cycle_length,
+                                        defaultpar=backgroundpar, daily_output = daily_output,
+                                        flax = flax)) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
 
@@ -100,7 +105,9 @@ aquacrop_morris <- function(situation = "S_01",
 
 aquacrop_wrapper_m <- function(param_values=list(),
                              situation = "S_01",
-                             model_options=list(AQ = AQ, cycle_length = cycle_length, defaultpar=Spinach),
+                             model_options=list(AQ = AQ, cycle_length = cycle_length,
+                                                defaultpar=Spinach, daily_output = daily_output,
+                                                flax = flax),
                              ...){
 
 
@@ -126,7 +133,10 @@ aquacrop_wrapper_m <- function(param_values=list(),
   #############
   # Read output
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
-        purrr::map_dfr(~readoutput_morris(.x, cycle_length = model_options$cycle_length))
+        purrr::map(\(x) readoutput_dfr(x, cycle_length = model_options$cycle_length,
+                                       daily_output = model_options$daily_output,
+                                       flax = model_options$flax)) %>%
+    list_rbind()
 
 
   unlink("OUTP/*")
