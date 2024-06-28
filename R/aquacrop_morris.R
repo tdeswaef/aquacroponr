@@ -54,8 +54,7 @@ aquacrop_morris <- function(situation = "S_01",
                             bsup = c(),
                             design = list(type = "oat", levels = 8, grid.jump = 1),
                             daily_output = c(1,2),
-                            outvars = c("Biomass"),
-                            flax = FALSE
+                            outvars = c("Biomass")
                             ){
 
   #0. check validity of inputs
@@ -78,8 +77,7 @@ aquacrop_morris <- function(situation = "S_01",
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
                    situation = situation,
                    model_options = list(AQ = AQ, cycle_length = cycle_length,
-                                        defaultpar=backgroundpar, daily_output = daily_output,
-                                        flax = flax)) %>%
+                                        defaultpar=backgroundpar, daily_output = daily_output)) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
 
@@ -106,8 +104,7 @@ aquacrop_morris <- function(situation = "S_01",
 aquacrop_wrapper_m <- function(param_values=list(),
                              situation = "S_01",
                              model_options=list(AQ = AQ, cycle_length = cycle_length,
-                                                defaultpar=Spinach, daily_output = daily_output,
-                                                flax = flax),
+                                                defaultpar=Spinach, daily_output = daily_output),
                              ...){
 
 
@@ -134,8 +131,7 @@ aquacrop_wrapper_m <- function(param_values=list(),
   # Read output
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
         purrr::map(\(x) readoutput_dfr(x, cycle_length = model_options$cycle_length,
-                                       daily_output = model_options$daily_output,
-                                       flax = model_options$flax)) %>%
+                                       daily_output = model_options$daily_output)) %>%
     list_rbind()
 
 

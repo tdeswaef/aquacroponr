@@ -23,7 +23,7 @@ aquacrop_wrapper <- function(param_values,
                              situation,
                              model_options=list(AQ = AQ, cycle_length = 70,
                                                 defaultpar=Spinach, output = 'croptimizr',
-                                                daily_output = c(1,2), flax = F),
+                                                daily_output = c(1,2)),
                              ...){
 
 
@@ -57,8 +57,7 @@ aquacrop_wrapper <- function(param_values,
   # Read output
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
     purrr::map(\(x) readoutput_dfr(x, cycle_length = model_options$cycle_length,
-                                   daily_output = model_options$daily_output,
-                                   flax = model_options$flax))
+                                   daily_output = model_options$daily_output))
 
   if (model_options$output == 'croptimizr'){
     results <- results %>%
@@ -102,7 +101,7 @@ aquacrop_wrapper <- function(param_values,
 
 
 
-readoutput_dfr <- function(outputfile, cycle_length, daily_output, flax){
+readoutput_dfr <- function(outputfile, cycle_length, daily_output){
 
   sit_name <- gsub("PROday.OUT", "", outputfile)
   soil_prof <- (SOL_s %>%
@@ -131,7 +130,7 @@ readoutput_dfr <- function(outputfile, cycle_length, daily_output, flax){
     group_by(Stage) %>%
     mutate(Stage_c = (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage) %>%
     ungroup()
-  if(flax){
+  if(has_name(df, Biomass)){
     df <- df %>%
       mutate(Biomass_Stem = (Biomass - Ydry)*0.86)
   }
