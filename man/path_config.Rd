@@ -4,12 +4,10 @@
 \alias{path_config}
 \title{Setup of AquaCrop path}
 \usage{
-path_config(AquaCrop.path, Daily_output = c(1, 2))
+path_config(AquaCrop.path)
 }
 \arguments{
 \item{AquaCrop.path}{character name of the folder where the aquacrop.exe file is located}
-
-\item{Daily_output}{vector of integers for defining the daily outputs AquaCrop should produce. An empty vector results in no daily outputs. Defaults to c(1,2).}
 }
 \value{
 a character name of the path of the aquacrop.exe file, but also writes the \emph{DailyResults.SIM} file in the appropriate folder. file

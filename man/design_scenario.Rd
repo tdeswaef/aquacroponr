@@ -2,7 +2,7 @@
 % Please edit documentation in R/design_scenario.R
 \name{design_scenario}
 \alias{design_scenario}
-\title{Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.}
+\title{Makes the required tibble that is used as scenario argument in the \code{aquacrop_wrapper} function.}
 \usage{
 design_scenario(
   name,
@@ -14,7 +14,8 @@ design_scenario(
   Tnx,
   ETo,
   FMAN = "default",
-  GWT = 2
+  GWT = 2,
+  SW0 = "FC"
 )
 }
 \arguments{
@@ -37,10 +38,12 @@ design_scenario(
 \item{FMAN}{character vector with names for the ID in the FMAN_s tibble}
 
 \item{GWT}{numeric vector with depth of ground water table in m}
+
+\item{SW0}{character vector with names for the ID in the SW0_s tibble. If "FC" initial conditions are taken from SOL_s tibble.}
 }
 \value{
 A tibble with the different scenarios to run in AquaCrop
 }
 \description{
-Makes the required tibble that is used as scenario argument in the \code{solve_AquaCrop()} function.
+Makes the required tibble that is used as scenario argument in the \code{aquacrop_wrapper} function.
 }

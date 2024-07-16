@@ -1,4 +1,4 @@
-#' Makes the required tibble that is used as scenario argument in the `solve_AquaCrop()` function.
+#' Makes the required tibble that is used as scenario argument in the `aquacrop_wrapper` function.
 #'
 #' @param name character vector with names of the scenarios.
 #' @param Input_Date Date format vector with initial input dates for the different scenarios
@@ -10,9 +10,10 @@
 #' @param ETo character vector with names of Reference Evapotranspiration tibble(s)
 #' @param FMAN character vector with names for the ID in the FMAN_s tibble
 #' @param GWT numeric vector with depth of ground water table in m
+#' @param SW0 character vector with names for the ID in the SW0_s tibble. If "FC" initial conditions are taken from SOL_s tibble.
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0){
+design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0, SW0 = "FC"){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
@@ -30,6 +31,7 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
   ETo <- length_check_fun(ETo, no_scenarios)
   FMAN <- length_check_fun(FMAN, no_scenarios)
   GWT <- length_check_fun(GWT, no_scenarios)
+  SW0 <- length_check_fun(SW0, no_scenarios)
 
   Scenario_2 <- tibble(Input_Date = Input_Date,
                        Plant_Date = Plant_Date,
@@ -39,12 +41,13 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
                        Tnx = Tnx,
                        ETo = ETo,
                        FMAN = FMAN,
-                       GWT = GWT) |> unique()
+                       GWT = GWT,
+                       SW0 = SW0) |> unique()
 
   if(nrow(Scenario_1)==nrow(Scenario_2)){
     Scenario <- Scenario_1 |> bind_cols(Scenario_2)
   } else {
-    stop("Scenario names do not match scenarios")
+    stop("Scenario names do not match scenario number")
   }
 
   return(Scenario)

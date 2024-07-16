@@ -12,11 +12,14 @@ aquacrop_morris(
   binf = c(),
   bsup = c(),
   design = list(type = "oat", levels = 8, grid.jump = 1),
+  daily_output = c(1, 2),
   outvars = c("Biomass")
 )
 }
 \arguments{
 \item{situation}{character string or vector of scenarios to run}
+
+\item{cycle_length}{an integer representing the length of the \strong{simulation} period in days}
 
 \item{backgroundpar}{the reference parameter set (as made by \code{read_CRO})}
 
@@ -27,6 +30,8 @@ aquacrop_morris(
 \item{bsup}{named vector with upper boundaries of the parameter ranges}
 
 \item{design}{list for designing the morris algorithm}
+
+\item{daily_output}{vector for defining the output variables to extract from AquaCrop}
 
 \item{outvars}{character vector with output variable names for the sensitivity analysis}
 }
