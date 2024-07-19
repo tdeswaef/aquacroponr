@@ -54,7 +54,7 @@ a list of class \code{morris}, containing all the input arguments, plus the foll
 \description{
 \code{aquacrop_morris} operates in 5 steps:
 \enumerate{
-\item Define the morris design in terms of parameters, parameter ranges, trajectories and method. See also the \code{morris} function in the \url{sensitivity package}.
+\item Define the morris design in terms of parameters, parameter ranges, trajectories and method. See also the \code{morris} function in the \href{https://rdrr.io/cran/sensitivity/}{sensitivity package}.
 \item Run the AquaCrop model with all parameter combinations from the morris design.
 \item Choose the level of integration: model time steps, different variables
 \item Make an array with the correct dimensions based on the simulations (step 2) and the integration level (step 3).
@@ -65,14 +65,15 @@ a list of class \code{morris}, containing all the input arguments, plus the foll
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
-Scenario_s <- design_scenario(name = "S_01",
+\dontrun{Scenario_s <- design_scenario(name = "S_01",
+    Input_Date = as.Date("2019-04-01"),
     Plant_Date = as.Date("2019-04-01"),
     IRRI = "IRRI_01",
     Soil = "Soil_01",
     Plu = "Plu_01",
     Tnx = "Tnx_01",
-    ETo = "ETo_01")
+    ETo = "ETo_01") }
 
-p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
-
+\dontrun{p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
+}
 }

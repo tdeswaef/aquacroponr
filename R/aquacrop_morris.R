@@ -1,7 +1,7 @@
 #' A wrapper function for running a sensitivity analysis for AquaCrop using the morris method
 #'
 #' `aquacrop_morris` operates in 5 steps:
-#' 1. Define the morris design in terms of parameters, parameter ranges, trajectories and method. See also the `morris` function in the [sensitivity package]().
+#' 1. Define the morris design in terms of parameters, parameter ranges, trajectories and method. See also the `morris` function in the [sensitivity package](https://rdrr.io/cran/sensitivity/).
 #' 2. Run the AquaCrop model with all parameter combinations from the morris design.
 #' 3. Choose the level of integration: model time steps, different variables
 #' 4. Make an array with the correct dimensions based on the simulations (step 2) and the integration level (step 3).
@@ -35,16 +35,17 @@
 #' - if y is a three-dimensional array: a \eqn{(r \times p \times dim(y)[2] \times dim(y)[3])} - array of elementary effects for all the factors and all elements of the second and third dimension of y.
 #'
 #' @examples
-#' Scenario_s <- design_scenario(name = "S_01",
+#' \dontrun{Scenario_s <- design_scenario(name = "S_01",
+#'     Input_Date = as.Date("2019-04-01"),
 #'     Plant_Date = as.Date("2019-04-01"),
 #'     IRRI = "IRRI_01",
 #'     Soil = "Soil_01",
 #'     Plu = "Plu_01",
 #'     Tnx = "Tnx_01",
-#'     ETo = "ETo_01")
+#'     ETo = "ETo_01") }
 #'
-#' p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
-#'
+#' \dontrun{p <- aquacrop_morris(situation = "S_01", backgroundpar=Spinach, r = 20, binf=c(rt_max = 0.12, cgc = 0.1), bsup = c(rt_max = 0.55, cgc = 0.21), outvars = c("Biomass", "YSdryS"))
+#' }
 #' @export
 aquacrop_morris <- function(situation = "S_01",
                             cycle_length,

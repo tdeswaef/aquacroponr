@@ -15,10 +15,10 @@
 #'
 #' @examples
 #'
-#' y <- aquacrop_wrapper(param_values = params,
+#' \dontrun{y <- aquacrop_wrapper(param_values = params,
 #'                       situation = Scenario_s$Scenario,
 #'                       model_options = list(AQ=AQ, defaultpar=Spinach,
-#'                                            output = "croptimizr", daily_output = c(1,2)))
+#'                                            output = "croptimizr", daily_output = c(1,2)))}
 #'
 #' @export
 aquacrop_wrapper <- function(param_values,

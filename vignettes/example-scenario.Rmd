@@ -1,0 +1,50 @@
+---
+title: "Example for scenario making"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example-scenario}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+datapath <- "../aquacrop71/"
+```
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(AquacropOnR)
+```
+
+## Meteo data
+
+```{r }
+Meteo_data <- read_delim(paste0(datapath, "data.csv"), delim = ",", show_col_types = F)
+Meteo_s
+```
+
+## Soil data
+
+```{r }
+
+```
+
+## Initial conditions
+If you do not provide initial conditions in the `design_scenario` function, it will take the default setting "FC", which results in a soil profile water content at field capacity and absence of salts at the start of the simulation. 
+
+The initial conditions need to have the same Horizon and Thickness variables as the soil input tibble `SOL_s`.
+ 
+```{r }
+
+```
+
+## Management
+
+```{r }
+
+```
+

@@ -17,6 +17,6 @@ ggplots with input data (in RStudio: check the 'Plots' tab) and tables for irrig
 it produces a ggplot with visualization of the input data
 }
 \examples{
-plotinput(Scenario_s)
+\dontrun{plotinput(Scenario_s)}
 
 }
