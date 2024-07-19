@@ -28,6 +28,7 @@ working directory should be set to the the folder where the aquacrop.exe file is
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/crop-parameters.html">Crop parameter table</a>
     <a class="dropdown-item" href="../articles/example-morris.html">Sensitivity analysis example with Morris method</a>
+    <a class="dropdown-item" href="../articles/example-scenario.html">Example for scenario making</a>
     <a class="dropdown-item" href="../articles/example-simulation.html">Simulation Example for Spinach</a>
   </div>
 </li>
@@ -53,17 +54,13 @@ working directory should be set to the the folder where the aquacrop.exe file is
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">path_config</span><span class="op">(</span><span class="va">AquaCrop.path</span>, Daily_output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">path_config</span><span class="op">(</span><span class="va">AquaCrop.path</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>AquaCrop.path</dt>
 <dd><p>character name of the folder where the aquacrop.exe file is located</p></dd>
-
-
-<dt>Daily_output</dt>
-<dd><p>vector of integers for defining the daily outputs AquaCrop should produce. An empty vector results in no daily outputs. Defaults to c(1,2).</p></dd>
 
 </dl></div>
     <div class="section level2">

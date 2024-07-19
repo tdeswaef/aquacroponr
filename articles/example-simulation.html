@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/crop-parameters.html">Crop parameter table</a>
     <a class="dropdown-item" href="../articles/example-morris.html">Sensitivity analysis example with Morris method</a>
+    <a class="dropdown-item" href="../articles/example-scenario.html">Example for scenario making</a>
     <a class="dropdown-item" href="../articles/example-simulation.html">Simulation Example for Spinach</a>
   </div>
 </li>
@@ -240,11 +241,11 @@ package. These tibbles should be formatted as presented below.</p>
 <span>                              FMAN <span class="op">=</span> <span class="st">"default"</span>,</span>
 <span>                              GWT <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>Scenario_s</code> tibble should look like this:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
-<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI     Soil    Plu    Tnx   ETo   FMAN    GWT</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 no_irrig Soil_01 Plu_01 Tnx_… ETo_… defa…     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI_01  Soil_01 Plu_01 Tnx_… ETo_… defa…     2</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 11</span></span></span>
+<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI  Soil  Plu   Tnx   ETo   FMAN    GWT SW0  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 no_i… Soil… Plu_… Tnx_… ETo_… defa…     2 FC   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI… Soil… Plu_… Tnx_… ETo_… defa…     2 FC</span></span></code></pre>
 <p>Then it is crucial to create the correct AquaCrop path, while
 checking the required folders and choosing which daily outputs to
 produce. Therefore the package has the function

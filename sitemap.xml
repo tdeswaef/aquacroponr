@@ -10,6 +10,9 @@
     <loc>https://tdeswaef.github.io/aquacroponr/articles/example-morris.html</loc>
   </url>
   <url>
+    <loc>https://tdeswaef.github.io/aquacroponr/articles/example-scenario.html</loc>
+  </url>
+  <url>
     <loc>https://tdeswaef.github.io/aquacroponr/articles/example-simulation.html</loc>
   </url>
   <url>
@@ -53,8 +56,5 @@
   </url>
   <url>
     <loc>https://tdeswaef.github.io/aquacroponr/reference/read_CRO.html</loc>
-  </url>
-  <url>
-    <loc>https://tdeswaef.github.io/aquacroponr/reference/solve_AquaCrop.html</loc>
   </url>
 </urlset>
