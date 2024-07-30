@@ -12,6 +12,7 @@
 #' @import sensitivity
 #' @param situation character string or vector of scenarios to run
 #' @param cycle_length an integer representing the length of the **simulation** period in days
+#' @param growth_length an integer representing the length of the **growth** period in days
 #' @param backgroundpar the reference parameter set (as made by `read_CRO`)
 #' @param r number of trajectories in the morris algorithm
 #' @param binf named vector with lower boundaries of the parameter ranges
@@ -49,6 +50,7 @@
 #' @export
 aquacrop_morris <- function(situation = "S_01",
                             cycle_length,
+                            growth_length = NULL,
                             backgroundpar=Spinach,
                             r = r,
                             binf = c(),
@@ -60,6 +62,9 @@ aquacrop_morris <- function(situation = "S_01",
 
   #0. check validity of inputs
   if(!(all(names(binf) %in% names(bsup)) && all(names(bsup) %in% names(binf)))) stop("Check the binf and bsup input data")
+
+  growth_length <- ifelse(is.null(growth_length), cycle_length, growth_length)
+
   #1. generate the empty Morris design
   mo <- morris(model = NULL,
                factors = names(binf),
@@ -77,7 +82,7 @@ aquacrop_morris <- function(situation = "S_01",
   Y <- 1:nrow(mo$X) %>%
     map(\(i) aquacrop_wrapper_safe(param_values=mo$X[i,],
                    situation = situation,
-                   model_options = list(AQ = AQ, cycle_length = cycle_length,
+                   model_options = list(AQ = AQ, cycle_length = cycle_length, growth_length = growth_length,
                                         defaultpar=backgroundpar, daily_output = daily_output)) %>%
           dplyr::mutate(x = i)) %>%
     list_rbind()
@@ -86,14 +91,14 @@ aquacrop_morris <- function(situation = "S_01",
 
   #3. Choose the level of integration: model time steps, different variables
   filldata <- Y %>%
-    select(all_of(outvars), Scenario, x, DAP_morris) %>%
+    select(all_of(outvars), Scenario, x, DAP_adj) %>%
     pivot_longer(cols = all_of(outvars)) %>%
-    arrange(name, Scenario, DAP_morris, x) %>% .$value
+    arrange(name, Scenario, DAP_adj, x) %>% .$value
 
   #4. Make an array with the correct dimensions based on the simulations (step 2) and the integration level (step 3).
   a <-array(data = filldata,
-            dim = c(nrow(mo$X), cycle_length*length(situation), length(outvars)),
-            dimnames = list(1:nrow(mo$X), 1:(cycle_length*length(situation)), sort(outvars)))
+            dim = c(nrow(mo$X), growth_length*length(situation), length(outvars)),
+            dimnames = list(1:nrow(mo$X), 1:(growth_length*length(situation)), sort(outvars)))
   # construct the Y variable to 'tell' based on the time steps, variables and scenarios settings
 
   #5. "tell" the array to the morris design from step 1.
@@ -104,7 +109,7 @@ aquacrop_morris <- function(situation = "S_01",
 
 aquacrop_wrapper_m <- function(param_values=list(),
                              situation = "S_01",
-                             model_options=list(AQ = AQ, cycle_length = cycle_length,
+                             model_options=list(AQ = AQ, cycle_length = cycle_length, growth_length = growth_length,
                                                 defaultpar=Spinach, daily_output = daily_output),
                              ...){
 
@@ -116,7 +121,7 @@ aquacrop_wrapper_m <- function(param_values=list(),
   }
   if(!dir.exists("DATA/")) stop("run the path_config function first")
   #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
-
+  growth_length <- ifelse(is.null(model_options$growth_length), model_options$cycle_length, model_options$growth_length)
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)
 
@@ -132,6 +137,7 @@ aquacrop_wrapper_m <- function(param_values=list(),
   # Read output
   results <- list.files("OUTP/", pattern = "PROday.OUT", full.names = F) %>%
         purrr::map(\(x) readoutput_dfr(x, cycle_length = model_options$cycle_length,
+                                       growth_length = growth_length,
                                        daily_output = model_options$daily_output)) %>%
     list_rbind()
 

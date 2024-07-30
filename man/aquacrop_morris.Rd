@@ -7,6 +7,7 @@
 aquacrop_morris(
   situation = "S_01",
   cycle_length,
+  growth_length = NULL,
   backgroundpar = Spinach,
   r = r,
   binf = c(),
@@ -20,6 +21,8 @@ aquacrop_morris(
 \item{situation}{character string or vector of scenarios to run}
 
 \item{cycle_length}{an integer representing the length of the \strong{simulation} period in days}
+
+\item{growth_length}{an integer representing the length of the \strong{growth} period in days}
 
 \item{backgroundpar}{the reference parameter set (as made by \code{read_CRO})}
 
