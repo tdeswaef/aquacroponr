@@ -34,7 +34,7 @@ Meteo_s
 ```
 
 ## Initial conditions
-If you do not provide initial conditions in the `design_scenario` function, it will take the default setting "FC", which results in a soil profile water content at field capacity and absence of salts at the start of the simulation. 
+If you do not provide initial conditions in the `design_scenario()` function, it will take the default setting "FC", which results in a soil profile water content at field capacity and absence of salts at the start of the simulation. 
 
 The initial conditions need to have the same Horizon and Thickness variables as the soil input tibble `SOL_s`.
  

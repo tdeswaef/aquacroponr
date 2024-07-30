@@ -14,15 +14,16 @@ write_PRO <- function(Scenario_, cycle_length){
   path.data <- gsub('/','\\\\', paste0(getwd(), "/DATA/")) #Creating a windows valid path
   path.simul <- gsub('/','\\\\', paste0(getwd(), "/SIMUL/"))
   Plant_Date <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Plant_Date
+  Sim_Date <- Scenario_s %>% dplyr::filter(Scenario == Scenario_) %>% .$Sim_Date
   Plant_input <- (yday(Plant_Date) + (year(Plant_Date)-1901)*365.25) %>% as.integer()
-  # Plant_sim <- (yday(cycle_length[1]) + (year(Plant_Date)-1901)*365.25) %>% as.integer()
+  Plant_sim <- ifelse(is.null(Sim_Date), Plant_input, (yday(Sim_Date) + (year(Sim_Date)-1901)*365.25) %>% as.integer())
 
   Harvest_sim <- Plant_input + round(cycle_length) - 1  #130 is the duration of the growing season in the crop file
 
   cat("Project file\n",
       "7.0     : AquaCrop Version (August 2022)\n",
       "1       : Year number of cultivation (Seeding/planting year)\n",
-      Plant_input ,"   : First day of simulation period\n",   #always put a space after the number. Aquacrop reads first string to perform simulation.
+      Plant_sim ,"   : First day of simulation period\n",   #always put a space after the number. Aquacrop reads first string to perform simulation.
       Harvest_sim ,"   : Last day of simulation period\n",
       Plant_input ,"   : First day of cropping period\n",
       Harvest_sim ,"   : Last day of cropping period

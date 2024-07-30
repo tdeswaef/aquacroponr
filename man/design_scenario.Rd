@@ -7,6 +7,7 @@
 design_scenario(
   name,
   Input_Date,
+  Sim_Date = NULL,
   Plant_Date,
   IRRI,
   Soil,
@@ -22,6 +23,8 @@ design_scenario(
 \item{name}{character vector with names of the scenarios.}
 
 \item{Input_Date}{Date format vector with initial input dates for the different scenarios}
+
+\item{Sim_Date}{Date format vector with dates for starting simulation. if NULL, set to Plant_Date}
 
 \item{Plant_Date}{Date format vector with planting dates for the different scenarios}
 

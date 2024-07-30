@@ -2,6 +2,7 @@
 #'
 #' @param name character vector with names of the scenarios.
 #' @param Input_Date Date format vector with initial input dates for the different scenarios
+#' @param Sim_Date Date format vector with dates for starting simulation. if NULL, set to Plant_Date
 #' @param Plant_Date Date format vector with planting dates for the different scenarios
 #' @param IRRI character vector with names for the ID in the IRRI_s tibble
 #' @param Soil character vector with names of Soil tibble(s)
@@ -13,16 +14,18 @@
 #' @param SW0 character vector with names for the ID in the SW0_s tibble. If "FC" initial conditions are taken from SOL_s tibble.
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0, SW0 = "FC"){
+design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0, SW0 = "FC"){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
   if(length(name |> unique()) != no_scenarios) stop("there are non-unique scenario names")
+  if(is.null(Sim_Date)) Sim_Date = Plant_Date
   Scenario_1 <- tibble(Scenario = name)
 
   # argList <- list(name, Plant_Date, IRRI, Soil, Plu, Tnx, ETo)
   # maxargs <- argList %>% purrr::map(length) %>% purrr::list_c()
   Input_Date <- length_check_fun(Input_Date, no_scenarios)
+  Sim_Date <- length_check_fun(Sim_Date, no_scenarios)
   Plant_Date <- length_check_fun(Plant_Date, no_scenarios)
   IRRI <- length_check_fun(IRRI, no_scenarios)
   Soil <- length_check_fun(Soil, no_scenarios)
@@ -34,6 +37,7 @@ design_scenario <- function(name, Input_Date, Plant_Date, IRRI, Soil, Plu, Tnx, 
   SW0 <- length_check_fun(SW0, no_scenarios)
 
   Scenario_2 <- tibble(Input_Date = Input_Date,
+                       Sim_Date = Sim_Date,
                        Plant_Date = Plant_Date,
                        IRRI = IRRI,
                        Soil = Soil,
