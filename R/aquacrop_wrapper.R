@@ -133,9 +133,9 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
     group_by(Scenario) %>%
     mutate(ind_DAP =which(Stage_c == 1.00 & DAP != -9)) %>%
     mutate(DAP_adj = replace(DAP, list = unique(ind_DAP):(unique(ind_DAP)+growth_length-1), values = 1:growth_length)) %>%
-    ungroup()
+    ungroup() %>%
+    dplyr::filter(DAP_adj != -9)
 
-    dply::filter(DAP_adj != -9)
   if(has_name(df, "Biomass")){
     df <- df %>%
       mutate(Biomass_Stem = (Biomass - Ydry)*0.86)
