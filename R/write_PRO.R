@@ -18,7 +18,7 @@ write_PRO <- function(Scenario_, cycle_length){
   Plant_input <- (yday(Plant_Date) + (year(Plant_Date)-1901)*365.25) %>% as.integer()
   Plant_sim <- ifelse(is.null(Sim_Date), Plant_input, (yday(Sim_Date) + (year(Sim_Date)-1901)*365.25) %>% as.integer())
 
-  Harvest_sim <- Plant_input + round(cycle_length) - 1  #130 is the duration of the growing season in the crop file
+  Harvest_sim <- Plant_sim + round(cycle_length) - 1  #130 is the duration of the growing season in the crop file
 
   cat("Project file\n",
       "7.0     : AquaCrop Version (August 2022)\n",

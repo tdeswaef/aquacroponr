@@ -121,7 +121,6 @@ readoutput_dfr <- function(outputfile, cycle_length, daily_output){
     dplyr::select(which(!duplicated(names(.)))) %>%
     # dplyr::filter(DAP >= 0) %>%
     dplyr::mutate(Scenario = sit_name,
-                  DAP_morris = 1:cycle_length,
                   Date = paste(Year, Month, Day ,"-") %>% as_date(),
                   DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
