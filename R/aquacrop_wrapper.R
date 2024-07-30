@@ -127,11 +127,11 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
                   Date = paste(Year, Month, Day ,"-") %>% as_date(),
                   DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
-    group_by(Stage) %>%
+    group_by(Scenario, Stage) %>%
     mutate(Stage_c = if_else(Stage == 0, 5.0, (GDD - min(GDD))/(max(GDD) - min(GDD)) + Stage)) %>%
     ungroup() %>%
     group_by(Scenario) %>%
-    mutate(ind_DAP =which(Stage_c == 1.00 & DAP != -9)) %>%
+    mutate(ind_DAP =which(Stage_c == 1.00)) %>%
     mutate(DAP_adj = replace(DAP, list = unique(ind_DAP):(unique(ind_DAP)+growth_length-1), values = 1:growth_length)) %>%
     ungroup() %>%
     dplyr::filter(DAP_adj != -9)
