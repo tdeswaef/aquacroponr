@@ -21,7 +21,7 @@
 #'
 #' @export
 ee_to_dataframe <- function(p, situation, cycle_length){
-  scenario <- sort(situation)
+  scenario <- sort(situation %>% as.character)
   EE <- p$ee %>%
     melt(value.name = "ee", varnames = c("traject", "par", "DAP", "outvar")) %>%
     dplyr::mutate(Scenario = scenario[((DAP - 1) %/% cycle_length)+1]) %>%

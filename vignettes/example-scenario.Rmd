@@ -31,15 +31,25 @@ Meteo_s
 
 ```{r }
 
+SOL_s<- tribble(~ID, ~Horizon, ~Thickness, ~SAT, ~FC, ~WP, ~Ksat, ~Penetrability, ~Gravel,
+                "soil_1", 1, 0.1, 40.8, 29.2, 12.5, 120,  100, 0,
+                "soil_1", 2, 0.2, 44.3, 32.2, 10.5, 96,   100, 0,
+                "soil_1", 3, 0.6, 32.2, 21.4, 11.5, 52.5, 100, 0,
+                "soil_1", 4, 1.1, 30.1, 20.2, 10.5, 55,   100, 0,
+                "soil_2", 1, 0.1, 35.8, 29.2, 12.5, 1200, 100, 0,
+                "soil_2", 2, 0.5, 31.8, 24.5, 10.5, 1200, 100, 0,
+                "soil_2", 3, 2.2, 31.2, 22.2, 9.5,  950,  100, 0)
 ```
 
 ## Initial conditions
 If you do not provide initial conditions in the `design_scenario()` function, it will take the default setting "FC", which results in a soil profile water content at field capacity and absence of salts at the start of the simulation. 
 
-The initial conditions need to have the same Horizon and Thickness variables as the soil input tibble `SOL_s`.
+The initial conditions need to have the same Horizon and Thickness variables as the soil input tibble `SOL_s`. here we provide an example where the initial water content at all layers lies in the middle between wilting point (WP) and field capacity (FC).
  
 ```{r }
-
+sw0_factor <- 0.5
+SW0_s <- SOL_s %>% mutate(WC = WP + (FC-WP)*sw0_factor, ECe = 0.0) %>%
+  select(ID, Horizon, Thickness, WC, ECe)
 ```
 
 ## Management
