@@ -133,6 +133,8 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
     group_by(Scenario) %>%
     mutate(ind_DAP =which(Stage_c == 1.00)) %>%
     mutate(DAP_adj = replace(DAP, list = unique(ind_DAP):(unique(ind_DAP)+growth_length-1), values = 1:growth_length)) %>%
+    mutate(GDD_max = GDD[which(DAP_adj == growth_length)]) %>%
+    mutate(DAP_adj = replace(DAP_adj, list = which(GDD > GDD_max), values = -9)) %>%
     ungroup() %>%
     dplyr::filter(DAP_adj != -9)
 
