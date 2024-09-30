@@ -79,31 +79,191 @@
 <div class="section level2">
 <h2 id="meteo-data">Meteo data<a class="anchor" aria-label="anchor" href="#meteo-data"></a>
 </h2>
+<p>Here we provide an example for a weather data set:</p>
+<ul>
+<li>
+<code>TEMP_MAX</code> is the maximum daily temperature in C<br>
+</li>
+<li>
+<code>TEMP_MIN</code> is the minimum daily temperature in C<br>
+</li>
+<li>
+<code>RELATIVE_HUMIDITY</code> is the average relative humidity in
+%<br>
+</li>
+<li>
+<code>WIND_SPEED</code> is the average daily wind speed in m/s<br>
+</li>
+<li>
+<code>PRECIP_QUANTITY</code> is the total daily precipitation in
+mm<br>
+</li>
+<li>
+<code>GLOBAL_RADIATION</code> is expressed in kWh/m².</li>
+</ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Meteo_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_delim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">datapath</span>, <span class="st">"data.csv"</span><span class="op">)</span>, delim <span class="op">=</span> <span class="st">","</span>, show_col_types <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span><span class="va">Meteo_s</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
-<span><span class="co">#&gt;   ID       file          </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Meteo_01 Meteo_S_01.csv</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;    YEAR MONTH   DAY TEMP_MAX TEMP_MIN RELATIVE_HUMIDITY WIND_SPEED</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>020     1     1      2.9      1.8              95.7        3.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>020     1     2      9.5      1.5              92.8        4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>020     1     3     10.4      3                88.9        5.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>020     1     4      8.8      3.3              85.8        3.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>020     1     5      7.5      3.5              87          2.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">2</span>020     1     6      8.6      5.2              81.2        3.8</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: PRECIP_QUANTITY &lt;dbl&gt;, GLOBAL_RADIATION &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>This data set has some missing data. We solve this here by using the
+<code>approxfun</code> function to iterpolate missing values.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">Meteo_data</span> <span class="op">&lt;-</span> <span class="va">Meteo_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DATE <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="va">MONTH</span>, <span class="va">DAY</span>, sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">START</span> <span class="op">&lt;-</span> <span class="st">"2020-01-01"</span></span>
+<span><span class="va">STOP</span> <span class="op">&lt;-</span> <span class="st">"2020-12-31"</span></span>
+<span></span>
+<span><span class="va">Tmax_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">TEMP_MAX</span><span class="op">)</span></span>
+<span><span class="va">Tmin_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">TEMP_MIN</span><span class="op">)</span></span>
+<span><span class="va">RH_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">RELATIVE_HUMIDITY</span><span class="op">)</span></span>
+<span><span class="va">Wind_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">WIND_SPEED</span><span class="op">)</span></span>
+<span><span class="va">Precip_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">PRECIP_QUANTITY</span><span class="op">)</span></span>
+<span><span class="va">Radiation_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, <span class="va">Meteo_data</span><span class="op">$</span><span class="va">GLOBAL_RADIATION</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Alldays</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">START</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">STOP</span><span class="op">)</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Meteo_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>YEAR <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     MONTH <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/month.html" class="external-link">month</a></span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     DAY <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">day</a></span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     TEMP_MAX <span class="op">=</span> <span class="fu">Tmax_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     TEMP_MIN <span class="op">=</span> <span class="fu">Tmin_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     RELATIVE_HUMIDITY <span class="op">=</span> <span class="fu">RH_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     WIND_SPEED <span class="op">=</span> <span class="fu">Wind_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     PRECIPITATION <span class="op">=</span> <span class="fu">Precip_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     GLOBAL_RADIATION <span class="op">=</span> <span class="fu">Radiation_fun</span><span class="op">(</span><span class="va">Alldays</span><span class="op">)</span>,</span>
+<span>                     DATE <span class="op">=</span> <span class="va">Alldays</span><span class="op">)</span></span></code></pre></div>
+<p>As AquaCrop requires reference evapotranspiration as an input, we
+calculate this using the <code><a href="https://rdrr.io/pkg/MeteoTools/man/ETo_calc.html" class="external-link">ETo_calc()</a></code> function available
+through the <code>MeteoTools</code> package, based on the
+<code>Evapotranspiration</code> package.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MeteoTools</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ETo_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MeteoTools/man/ETo_calc.html" class="external-link">ETo_calc</a></span><span class="op">(</span>DATE <span class="op">=</span> <span class="va">Meteo_data</span><span class="op">$</span><span class="va">DATE</span>, </span>
+<span>                     T_max <span class="op">=</span> <span class="va">Meteo_data</span><span class="op">$</span><span class="va">TEMP_MAX</span>, </span>
+<span>                     T_min <span class="op">=</span> <span class="va">Meteo_data</span><span class="op">$</span><span class="va">TEMP_MIN</span>, </span>
+<span>                     RH_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">RELATIVE_HUMIDITY</span>, <span class="fl">100</span><span class="op">)</span>, </span>
+<span>                     RH_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">Meteo_data</span><span class="op">$</span><span class="va">RELATIVE_HUMIDITY</span>, <span class="fl">100</span><span class="op">)</span>,</span>
+<span>                     Rs_tot <span class="op">=</span> <span class="va">Meteo_data</span><span class="op">$</span><span class="va">GLOBAL_RADIATION</span><span class="op">*</span><span class="fl">3.6</span>, <span class="co"># from kWh m^-2 to MJ m^-2</span></span>
+<span>                     uz_mean <span class="op">=</span> <span class="va">Meteo_data</span><span class="op">$</span><span class="va">WIND_SPEED</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ETo_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt;   DATE         ETo</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2020-01-01 0.226</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2020-01-02 0.418</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2020-01-03 0.651</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2020-01-04 0.407</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2020-01-05 0.561</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-06 0.518</span></span></code></pre></div>
+<p>Now we put everything in the AquacropOnR format:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Plu_example</span> <span class="op">&lt;-</span> <span class="va">Meteo_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DAY <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">yday</a></span><span class="op">(</span><span class="va">DATE</span><span class="op">)</span>, PLU <span class="op">=</span> <span class="va">PRECIPITATION</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">DAY</span>, <span class="va">PLU</span><span class="op">)</span></span>
+<span><span class="va">Tnx_example</span> <span class="op">&lt;-</span> <span class="va">Meteo_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DAY <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">yday</a></span><span class="op">(</span><span class="va">DATE</span><span class="op">)</span>, TMAX <span class="op">=</span> <span class="va">TEMP_MAX</span>, TMIN <span class="op">=</span> <span class="va">TEMP_MIN</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">DAY</span>, <span class="va">TMAX</span>, <span class="va">TMIN</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">ETo_example</span> <span class="op">&lt;-</span> <span class="va">ETo_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DAY <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">yday</a></span><span class="op">(</span><span class="va">DATE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">DAY</span>, <span class="va">ETo</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="soil-data">Soil data<a class="anchor" aria-label="anchor" href="#soil-data"></a>
 </h2>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">SOL_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">ID</span>, <span class="op">~</span><span class="va">Horizon</span>, <span class="op">~</span><span class="va">Thickness</span>, <span class="op">~</span><span class="va">SAT</span>, <span class="op">~</span><span class="va">FC</span>, <span class="op">~</span><span class="va">WP</span>, <span class="op">~</span><span class="va">Ksat</span>, <span class="op">~</span><span class="va">Penetrability</span>, <span class="op">~</span><span class="va">Gravel</span>,</span>
+<span>                <span class="st">"soil_1"</span>, <span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">40.8</span>, <span class="fl">29.2</span>, <span class="fl">12.5</span>, <span class="fl">120</span>,  <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_1"</span>, <span class="fl">2</span>, <span class="fl">0.2</span>, <span class="fl">44.3</span>, <span class="fl">32.2</span>, <span class="fl">10.5</span>, <span class="fl">96</span>,   <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_1"</span>, <span class="fl">3</span>, <span class="fl">0.6</span>, <span class="fl">32.2</span>, <span class="fl">21.4</span>, <span class="fl">11.5</span>, <span class="fl">52.5</span>, <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_1"</span>, <span class="fl">4</span>, <span class="fl">1.1</span>, <span class="fl">30.1</span>, <span class="fl">20.2</span>, <span class="fl">10.5</span>, <span class="fl">55</span>,   <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_2"</span>, <span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">35.8</span>, <span class="fl">29.2</span>, <span class="fl">12.5</span>, <span class="fl">1200</span>, <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_2"</span>, <span class="fl">2</span>, <span class="fl">0.5</span>, <span class="fl">31.8</span>, <span class="fl">24.5</span>, <span class="fl">10.5</span>, <span class="fl">1200</span>, <span class="fl">100</span>, <span class="fl">0</span>,</span>
+<span>                <span class="st">"soil_2"</span>, <span class="fl">3</span>, <span class="fl">2.2</span>, <span class="fl">31.2</span>, <span class="fl">22.2</span>, <span class="fl">9.5</span>,  <span class="fl">950</span>,  <span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">SOL_s</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;   ID     Horizon Thickness   SAT    FC    WP   Ksat Penetrability Gravel</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> soil_1       1       0.1  40.8  29.2  12.5  120             100      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> soil_1       2       0.2  44.3  32.2  10.5   96             100      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> soil_1       3       0.6  32.2  21.4  11.5   52.5           100      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> soil_1       4       1.1  30.1  20.2  10.5   55             100      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> soil_2       1       0.1  35.8  29.2  12.5 <span style="text-decoration: underline;">1</span>200             100      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> soil_2       2       0.5  31.8  24.5  10.5 <span style="text-decoration: underline;">1</span>200             100      0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="initial-conditions">Initial conditions<a class="anchor" aria-label="anchor" href="#initial-conditions"></a>
 </h2>
 <p>If you do not provide initial conditions in the
-<code>design_scenario</code> function, it will take the default setting
-“FC”, which results in a soil profile water content at field capacity
-and absence of salts at the start of the simulation.</p>
+<code><a href="../reference/design_scenario.html">design_scenario()</a></code> function, it will take the default
+setting “FC”, which results in a soil profile water content at field
+capacity and absence of salts at the start of the simulation.</p>
 <p>The initial conditions need to have the same Horizon and Thickness
-variables as the soil input tibble <code>SOL_s</code>.</p>
+variables as the soil input tibble <code>SOL_s</code>. here we provide
+an example where the initial water content at all layers lies in the
+middle between wilting point (WP) and field capacity (FC).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sw0_factor</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span>
+<span><span class="va">SW0_s</span> <span class="op">&lt;-</span> <span class="va">SOL_s</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>WC <span class="op">=</span> <span class="va">WP</span> <span class="op">+</span> <span class="op">(</span><span class="va">FC</span><span class="op">-</span><span class="va">WP</span><span class="op">)</span><span class="op">*</span><span class="va">sw0_factor</span>, ECe <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ID</span>, <span class="va">Horizon</span>, <span class="va">Thickness</span>, <span class="va">WC</span>, <span class="va">ECe</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">SW0_s</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">#&gt;   ID     Horizon Thickness    WC   ECe</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> soil_1       1       0.1  20.8     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> soil_1       2       0.2  21.4     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> soil_1       3       0.6  16.4     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> soil_1       4       1.1  15.4     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> soil_2       1       0.1  20.8     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> soil_2       2       0.5  17.5     0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="management">Management<a class="anchor" aria-label="anchor" href="#management"></a>
 </h2>
+<p>Through the .MAN file, AquaCrop can take into account several field
+management settings, such as:</p>
+<ul>
+<li>the effect of mulching, using the percentage of soil covered by
+mulch (<code>mulch_perc</code>), and the effect on reducing soil
+evaporation (<code>mulch_eff</code> between 0 (no effect) and 100 (all
+evaporation inhibited)).<br>
+</li>
+<li>the fertility stress (<code>fert_stress</code>, between 0 (no
+stress) and 100 (complete stress)).<br>
+</li>
+<li>the presence of soil bunds (<code>soil_bunds</code>).<br>
+</li>
+<li>the use of run-off affecting measures (<code>runoff_aff</code>, 0 or
+1 (for complete prevention of run-off)) and their effect on the
+<em>curve number</em> (<code>CN_eff</code>).<br>
+</li>
+<li>presence of weeds (<code>weed_clo</code>, <code>weed_mid</code>,
+<code>weed_cc</code>).</li>
+</ul>
+<p>For an effect of erosion preventing measures, the management file can
+be defined as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">FMAN_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">ID</span>, <span class="op">~</span><span class="va">mulch_perc</span>, <span class="op">~</span><span class="va">mulch_eff</span>, <span class="op">~</span><span class="va">fert_stress</span>, <span class="op">~</span><span class="va">soil_bunds</span>, <span class="op">~</span><span class="va">runoff_aff</span>, <span class="op">~</span><span class="va">CN_eff</span>, <span class="op">~</span><span class="va">weed_clo</span>, <span class="op">~</span><span class="va">weed_mid</span>, <span class="op">~</span><span class="va">weed_cc</span>,</span>
+<span>                  <span class="st">"default"</span>, <span class="fl">0</span>, <span class="fl">50</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">0.01</span>,</span>
+<span>                  <span class="st">"reduction_1"</span>, <span class="fl">0</span>, <span class="fl">50</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">25</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span></span></code></pre></div>
+<p>where the <em>default</em> treatment has no measures and the
+<em>reduction_1</em> treatment ahas measures that reduce the curve
+number by 25.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

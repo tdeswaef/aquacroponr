@@ -54,6 +54,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">design_scenario</span><span class="op">(</span></span>
 <span>  <span class="va">name</span>,</span>
 <span>  <span class="va">Input_Date</span>,</span>
+<span>  Sim_Date <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">Plant_Date</span>,</span>
 <span>  <span class="va">IRRI</span>,</span>
 <span>  <span class="va">Soil</span>,</span>
@@ -74,6 +75,10 @@
 
 <dt>Input_Date</dt>
 <dd><p>Date format vector with initial input dates for the different scenarios</p></dd>
+
+
+<dt>Sim_Date</dt>
+<dd><p>Date format vector with dates for starting simulation. if NULL, set to Plant_Date</p></dd>
 
 
 <dt>Plant_Date</dt>
