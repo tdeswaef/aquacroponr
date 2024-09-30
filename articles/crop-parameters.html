@@ -95,14 +95,14 @@ manual for a better understanding of conservative parameters.</p>
 </tr>
 <tr class="even">
 <td><code>sow_type</code></td>
-<td>Crop is transplanted (0), sown (1)</td>
+<td>Crop is transplanted (0) or sown (1)</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td><code>crop_cycle</code></td>
-<td>Determination of crop cycle # by calendar days (1) or by growing
+<td>Determination of crop cycle: by calendar days (1) or by growing
 degree days (0)</td>
-<td></td>
+<td>This has consequences on parameters that are taken into account</td>
 </tr>
 <tr class="even">
 <td><code>p_factors</code></td>
@@ -140,9 +140,8 @@ threshold</td>
 </tr>
 <tr class="even">
 <td><code>pexp_sh</code></td>
-<td>Shape factor for water stress coefficient for canopy expansion (0.0
-= straight line)</td>
-<td></td>
+<td>Shape factor for water stress coefficient for canopy expansion</td>
+<td>0.0 = straight line</td>
 </tr>
 <tr class="odd">
 <td><code>psto_up</code></td>
@@ -152,9 +151,8 @@ threshold</td>
 </tr>
 <tr class="even">
 <td><code>psto_sh</code></td>
-<td>Shape factor for water stress coefficient for stomatal control (0.0
-= straight line)</td>
-<td></td>
+<td>Shape factor for water stress coefficient for stomatal control</td>
+<td>0.0 = straight line</td>
 </tr>
 <tr class="odd">
 <td><code>psen_up</code></td>
@@ -164,9 +162,8 @@ threshold</td>
 </tr>
 <tr class="even">
 <td><code>psen_sh</code></td>
-<td>Shape factor for water stress coefficient for canopy senescence (0.0
-= straight line)</td>
-<td></td>
+<td>Shape factor for water stress coefficient for canopy senescence</td>
+<td>0.0 = straight line</td>
 </tr>
 <tr class="odd">
 <td><code>sen_ET</code></td>
@@ -194,27 +191,23 @@ aeration occurs *)</td>
 </tr>
 <tr class="odd">
 <td><code>resp_exp</code></td>
-<td>Shape factor of canopy expansion to fertility stress (25.00 = not
-considered; 2.16 = default)</td>
-<td></td>
+<td>Shape factor of canopy expansion to fertility stress</td>
+<td>25.00 = not considered; 2.16 = default</td>
 </tr>
 <tr class="even">
 <td><code>resp_max</code></td>
-<td>Shape factor of maximum canopy cover to fertility stress (25.00 =
-not considered; 0.79 = default)</td>
-<td></td>
+<td>Shape factor of maximum canopy cover to fertility stress</td>
+<td>25.00 = not considered; 0.79 = default</td>
 </tr>
 <tr class="odd">
 <td><code>resp_wp</code></td>
-<td>Shape factor of crop Water Productivity to fertility stress (25.00 =
-not considered; 1.67 = default)</td>
-<td></td>
+<td>Shape factor of crop Water Productivity to fertility stress</td>
+<td>25.00 = not considered; 1.67 = default</td>
 </tr>
 <tr class="even">
 <td><code>resp_sen</code></td>
-<td>Shape factor of decline of canopy cover to fertility stress (25.00 =
-not considered; 1.67 = default)</td>
-<td></td>
+<td>Shape factor of decline of canopy cover to fertility stress</td>
+<td>25.00 = not considered; 1.67 = default</td>
 </tr>
 <tr class="odd">
 <td><code>dummy_1</code></td>
@@ -223,20 +216,20 @@ not considered; 1.67 = default)</td>
 </tr>
 <tr class="even">
 <td><code>Tpol_lo</code></td>
-<td>Cold (air temperature) stress affecting pollination - not
-considered</td>
+<td>Minimum air temperature below which pollination starts to fail (cold
+stress) (degC)</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td><code>Tpol_up</code></td>
-<td>Heat (air temperature) stress affecting pollination - not
-considered</td>
+<td>Maximum air temperature above which pollination starts to fail (heat
+stress) (degC)</td>
 <td></td>
 </tr>
 <tr class="even">
 <td><code>Ttra_lo</code></td>
-<td>Cold (air temperature) stress on crop transpiration not
-considered</td>
+<td>Minimum growing degrees required for full crop transpiration (degC
+day)</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -258,15 +251,13 @@ no longer grow (dS/m)</td>
 </tr>
 <tr class="even">
 <td><code>salexp</code></td>
-<td>Calibrated distortion (%) of CC due to salinity stress (Range# 0
-(none) to +100 (very strong))</td>
-<td></td>
+<td>Calibrated distortion (%) of CC due to salinity stress</td>
+<td>Range: 0 (none) to +100 (very strong)</td>
 </tr>
 <tr class="odd">
 <td><code>salsto</code></td>
-<td>Calibrated response (%) of stomata stress to ECsw (Range# 0 (none)
-to +200 (extreme))</td>
-<td></td>
+<td>Calibrated response (%) of stomata stress to ECsw</td>
+<td>Range: 0 (none) to +200 (extreme)</td>
 </tr>
 <tr class="even">
 <td><code>kc_max</code></td>
@@ -331,21 +322,21 @@ stage</td>
 </tr>
 <tr class="odd">
 <td><code>cgc</code></td>
-<td>Canopy growth coefficient (CGC)# Increase in canopy cover (fraction
+<td>Canopy growth coefficient (CGC): Increase in canopy cover (fraction
 soil cover per day)</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="even">
 <td><code>cgc_dec</code></td>
 <td>Number of years at which CCx declines to 90 % of its value due to
-self-thinning - Not Applicable</td>
-<td>not in use</td>
+self-thinning</td>
+<td>only for multiple years (not tested)</td>
 </tr>
 <tr class="odd">
 <td><code>cgc_decx</code></td>
 <td>Shape factor of the decline of CCx over the years due to
-self-thinning - Not Applicable</td>
-<td>not in use</td>
+self-thinning</td>
+<td>only for multiple years (not tested)</td>
 </tr>
 <tr class="even">
 <td><code>cgc_dec_sh</code></td>
@@ -359,33 +350,33 @@ self-thinning - Not Applicable</td>
 </tr>
 <tr class="even">
 <td><code>cdc</code></td>
-<td>Canopy decline coefficient (CDC)# Decrease in canopy cover (in
+<td>Canopy decline coefficient (CDC): Decrease in canopy cover (in
 fraction per day)</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>eme_d</code></td>
-<td>Calendar Days# from sowing to emergence</td>
+<td>Calendar Days from sowing to emergence</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="even">
 <td><code>root_d</code></td>
-<td>Calendar Days# from sowing to maximum rooting depth</td>
+<td>Calendar Days from sowing to maximum rooting depth</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>sen_d</code></td>
-<td>Calendar Days# from sowing to start senescence</td>
+<td>Calendar Days from sowing to start senescence</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="even">
 <td><code>cyc_d</code></td>
-<td>Calendar Days# from sowing to maturity (length of crop cycle)</td>
+<td>Calendar Days from sowing to maturity (length of crop cycle)</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>flo_d</code></td>
-<td>Calendar Days# from sowing to flowering</td>
+<td>Calendar Days from sowing to flowering</td>
 <td>only when in day mode (<code>crop_cycle == 1</code>)</td>
 </tr>
 <tr class="even">
@@ -456,29 +447,29 @@ during yield formation</td>
 </tr>
 <tr class="even">
 <td><code>eme_gdd</code></td>
-<td>GDDays# from sowing to emergence</td>
+<td>GDDays from sowing to emergence</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>root_gdd</code></td>
-<td>GDDays# from sowing to maximum rooting depth</td>
+<td>GDDays from sowing to maximum rooting depth</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="even">
 <td><code>sen_gdd</code></td>
-<td>GDDays# from sowing to start senescence</td>
+<td>GDDays from sowing to start senescence</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>mat_gdd</code></td>
-<td>GDDays# from sowing to maturity (length of crop cycle)</td>
+<td>GDDays from sowing to maturity (length of crop cycle)</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>), equal to
 <code>cycle_len</code>
 </td>
 </tr>
 <tr class="even">
 <td><code>flo_gdd</code></td>
-<td>GDDays# from sowing to flowering</td>
+<td>GDDays from sowing to flowering</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="odd">
@@ -488,19 +479,19 @@ during yield formation</td>
 </tr>
 <tr class="even">
 <td><code>cgc_gdd</code></td>
-<td>CGC for GGDays# Increase in canopy cover (in fraction soil cover per
+<td>CGC for GGDays Increase in canopy cover (in fraction soil cover per
 growing-degree day)</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="odd">
 <td><code>cdc_gdd</code></td>
-<td>CDC for GGDays# Decrease in canopy cover (in fraction per
+<td>CDC for GGDays Decrease in canopy cover (in fraction per
 growing-degree day)</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="even">
 <td><code>hilen_gdd</code></td>
-<td>GDDays# building-up of Harvest Index during yield formation</td>
+<td>GDDays building-up of Harvest Index during yield formation</td>
 <td>only when in gdd mode (<code>crop_cycle == 0</code>)</td>
 </tr>
 <tr class="odd">

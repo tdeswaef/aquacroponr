@@ -101,11 +101,13 @@ scenario’s.</li>
 <li>
 <code>Input_Date</code> is a Date vector that indicates the start
 point of the meteo files (<code>Plu</code>, <code>Tnx</code>,
-<code>ETo</code>)<br>
-</li>
+<code>ETo</code>).</li>
+<li>
+<code>Sim_Date</code> is a Date vector that indicates the start
+point of the simulation in each scenario.</li>
 <li>
 <code>Plant_Date</code> is a Date vector that defines the planting
-date in each scenario<br>
+date in each scenario.<br>
 </li>
 <li>
 <code>IRRI</code> is a character vector of the names of the
@@ -121,6 +123,17 @@ tibble.</li>
 character (vectors) that refer to the names of <code>R</code> objects,
 that hold the daily data for precipitation, temperature and reference
 evapotranspiration, respectively.</li>
+<li>
+<code>FMAN</code> is a character vector of the names of the
+management scenario’s present in the <code>ID</code> column of the
+<code>FMAN_s</code> tibble.</li>
+<li>
+<code>SW0</code> is a character vector of the names of the initial
+condition scenario’s present in the ID column of the <code>SW0_s</code>
+tibble.</li>
+<li>
+<code>GWT</code> is a numeric vector of values for the depth of the
+Ground Water Table (in m), for each scenario.</li>
 </ul>
 <p><strong>IMPORTANT</strong>:</p>
 <ul>
@@ -128,7 +141,10 @@ evapotranspiration, respectively.</li>
 <code>Scenario_s</code> and <strong>must</strong> have the columns
 (variables) <code>Scenario</code>, <code>Input_Date</code>,
 <code>Plant_Date</code>, <code>IRRI</code>, <code>Soil</code> and
-<code>Meteo</code>.<br>
+<code>Meteo</code>. Other arguments <code>Sim_Date</code>,
+<code>FMAN</code>, <code>GWT</code> and <code>SW0</code> have default
+values if not provided explicitly. See
+<code><a href="../reference/design_scenario.html">design_scenario()</a></code>.<br>
 </li>
 <li>The irrigation tibble <strong>must</strong> be named
 <code>IRRI_s</code> and <strong>must</strong> have the columns
@@ -163,7 +179,16 @@ input to the <code>Tnx</code> argument in the
 <strong>must</strong> have the columns <code>DAY</code>,
 <code>TMAX</code> and <code>TMIN</code>.</li>
 <li>The Management tibble <strong>must</strong> be named
-<code>FMAN_s</code>.</li>
+<code>FMAN_s</code> and <strong>must</strong> have the columns
+<code>ID</code>, <code>mulch_perc</code>, <code>mulch_eff</code>,
+<code>fert_stress</code>, <code>soil_bunds</code>,
+<code>runoff_aff</code>, <code>CN_eff</code>, <code>weed_clo</code>,
+<code>weed_mid</code>, <code>weed_cc</code>.<br>
+</li>
+<li>The initial conditions tibble <strong>must</strong> be named
+<code>SW0_s</code>, and <strong>must</strong> contain the columns
+<code>ID</code>, <code>Horizon</code>, <code>Thickness</code>,
+<code>WC</code> and <code>ECe</code>.</li>
 </ul>
 <p>Examples of these tibbles are available from the package.</p>
 <p>The default <code>FMAN_s</code> tibble associated to the package
@@ -241,11 +266,12 @@ package. These tibbles should be formatted as presented below.</p>
 <span>                              FMAN <span class="op">=</span> <span class="st">"default"</span>,</span>
 <span>                              GWT <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>Scenario_s</code> tibble should look like this:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 11</span></span></span>
-<span><span class="co">#&gt;   Scenario Input_Date Plant_Date IRRI  Soil  Plu   Tnx   ETo   FMAN    GWT SW0  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 no_i… Soil… Plu_… Tnx_… ETo_… defa…     2 FC   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 IRRI… Soil… Plu_… Tnx_… ETo_… defa…     2 FC</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 12</span></span></span>
+<span><span class="co">#&gt;   Scenario Input_Date Sim_Date   Plant_Date IRRI   Soil  Plu   Tnx   ETo   FMAN </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> S_01     2019-01-01 2019-04-01 2019-04-01 no_ir… Soil… Plu_… Tnx_… ETo_… defa…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> S_02     2019-01-01 2019-04-01 2019-04-01 IRRI_… Soil… Plu_… Tnx_… ETo_… defa…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: GWT &lt;dbl&gt;, SW0 &lt;chr&gt;</span></span></span></code></pre>
 <p>Then it is crucial to create the correct AquaCrop path, while
 checking the required folders and choosing which daily outputs to
 produce. Therefore the package has the function
