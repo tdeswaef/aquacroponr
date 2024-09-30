@@ -20,36 +20,36 @@ Please refer to the AquaCrop manual for a better understanding of conservative p
 | Parameter | Explanation | Note |
 | --------- | ----------- |------------ |
 | `crop_type` | fruit/grain producing crop (2), root/tuber crop (3) | |
-| `sow_type` | Crop is transplanted (0), sown (1) | |
-|    `crop_cycle` | Determination of crop cycle # by calendar days (1) or by growing degree days (0) | |
+| `sow_type` | Crop is transplanted (0) or sown (1) | |
+|    `crop_cycle` | Determination of crop cycle: by calendar days (1) or by growing degree days (0) | This has consequences on parameters that are taken into account |
 |    `p_factors` | Soil water depletion factors (p) are adjusted by ETo | |
 |    `T_base` | Base temperature (degC) below which crop development does not progress | |
 |    `T_max` | Maximum temperature (degC) above which crop development no longer increases with an increase in temperature | |
 |    `cycle_len_gdd` |Total length of crop cycle in growing degree-days | only when in gdd mode (`crop_cycle == 0`)| 
 |    `pexp_up` | Soil water depletion factor for canopy expansion (p-exp) - Upper threshold | |
 |    `pexp_lo` | Soil water depletion factor for canopy expansion (p-exp) - Lower threshold | |
-|    `pexp_sh` | Shape factor for water stress coefficient for canopy expansion (0.0 = straight line) | |
+|    `pexp_sh` | Shape factor for water stress coefficient for canopy expansion | 0.0 = straight line |
 |    `psto_up` | Soil water depletion fraction for stomatal control (p - sto) - Upper threshold | |
-|    `psto_sh` | Shape factor for water stress coefficient for stomatal control (0.0 = straight line) | |
+|    `psto_sh` | Shape factor for water stress coefficient for stomatal control | 0.0 = straight line |
 |    `psen_up` | Soil water depletion factor for canopy senescence (p - sen) - Upper threshold | |
-|    `psen_sh` | Shape factor for water stress coefficient for canopy senescence (0.0 = straight line) | |
+|    `psen_sh` | Shape factor for water stress coefficient for canopy senescence | 0.0 = straight line |
 |    `sen_ET` |  Sum(ETo) during dormant period to be exceeded before crop is permanently wilted | |
 |    `ppol_up` | Soil water depletion factor for pollination (p - pol) - Upper threshold | |
 |    `vwc_anaer` |  Vol% for Anaerobiotic point (* (SAT - [vol%]) at which deficient aeration occurs *) | |
 |    `calib_fert` | Considered soil fertility stress for calibration of stress response (%) | |
-|    `resp_exp` | Shape factor of canopy expansion to fertility stress (25.00 = not considered; 2.16 = default) | |
-|    `resp_max` | Shape factor of maximum canopy cover to fertility stress (25.00 = not considered; 0.79 = default) | |
-|    `resp_wp` | Shape factor of crop Water Productivity to fertility stress (25.00 = not considered; 1.67 = default) | |
-|    `resp_sen` | Shape factor of decline of canopy cover to fertility stress (25.00 = not considered; 1.67 = default) |  |
+|    `resp_exp` | Shape factor of canopy expansion to fertility stress | 25.00 = not considered; 2.16 = default | 
+|    `resp_max` | Shape factor of maximum canopy cover to fertility stress  | 25.00 = not considered; 0.79 = default | 
+|    `resp_wp` | Shape factor of crop Water Productivity to fertility stress | 25.00 = not considered; 1.67 = default |
+|    `resp_sen` | Shape factor of decline of canopy cover to fertility stress | 25.00 = not considered; 1.67 = default  |
 |    `dummy_1` | dummy - Parameter no Longer required | |
-|    `Tpol_lo` | Cold (air temperature) stress affecting pollination - not considered | |
-|    `Tpol_up` | Heat (air temperature) stress affecting pollination - not considered | |
-|    `Ttra_lo` | Cold (air temperature) stress on crop transpiration not considered | |
+|    `Tpol_lo` | Minimum air temperature below which pollination starts to fail (cold stress) (degC) | |
+|    `Tpol_up` | Maximum air temperature above which pollination starts to fail (heat stress) (degC) | |
+|    `Ttra_lo` | Minimum growing degrees required for full crop transpiration (degC day)| |
 |    `ec_lo` | Electrical Conductivity of soil saturation extract at which crop starts to be affected by soil salinity (dS/m) | |
 |    `ec_up`| Electrical Conductivity of soil saturation extract at which crop can no longer grow (dS/m) | |
 |    `dummy_2` | Dummy - no longer applicable | not in use |
-|    `salexp` | Calibrated distortion (%) of CC due to salinity stress (Range# 0 (none) to +100 (very strong)) | |
-|    `salsto` | Calibrated response (%) of stomata stress to ECsw (Range# 0 (none) to +200 (extreme)) | |
+|    `salexp` | Calibrated distortion (%) of CC due to salinity stress | Range: 0 (none) to +100 (very strong) |
+|    `salsto` | Calibrated response (%) of stomata stress to ECsw | Range: 0 (none) to +200 (extreme) |
 |    `kc_max` | Crop coefficient when canopy is complete but prior to senescence (KcTr,x) | |
 |    `kc_dec` | Decline of crop coefficient (%/day) as a result of ageing, nitrogen deficiency, etc. | |
 |    `rt_min` | Minimum effective rooting depth (m) | |
@@ -61,17 +61,17 @@ Please refer to the AquaCrop manual for a better understanding of conservative p
 |    `ccs_1` | Soil surface covered by an individual seedling at 90 % emergence (cm2) |  |
 |    `ccs_2` | Canopy size of individual plant (re-growth) at 1st day (cm2) | only for perennials |
 |    `plant_dens` | Number of plants per hectare | |
-|    `cgc` | Canopy growth coefficient (CGC)# Increase in canopy cover (fraction soil cover per day) | only when in day mode (`crop_cycle == 1`) | |
-|    `cgc_dec` | Number of years at which CCx declines to 90 % of its value due to self-thinning - Not Applicable | not in use|
-|    `cgc_decx` | Shape factor of the decline of CCx over the years due to self-thinning - Not Applicable | not in use|
+|    `cgc` | Canopy growth coefficient (CGC): Increase in canopy cover (fraction soil cover per day) | only when in day mode (`crop_cycle == 1`) | |
+|    `cgc_dec` | Number of years at which CCx declines to 90 % of its value due to self-thinning | only for multiple years (not tested)|
+|    `cgc_decx` | Shape factor of the decline of CCx over the years due to self-thinning | only for multiple years (not tested)|
 |    `cgc_dec_sh` | dummy - Parameter no Longer required | not in use|
 |    `ccx` | Maximum canopy cover (CCx) in fraction soil cover | |
-|    `cdc` | Canopy decline coefficient (CDC)# Decrease in canopy cover (in fraction per day) | only when in day mode (`crop_cycle == 1`) |
-|    `eme_d` | Calendar Days# from sowing to emergence | only when in day mode (`crop_cycle == 1`) |
-|    `root_d` | Calendar Days# from sowing to maximum rooting depth | only when in day mode (`crop_cycle == 1`) |
-|    `sen_d` | Calendar Days# from sowing to start senescence | only when in day mode (`crop_cycle == 1`) |
-|    `cyc_d` | Calendar Days# from sowing to maturity (length of crop cycle) | only when in day mode (`crop_cycle == 1`) |
-|    `flo_d` | Calendar Days# from sowing to flowering | only when in day mode (`crop_cycle == 1`) |
+|    `cdc` | Canopy decline coefficient (CDC): Decrease in canopy cover (in fraction per day) | only when in day mode (`crop_cycle == 1`) |
+|    `eme_d` | Calendar Days from sowing to emergence | only when in day mode (`crop_cycle == 1`) |
+|    `root_d` | Calendar Days from sowing to maximum rooting depth | only when in day mode (`crop_cycle == 1`) |
+|    `sen_d` | Calendar Days from sowing to start senescence | only when in day mode (`crop_cycle == 1`) |
+|    `cyc_d` | Calendar Days from sowing to maturity (length of crop cycle) | only when in day mode (`crop_cycle == 1`) |
+|    `flo_d` | Calendar Days from sowing to flowering | only when in day mode (`crop_cycle == 1`) |
 |    `flolen_d` | Length of the flowering stage (days) | only when in day mode (`crop_cycle == 1`) |
 |    `deter` | Crop determinancy unlinked with flowering (0), linked with flowering (1) | |
 |    `fruit_exc` | Excess of potential fruits (%) | |
@@ -83,16 +83,16 @@ Please refer to the AquaCrop manual for a better understanding of conservative p
 |    `hi_stress` | Possible increase (%) of HI due to water stress before flowering | |
 |    `hi_veget` | Coefficient describing positive impact on HI of restricted vegetative growth during yield formation | |
 |    `hi_sto` | Coefficient describing negative impact on HI of stomatal closure during yield formation| |
-|    `hi_max` | Allowable maximum increase (%) of specified HI |
-|    `eme_gdd` | GDDays# from sowing to emergence | only when in gdd mode (`crop_cycle == 0`)|
-|    `root_gdd` | GDDays# from sowing to maximum rooting depth | only when in gdd mode (`crop_cycle == 0`)|
-|    `sen_gdd` | GDDays# from sowing to start senescence | only when in gdd mode (`crop_cycle == 0`)|
-|    `mat_gdd` | GDDays# from sowing to maturity (length of crop cycle) | only when in gdd mode (`crop_cycle == 0`), equal to `cycle_len`|
-|    `flo_gdd` | GDDays# from sowing to flowering | only when in gdd mode (`crop_cycle == 0`)|
+|    `hi_max` | Allowable maximum increase (%) of specified HI | |
+|    `eme_gdd` | GDDays from sowing to emergence | only when in gdd mode (`crop_cycle == 0`)|
+|    `root_gdd` | GDDays from sowing to maximum rooting depth | only when in gdd mode (`crop_cycle == 0`)|
+|    `sen_gdd` | GDDays from sowing to start senescence | only when in gdd mode (`crop_cycle == 0`)|
+|    `mat_gdd` | GDDays from sowing to maturity (length of crop cycle) | only when in gdd mode (`crop_cycle == 0`), equal to `cycle_len`|
+|    `flo_gdd` | GDDays from sowing to flowering | only when in gdd mode (`crop_cycle == 0`)|
 |    `flolen_gdd` | Length of the flowering stage (growing degree days) | only when in gdd mode (`crop_cycle == 0`)|
-|    `cgc_gdd` | CGC for GGDays# Increase in canopy cover (in fraction soil cover per growing-degree day) | only when in gdd mode (`crop_cycle == 0`)|
-|    `cdc_gdd` | CDC for GGDays# Decrease in canopy cover (in fraction per growing-degree day) | only when in gdd mode (`crop_cycle == 0`)|
-|    `hilen_gdd` | GDDays# building-up of Harvest Index during yield formation | only when in gdd mode (`crop_cycle == 0`)|
+|    `cgc_gdd` | CGC for GGDays Increase in canopy cover (in fraction soil cover per growing-degree day) | only when in gdd mode (`crop_cycle == 0`)|
+|    `cdc_gdd` | CDC for GGDays Decrease in canopy cover (in fraction per growing-degree day) | only when in gdd mode (`crop_cycle == 0`)|
+|    `hilen_gdd` | GDDays building-up of Harvest Index during yield formation | only when in gdd mode (`crop_cycle == 0`)|
 |    `dmc_yld` | dry matter content (%) of fresh yield | |
 |    `regr_rt_min` | Minimum effective rooting depth (m) in first year - required only in case of regrowth | only for perennials|
 |    `regr_plant` | Crop is transplanted in 1st year - required only in case of regrowth | only for perennials|

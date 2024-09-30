@@ -21,17 +21,89 @@ library(AquacropOnR)
 ```
 
 ## Meteo data
+Here we provide an example for a weather data set: 
 
-```{r }
+- `TEMP_MAX` is the maximum daily temperature in  \deg C    
+- `TEMP_MIN` is the minimum daily temperature in \deg C  
+- `RELATIVE_HUMIDITY` is the average relative humidity in \%  
+- `WIND_SPEED` is the average daily wind speed in m/s  
+- `PRECIP_QUANTITY` is the total daily precipitation in mm  
+- `GLOBAL_RADIATION` is expressed in kWh/m².  
+
+```{r meteo_1}
 Meteo_data <- read_delim(paste0(datapath, "data.csv"), delim = ",", show_col_types = F)
-Meteo_s
+head(Meteo_data)
+```
+This data set has some missing data. We solve this here by using the `approxfun` function to iterpolate missing values.
+
+```{r meteo_2}
+
+Meteo_data <- Meteo_data %>%
+  mutate(DATE = as_date(paste(YEAR, MONTH, DAY, sep = "-")))
+
+START <- "2020-01-01"
+STOP <- "2020-12-31"
+
+Tmax_fun <- approxfun(Meteo_data$DATE, Meteo_data$TEMP_MAX)
+Tmin_fun <- approxfun(Meteo_data$DATE, Meteo_data$TEMP_MIN)
+RH_fun <- approxfun(Meteo_data$DATE, Meteo_data$RELATIVE_HUMIDITY)
+Wind_fun <- approxfun(Meteo_data$DATE, Meteo_data$WIND_SPEED)
+Precip_fun <- approxfun(Meteo_data$DATE, Meteo_data$PRECIP_QUANTITY)
+Radiation_fun <- approxfun(Meteo_data$DATE, Meteo_data$GLOBAL_RADIATION)
+
+Alldays <- seq.Date(from = as_date(START), to = as_date(STOP), by = 1)
+
+Meteo_data <- tibble(YEAR = lubridate::year(Alldays),
+                     MONTH = lubridate::month(Alldays),
+                     DAY = lubridate::day(Alldays),
+                     TEMP_MAX = Tmax_fun(Alldays),
+                     TEMP_MIN = Tmin_fun(Alldays),
+                     RELATIVE_HUMIDITY = RH_fun(Alldays),
+                     WIND_SPEED = Wind_fun(Alldays),
+                     PRECIPITATION = Precip_fun(Alldays),
+                     GLOBAL_RADIATION = Radiation_fun(Alldays),
+                     DATE = Alldays)
+
+
+
 ```
 
+As AquaCrop requires reference evapotranspiration as an input, we calculate this using the `ETo_calc()` function available through the `MeteoTools` package, based on the `Evapotranspiration` package.
+
+```{r meteo_3, warning=FALSE, message = FALSE}
+library(MeteoTools)
+
+ETo_data <- ETo_calc(DATE = Meteo_data$DATE, 
+                     T_max = Meteo_data$TEMP_MAX, 
+                     T_min = Meteo_data$TEMP_MIN, 
+                     RH_max = pmin(Meteo_data$RELATIVE_HUMIDITY, 100), 
+                     RH_min = pmin(Meteo_data$RELATIVE_HUMIDITY, 100),
+                     Rs_tot = Meteo_data$GLOBAL_RADIATION*3.6, # from kWh m^-2 to MJ m^-2
+                     uz_mean = Meteo_data$WIND_SPEED)
+
+head(ETo_data)
+
+```
+Now we put everything in the AquacropOnR format: 
+
+```{r meteo_4}
+Plu_example <- Meteo_data %>% 
+  dplyr::mutate(DAY = lubridate::yday(DATE), PLU = PRECIPITATION) %>% 
+  dplyr::select(DAY, PLU)
+Tnx_example <- Meteo_data %>% 
+  dplyr::mutate(DAY = lubridate::yday(DATE), TMAX = TEMP_MAX, TMIN = TEMP_MIN) %>% 
+  dplyr::select(DAY, TMAX, TMIN) 
+
+ETo_example <- ETo_data %>% 
+  dplyr::mutate(DAY = lubridate::yday(DATE)) %>% 
+  dplyr::select(DAY, ETo)
+
+```
 ## Soil data
 
-```{r }
+```{r soil_1}
 
-SOL_s<- tribble(~ID, ~Horizon, ~Thickness, ~SAT, ~FC, ~WP, ~Ksat, ~Penetrability, ~Gravel,
+SOL_s <- tribble(~ID, ~Horizon, ~Thickness, ~SAT, ~FC, ~WP, ~Ksat, ~Penetrability, ~Gravel,
                 "soil_1", 1, 0.1, 40.8, 29.2, 12.5, 120,  100, 0,
                 "soil_1", 2, 0.2, 44.3, 32.2, 10.5, 96,   100, 0,
                 "soil_1", 3, 0.6, 32.2, 21.4, 11.5, 52.5, 100, 0,
@@ -39,6 +111,7 @@ SOL_s<- tribble(~ID, ~Horizon, ~Thickness, ~SAT, ~FC, ~WP, ~Ksat, ~Penetrability
                 "soil_2", 1, 0.1, 35.8, 29.2, 12.5, 1200, 100, 0,
                 "soil_2", 2, 0.5, 31.8, 24.5, 10.5, 1200, 100, 0,
                 "soil_2", 3, 2.2, 31.2, 22.2, 9.5,  950,  100, 0)
+head(SOL_s)
 ```
 
 ## Initial conditions
@@ -46,15 +119,30 @@ If you do not provide initial conditions in the `design_scenario()` function, it
 
 The initial conditions need to have the same Horizon and Thickness variables as the soil input tibble `SOL_s`. here we provide an example where the initial water content at all layers lies in the middle between wilting point (WP) and field capacity (FC).
  
-```{r }
+```{r initials}
 sw0_factor <- 0.5
 SW0_s <- SOL_s %>% mutate(WC = WP + (FC-WP)*sw0_factor, ECe = 0.0) %>%
   select(ID, Horizon, Thickness, WC, ECe)
+head(SW0_s)
 ```
 
 ## Management
+Through the .MAN file, AquaCrop can take into account several field management settings, such as: 
 
-```{r }
+- the effect of mulching, using the percentage of soil covered by mulch (`mulch_perc`), and the effect on reducing soil evaporation (`mulch_eff` between 0 (no effect) and 100 (all evaporation inhibited)).  
+- the fertility stress (`fert_stress`, between 0 (no stress) and 100 (complete stress)).  
+- the presence of soil bunds (`soil_bunds`).  
+- the use of run-off affecting measures (`runoff_aff`, 0 or 1 (for complete prevention of run-off)) and their effect on the *curve number* (`CN_eff`).  
+- presence of weeds (`weed_clo`, `weed_mid`, `weed_cc`).
+
+For an effect of erosion preventing measures, the management file can be defined as follows:
+
+```{r manag}
+
+FMAN_s <- tribble(~ID, ~mulch_perc, ~mulch_eff, ~fert_stress, ~soil_bunds, ~runoff_aff, ~CN_eff, ~weed_clo, ~weed_mid, ~weed_cc,
+                  "default", 0, 50, 0, 0, 0, 0, 0, 0, -0.01,
+                  "reduction_1", 0, 50, 0, 0, 0, -25, 0, 0, -0.01)
 
 ```
 
+where the *default* treatment has no measures and the *reduction_1* treatment ahas measures that reduce the curve number by 25.
