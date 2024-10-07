@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+.github
 inst/doc
 aquacrop71/

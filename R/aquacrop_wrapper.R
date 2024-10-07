@@ -31,9 +31,7 @@ aquacrop_wrapper <- function(param_values,
 
 
   #check the required initial steps
-  if(!file.exists("aquacrop.exe")){
-    stop("set your working directory to the AquaCrop.path")
-  }
+  if(!tail(str_split_1(AQ, "/"), 1) %in% c("aquacrop", "aquacrop.exe")) stop("Executable file should be aquacrop.exe (Windows) or aquacrop (Linux)")
   if(!dir.exists("DATA/")) stop("run the path_config function first")
   #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
 
@@ -124,7 +122,7 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
     dplyr::select(which(!duplicated(names(.)))) %>%
     # dplyr::filter(DAP >= 0) %>%
     dplyr::mutate(Scenario = sit_name,
-                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  Date = as_date(paste(Year, Month, Day , sep = "-")),
                   DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
     group_by(Scenario, Stage) %>%
@@ -132,14 +130,11 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
     ungroup() %>%
     group_by(Scenario) %>%
     mutate(ind_DAP =which(Stage_c == 1.00)[1]) %>%
-    filter(row_number() >= unique(ind_DAP) & row_number() < (unique(ind_DAP) + growth_length)) %>%
-    mutate(DAP_adj = 1:growth_length) %>%
-    ungroup()
-    # mutate(DAP_adj = replace(DAP, list = unique(ind_DAP):(unique(ind_DAP)+growth_length-1), values = 1:growth_length)) %>%
-    # mutate(GDD_max = GDD[which(DAP_adj == growth_length)]) %>%
-    # mutate(DAP_adj = replace(DAP_adj, list = which(GDD > GDD_max), values = -9)) %>%
-    # ungroup() %>%
-    # dplyr::filter(DAP_adj != -9)
+    mutate(DAP_adj = replace(DAP, list = unique(ind_DAP):(unique(ind_DAP)+growth_length-1), values = 1:growth_length)) %>%
+    mutate(GDD_max = GDD[which(DAP_adj == growth_length)]) %>%
+    mutate(DAP_adj = replace(DAP_adj, list = which(GDD > GDD_max), values = -9)) %>%
+    ungroup() %>%
+    dplyr::filter(DAP_adj != -9)
 
   if(has_name(df, "Biomass")){
     df <- df %>%
