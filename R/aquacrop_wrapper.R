@@ -122,7 +122,7 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
     dplyr::select(which(!duplicated(names(.)))) %>%
     # dplyr::filter(DAP >= 0) %>%
     dplyr::mutate(Scenario = sit_name,
-                  Date = paste(Year, Month, Day ,"-") %>% as_date(),
+                  Date = as_date(paste(Year, Month, Day , sep = "-")),
                   DOY = yday(Date),
                   GDD = cumsum(GD)) %>%
     group_by(Scenario, Stage) %>%
