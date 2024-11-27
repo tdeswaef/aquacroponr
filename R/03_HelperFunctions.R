@@ -16,8 +16,6 @@ checkInputdata <- function(Scenario_, cycle_info, cycle_length){
   input_date <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Input_Date)
   plant_date <- (Scenario_s %>% filter(Scenario == Scenario_) %>% .$Plant_Date)
 
-  if(as.numeric(plant_date - i))
-
   Tmax_fun <- approxfun(input$DAY, input$TMAX)
   Tmin_fun <- approxfun(input$DAY, input$TMIN)
   Tmax <- Tmax_fun(1:max(input$DAY))
