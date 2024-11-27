@@ -29,7 +29,7 @@ write_PRO <- function(Scenario_, cycle_length){
   cat("Project file\n",
       "7.0     : AquaCrop Version (August 2022)\n",
       "1       : Year number of cultivation (Seeding/planting year)\n",
-      Plant_input ,"   : First day of simulation period\n",   #always put a space after the number. Aquacrop reads first string to perform simulation.
+      Plant_sim ,"   : First day of simulation period\n",   #always put a space after the number. Aquacrop reads first string to perform simulation.
       Harvest_sim ,"   : Last day of simulation period\n",
       Plant_input ,"   : First day of cropping period\n",
       Harvest_sim ,"   : Last day of cropping period

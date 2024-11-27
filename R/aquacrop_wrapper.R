@@ -39,6 +39,8 @@ aquacrop_wrapper <- function(param_values,
   unlink("LIST/*")
 
   growth_length <- ifelse(is.null(model_options$growth_length), model_options$cycle_length, model_options$growth_length)
+  if(growth_length > model_options$cycle_length) stop("growth_length should not be larger than cycle_length")
+
 
   # Create crop parameter file
   cycle_info <- write_CRO(as.list(param_values), model_options$defaultpar)

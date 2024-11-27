@@ -54,6 +54,13 @@ design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI,
     stop("Scenario names do not match scenario number")
   }
 
+  # check if Scenario needs growth length
+
+  diffmax <- (Scenario$Plant_Date - Scenario$Sim_Date) %>% as.numeric %>% max
+  if(any(Scenario$Plant_Date < Scenario$Sim_Date)) warning("Some of the planting dates are earlier than the start of simulation. Is this intentionally?")
+  if(any(Scenario$Plant_Date != Scenario$Sim_Date)) message(cat("Some of the planting dates differ from the start of the simulation.\nThe maximum difference is",
+                                                                diffmax, "days.\ncycle_length should be at least", diffmax, "higher than growth_length."))
+
   return(Scenario)
 
 }
