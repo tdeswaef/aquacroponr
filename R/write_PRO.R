@@ -27,7 +27,7 @@ write_PRO <- function(Scenario_, cycle_length){
   Harvest_sim <- Plant_sim + round(cycle_length) - 1  #130 is the duration of the growing season in the crop file
 
   cat("Project file\n",
-      "7.0     : AquaCrop Version (August 2022)\n",
+      "7.1     : AquaCrop Version (August 2024)\n",
       "1       : Year number of cultivation (Seeding/planting year)\n",
       Plant_sim ,"   : First day of simulation period\n",   #always put a space after the number. Aquacrop reads first string to perform simulation.
       Harvest_sim ,"   : Last day of simulation period\n",
@@ -57,10 +57,10 @@ write_PRO <- function(Scenario_, cycle_length){
       "-- 4. Irrigation management (IRR) file\n",
       "    ", Scenario_,".IRR\n",
       "    \"", path.data, "\"\n",
-      "-- 5. Field management (MAN) file
-        (None)
-        (None)
--- 6. Soil profile (SOL) file\n",
+      "-- 5. Field management (MAN) file\n",
+      "    ", Scenario_,".MAN\n",
+      "    \"", path.data, "\"\n",
+      "-- 6. Soil profile (SOL) file\n",
       "    ", Scenario_, ".SOL\n",
       "    \"", path.data,"\"\n",
       "-- 7. Groundwater table (GWT) file\n",
