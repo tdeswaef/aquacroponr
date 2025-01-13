@@ -141,6 +141,11 @@ readoutput_dfr <- function(outputfile, cycle_length, growth_length, daily_output
       mutate(Biomass_Stem = (Biomass - Ydry)*0.86)
   }
 
+  if(has_name(df, c("WC01", "WC02", "WC03")) %>% all()){
+    df <- df %>%
+      mutate(WC0030 = (WC01 + WC02 + WC03)/3)
+  }
+
   return(df)
 }
 
