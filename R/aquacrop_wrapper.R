@@ -29,7 +29,7 @@ aquacrop_wrapper <- function(param_values,
                              ...){
 
 
-  AQ <- normalizePath(AQ, "/")
+  AQ <- normalizePath(model_options$AQ, "/")
   #check the required initial steps
   if(!tail(str_split_1(AQ, "/"), 1) %in% c("aquacrop", "aquacrop.exe")) stop("Executable file should be aquacrop.exe (Windows) or aquacrop (Linux)")
   if(!dir.exists("DATA/")) stop("run the path_config function first")
