@@ -11,5 +11,6 @@ createfiles <- function (Exp_list, cycle_length) {
     purrr::walk(~write_SOL(Scenario_ = .x)) %>%
     purrr::walk(~write_GWT(Scenario_ = .x)) %>%
     purrr::walk(~write_SW0(Scenario_ = .x)) %>%
-    purrr::walk(~write_MAN(Scenario_ = .x))
+    purrr::walk(~write_MAN(Scenario_ = .x)) %>%
+    purrr::walk(~write_CO2(Scenario_ = .x))
 }

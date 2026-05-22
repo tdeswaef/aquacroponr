@@ -14,7 +14,7 @@
 #' @param SW0 character vector with names for the ID in the SW0_s tibble. If "FC" initial conditions are taken from SOL_s tibble.
 #' @returns A tibble with the different scenarios to run in AquaCrop
 #' @export
-design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, FMAN = "default", GWT = 2.0, SW0 = "FC"){
+design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI, Soil, Plu, Tnx, ETo, CO2, FMAN = "default", GWT = 2.0, SW0 = "FC"){
   # if there are more scenario names than scenario's, only retain the first occurrence unique()
 
   no_scenarios <- length(name)
@@ -32,6 +32,7 @@ design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI,
   Plu <- length_check_fun(Plu, no_scenarios)
   Tnx <- length_check_fun(Tnx, no_scenarios)
   ETo <- length_check_fun(ETo, no_scenarios)
+  CO2 <- length_check_fun(CO2, no_scenarios)
   FMAN <- length_check_fun(FMAN, no_scenarios)
   GWT <- length_check_fun(GWT, no_scenarios)
   SW0 <- length_check_fun(SW0, no_scenarios)
@@ -44,6 +45,7 @@ design_scenario <- function(name, Input_Date, Sim_Date = NULL, Plant_Date, IRRI,
                        Plu = Plu,
                        Tnx = Tnx,
                        ETo = ETo,
+                       CO2 = CO2,
                        FMAN = FMAN,
                        GWT = GWT,
                        SW0 = SW0) |> unique()

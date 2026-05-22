@@ -45,8 +45,8 @@ write_PRO <- function(Scenario_, cycle_length){
       "   1.3 Rain (PLU) file\n",
       "    ", Scenario_,".PLU\n",
       "    \"", path.data, "\"\n",
-      "   1.4 Atmospheric CO2 concentration (CO2) file
-    MaunaLoa.CO2\n",
+      "   1.4 Atmospheric CO2 concentration (CO2) file\n",
+      "    ", Scenario_, ".CO2\n",
       "    \"", path.simul, "\"\n",
       "-- 2. Calendar (CAL) file\n",
       "    ", Scenario_,".CAL\n",
