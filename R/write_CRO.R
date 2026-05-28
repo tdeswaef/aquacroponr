@@ -16,6 +16,7 @@ write_CRO <- function(Params_select, Params_default){
 
   params <- Params_default %>%
     replace(list = names(Params_select), values = Params_select)
+  params$mat_gdd <- params$eme_gdd + params$flo_gdd + params$flolen_gdd + params$hilen_gdd
 
   digitvalues <- Digit_settings(params)
 
