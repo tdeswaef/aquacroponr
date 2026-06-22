@@ -1,10 +1,6 @@
 ---
 title: "Simulation Example for Spinach"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Simulation Example for Spinach}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format: pdf
 ---
 
 ```{r setup, include = FALSE}
@@ -86,7 +82,8 @@ We can make a new irrigation input `tibble` as follows:
 
 ```{r irri}
 IRRI_s <- IRRI_s %>% 
-  bind_rows(tibble(ID = c("IRRI_01", "IRRI_01"), Timing = c(20, 35), Depth = c(25,25), ECw = c( 0, 0)))
+  bind_rows(tibble(ID = c("IRRI_01", "IRRI_01"), Timing = c(20, 35), 
+                   Depth = c(25,25), ECw = c( 0, 0)))
 ```
 which looks like: 
 
@@ -107,17 +104,19 @@ head(ETo_01)
 ```
 
 ```{r example 1}
-Scenario_s <- design_scenario(name = c("S_01", "S_02"),
-                              Input_Date = as.Date("2019-01-01"),
-                              Plant_Date = as.Date(c("2019-04-01", "2019-04-01")), 
-                              IRRI = c("no_irrig", "IRRI_01"),
-                              Soil = "Soil_01", 
-                              Plu = "Plu_01",
-                              Tnx = "Tnx_01",
-                              ETo = "ETo_01",
-                              CO2 = "CO2_01", 
-                              FMAN = "default",
-                              GWT = 2.0)
+Scenario_s <- design_scenario(
+  name = c("S_01", "S_02"),
+  Input_Date = as.Date("2019-01-01"),
+  Plant_Date = as.Date(c("2019-04-01", "2019-04-01")), 
+  IRRI = c("no_irrig", "IRRI_01"),
+  Soil = "Soil_01", 
+  Plu = "Plu_01",
+  Tnx = "Tnx_01",
+  ETo = "ETo_01",
+  FMAN = "default",
+  CO2 = "CO2_01",
+  GWT = 2.0
+  )
 ```
 
 The `Scenario_s` tibble should look like this:
@@ -147,8 +146,9 @@ default <- aquacrop_wrapper(param_values = list(),
                                     daily_output = c(1,2)))
 
 ggplot(mapping = aes(x=DAP, y=Biomass)) +
-  # ylim(0, 3.5) +
-  geom_line(data = default, aes(group = Scenario, color = Scenario),linewidth = 1) +
+  geom_line(data = default, 
+            aes(group = Scenario, color = Scenario), 
+            linewidth = 1) +
   geom_text(aes(x=40, y=3, label = 'default'), color = "black") +
   xlim(0, 70) +
   scale_color_manual(values = c("black", "red")) +
@@ -169,12 +169,20 @@ modified <- aquacrop_wrapper(param_values = list(cgc = 0.18),
 
 ggplot() +
   ylim(0, 3.5) +
-  geom_line(data = default, aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),linewidth = 1) +
-  geom_line(data = modified, aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),linewidth = 1, linetype = 2) +
-  geom_text(aes(x=40, y=3, label = 'default'), color = "black", hjust = 0) +
-  geom_text(aes(x=40, y=2.8, label = 'modified'), color = "black", hjust = 0) +
-  geom_segment(mapping = aes(x = 34, xend = 39, y = 3, yend = 3), color = 'black', linewidth = 1, linetype = 1) +
-  geom_segment(mapping = aes(x = 34, xend = 39, y = 2.8, yend = 2.8), color = 'black', linewidth = 1, linetype = 2) +
+  geom_line(data = default, 
+            aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),
+            linewidth = 1) +
+  geom_line(data = modified, 
+            aes(x=DAP, y=Biomass, group = Scenario, color = Scenario),
+            linewidth = 1, linetype = 2) +
+  geom_text(aes(x=40, y=3, label = 'default'), 
+            color = "black", hjust = 0) +
+  geom_text(aes(x=40, y=2.8, label = 'modified'), 
+            color = "black", hjust = 0) +
+  geom_segment(mapping = aes(x = 34, xend = 39, y = 3, yend = 3), 
+               color = 'black', linewidth = 1, linetype = 1) +
+  geom_segment(mapping = aes(x = 34, xend = 39, y = 2.8, yend = 2.8), 
+               color = 'black', linewidth = 1, linetype = 2) +
   xlim(0, 70) +
   scale_color_manual(values = c("black", "red")) +
   theme_bw()

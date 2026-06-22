@@ -1,10 +1,6 @@
 ---
 title: "Sensitivity analysis example with Morris method"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Sensitivity analysis example with Morris method}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format: pdf
 ---
 
 ```{r setup, include = FALSE}
@@ -78,7 +74,8 @@ As the scaling of the parameter value is already done in the `aquacrop_morris()`
 
 ```{r scaler, fig.width=6, fig.height=6, dpi=120, message=FALSE, warning=FALSE}
 library(reshape2)
-scaler <- melt(data = p$y, value.name = "value", varnames = c("simno", "DAP", "outvar")) %>% 
+scaler <- melt(data = p$y, value.name = "value", 
+               varnames = c("simno", "DAP", "outvar")) %>% 
   group_by(outvar) %>%
   summarize(yscale= quantile(value, 0.95))
 
@@ -88,7 +85,8 @@ EE <- EE %>%
 
 ggplot(EE %>% filter(traject == 3)) +
   facet_wrap(facets = vars(outvar), nrow = 2) +
-  geom_line(aes(x=DAP, y=ee_scaled, color = par, linetype = Scenario), linewidth = 1) +
+  geom_line(aes(x=DAP, y=ee_scaled, color = par, linetype = Scenario), 
+            linewidth = 1) +
   theme_bw()
 
 ```
