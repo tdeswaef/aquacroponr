@@ -49,9 +49,9 @@ run_aquacrop_season <- function(param_values,
                          AQ, defaultpar,
                          cycle_length = cycle_length){
 
-  AQ <- normalizePath(model_options$AQ, "/")
+  #AQ <- normalizePath(AQ, "/")
   #check the required initial steps
-  if(!tail(str_split_1(AQ, "/"), 1) %in% c("aquacrop", "aquacrop.exe")) stop("Executable file should be aquacrop.exe (Windows) or aquacrop (Linux)")
+  #if(!tail(str_split_1(AQ, "/"), 1) %in% c("aquacrop", "aquacrop.exe")) stop("Executable file should be aquacrop.exe (Windows) or aquacrop (Linux)")
 
   #if(!exists(quote(model_options$defaultpar))) stop("the default parameter file is not loaded, use the read_CRO function first")
   unlink("OUTP/*")
@@ -64,7 +64,7 @@ run_aquacrop_season <- function(param_values,
   ###########################################
   # Run Aquacrop for all the created projects
 
-  system(model_options$AQ)
+  system(AQ)
 
   #############
   # Read output
