@@ -45,7 +45,7 @@ write_scenario_files <- function(situation, output_vars = c(1,2),
 #' @returns a dataframe of seasonal outputs of AquaCrop, concatenated over the different scenario's.
 #'
 #' @export
-run_aquacrop_season <- function(param_values,
+run_aquacrop_season <- function(param_values, situation = situations,
                          AQ, defaultpar,
                          cycle_length = cycle_length){
 
