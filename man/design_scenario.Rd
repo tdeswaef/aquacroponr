@@ -14,6 +14,7 @@ design_scenario(
   Plu,
   Tnx,
   ETo,
+  CO2,
   FMAN = "default",
   GWT = 2,
   SW0 = "FC"
