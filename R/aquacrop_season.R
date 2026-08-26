@@ -18,13 +18,13 @@ write_scenario_files <- function(situation, output_vars = c(1,2),
 
   if(!dir.exists("DATA/")) stop("run the path_config function first")
   growth_length <- ifelse(is.null(growth_length), cycle_length, growth_length)
-  if(growth_length > model_options$cycle_length) stop("growth_length should not be larger than cycle_length")
+  if(growth_length > cycle_length) stop("growth_length should not be larger than cycle_length")
 
   unlink("LIST/*")
   unlink("DATA/*")
 
   # write file that defines output variables
-  write_lines(model_options$output_vars, file = "SIMUL/DailyResults.SIM")
+  write_lines(output_vars, file = "SIMUL/DailyResults.SIM")
 
   # create project, meteo, soil, management,... files
   createfiles(Exp_list = situation, cycle_length = cycle_length)
